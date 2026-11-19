@@ -1,0 +1,160 @@
+<!-- İki katmanlı rıza paneli — rıza gerektiren çerez VARSA (SKILL.md → Karar; Rehber s. 29–31, EK-2, EK-3). Bu yorumu yayımlanan dosyaya taşıma.
+     Dayanak: açık rıza md. 5/1 [Kanun]; rıza alınmadan yükleme yok, opt-in (s. 37–38) [Kurul kararı].
+     1. katman: Hepsini Kabul Et / Hepsini Reddet / Tercihler — EŞİT renk, boyut, punto (aynı sınıf). Rehber s. 30 bunu
+        "iyi uygulama örneği olabilecektir" diye yazar [Rehber: tavsiye]; üç düğmenin yokluğu EK-5'te kötü örnek (s. 54–57).
+        Kalınlık ve alan eşitliği skill'in ölçüm kuralıdır [skill yorumu].
+     Düğmeleri aydınlatma metnini açma şartına BAĞLAMA (kilit yok): ilk katman bilgilendirmenin kendisidir; kilit düğme
+        eşitliğini bozar [skill yorumu]. Aydınlatma bağlantısı panelde durur (s. 30–31) [Rehber: tavsiye].
+     PANEL_BASLIK ve PANEL_GIRIS ölçüme göre (metin-kurallari.md → iki katmanlı panel): çerez varsa "Çerez tercihleri" ve
+        "İnternet sitemizde çerezler yoluyla kişisel veri işlenir."; çerez yoksa ve yalnız çerezsiz ölçüm ya da gömülü içerik
+        izne bağlıysa "Gizlilik tercihleri" ve "İnternet sitemizde bazı hizmetler yalnızca izninizle çalışır." [skill yorumu].
+     2. katman: kategori anahtarları, rıza gerektirenler VARSAYILAN KAPALI (s. 31) [Rehber: tavsiye]; zorunlu kilitli açık.
+     İzleyiciler type="text/plain" + data-consent-category ile durur; izin gelmeden ÇALIŞMAZ.
+     Gömülü içerik (YouTube, Vimeo, Google Haritalar) ayrı "gomulu" kategorisindedir: reklamdan ayrı rıza (EK-5 Örnek-2, s. 55)
+        [Rehber: tavsiye]; her amaç için ayrı rıza (s. 40) [Kurul kararı]; karar K-Gömülü, Seçenek A. iframe src'siz,
+        data-consent-category="gomulu" ve data-src ile bekler; izin gelince load() src'yi verir; ret ya da geri almada yüklenmez.
+        Bekleyen içeriğin yerinde görünür bir kutu ve tek tıkla yükleme için templates/tikla-yukle.html (aynı kayıt anahtarı).
+     Footer'a: <button type="button" data-consent-open>Çerez Tercihleri</button> (rızayı geri alma, s. 29–30) [Rehber: tavsiye];
+        etiket panel başlığıyla aynı (PANEL_BASLIK "Gizlilik tercihleri" ise "Gizlilik Tercihleri").
+     Rızanın geri alınması: geri alınan kategorinin yüklenmiş iframe'leri kaldırılır, data-consent-cookies'teki birinci taraf
+        çerezleri silinir (alan adı ve yol varyasyonlarıyla), sayfa yenilenir; yüklenmiş betik başka yolla durdurulamaz.
+        Üçüncü taraf çerezler (ör. YouTube'un .youtube.com çerezleri) site tarafından silinemez; ziyaretçi tarayıcıdan siler
+        (Çerez Aydınlatma Metni → Tercihlerinizi yönetme) [skill yorumu].
+     Kategorileri siteye göre ayarla: kullanılmayan kategoriyi panelden SİL (olmayan şeye izin istenmez).
+     Kategori açıklamaları (ZORUNLU_ACIKLAMA, ANALITIK_ACIKLAMA, PAZARLAMA_ACIKLAMA, GOMULU_ACIKLAMA) tarama bulgusundan yazılır:
+        amaç, sağlayıcı, taraf, süre (tablo.mjs ile aynı). Bulunamayan bilgi panele yazılmaz, raporda [DOĞRULA] kalır.
+     ANALITIK_CEREZLERI ve PAZARLAMA_CEREZLERI: çerez tablosundaki birinci taraf çerez adları, boşlukla; * ile biten ad önektir
+        (_ga_*). Birinci taraf çerezi olmayan kategoride data-consent-cookies özniteliğini sil.
+     ZORUNLU_CUMLESI yalnız zorunlu çerez varsa yazılır; tercih kaydı (KAYIT_ADI) yerel depolamadadır, çerez değildir.
+     BIRINCI_KATMAN'daki taraf çerez tablosuyla aynı olur: _ga birinci taraf çerezdir, verisi Google'a gider.
+     TARIH: metnin tarihi, panelin sürümüdür; çerez aydınlatma metninin "Son güncelleme" tarihiyle aynı. Değişince panel
+        yeniden sorar (metin-kurallari.md → Sürüm).
+     YENIDEN_SORMA_GUN: tercih kaydının ömrü (gün); site sahibiyle belirlenir, site sahibi bilmiyorsa önce ölçülen ömür, yoksa 365 gün (K-Yeniden sorma); bilgi
+        şeridindeki sayıyla ve çerez tablosundaki kayıt süresiyle aynı. Rehber gün vermez; hatırlatma çerez ömrüyle
+        orantılı (s. 30), ömür md. 4 ilkelerine göre (s. 24) [Rehber: tavsiye].
+     Panel her kararda document üzerinde "consent:change" olayı yayar (detail.granted: izin verilen kategoriler); tikla-yukle.html
+        bunu dinler. Rıza kaydı: tarayıcı kaydı; sunucu kaydı site sahibiyle kararlaştırılır (K-Rıza kaydı; EK-1 s. 45 [Rehber: tavsiye]).
+     Uygulamadan sonra: cerez-tespit.mjs → "ilk" ve "reddet"te riza:true kalem ve gömülü içerik isteği OLMAMALI. -->
+<div class="consent" data-consent hidden role="dialog" aria-modal="false" aria-labelledby="consent-title" aria-describedby="consent-desc">
+  <div class="consent__inner">
+    <div class="consent__text">
+      <strong id="consent-title">{{PANEL_BASLIK — çerez varsa "Çerez tercihleri"; çerez yoksa ve yalnız çerezsiz ölçüm ya da gömülü içerik izne bağlıysa "Gizlilik tercihleri"}}</strong>
+      <p id="consent-desc">{{PANEL_GIRIS — çerez varsa "İnternet sitemizde çerezler yoluyla kişisel veri işlenir."; çerez yoksa ve yalnız çerezsiz ölçüm ya da gömülü içerik izne bağlıysa "İnternet sitemizde bazı hizmetler yalnızca izninizle çalışır."}} {{ZORUNLU_CUMLESI — yalnız zorunlu çerez varsa: "Zorunlu çerezler sitenin çalışması için kullanılır."; zorunlu çerez yoksa sil}} {{BIRINCI_KATMAN — rıza gerektiren her amaç, sağlayıcı ve taraf, çerez tablosuyla aynı; örn. "Diğer çerezler yalnızca izin verirseniz ziyaret istatistiği için kullanılır (Google Analytics: Google'a iletilen birinci taraf çerezler; veriler yurt dışına aktarılabilir)." ZORUNLU_CUMLESI silindiyse "Diğer çerezler" yerine "Çerezler" yaz. PANEL_GIRIS "bazı hizmetler" biçimindeyse "çerez" deme; hizmeti ve amacını yaz, örn. "Ziyaret istatistiği için kullanılan ölçüm aracı (Vercel Web Analytics; çerez kullanmaz) ve sayfadaki videolar (YouTube; yüklendiğinde kendi çerezlerini kullanır) yalnızca izin verirseniz çalışır; veriler yurt dışına aktarılabilir."}} <a href="{{CEREZ_URL}}">Çerez Aydınlatma Metni</a></p>
+    </div>
+    <div class="consent__actions">
+      <button type="button" class="consent__btn" data-consent-accept>Hepsini Kabul Et</button>
+      <button type="button" class="consent__btn" data-consent-reject>Hepsini Reddet</button>
+      <button type="button" class="consent__btn" data-consent-prefs aria-expanded="false" aria-controls="consent-prefs">Tercihler</button>
+    </div>
+    <div class="consent__prefs" id="consent-prefs" hidden>
+      <label class="consent__cat"><input type="checkbox" checked disabled> <span><strong>Zorunlu</strong> — {{ZORUNLU_ACIKLAMA — amaç, sağlayıcı, taraf, süre; örn. "sitenin çalışması ve tercihinizin hatırlanması"}}. Her zaman açık.</span></label>
+      <label class="consent__cat"><input type="checkbox" data-consent-cat="analitik" data-consent-cookies="{{ANALITIK_CEREZLERI — örn. _ga _ga_* _gid}}"> <span><strong>Analitik</strong> — {{ANALITIK_ACIKLAMA — sağlayıcı, taraf, süre}}</span></label>
+      <label class="consent__cat"><input type="checkbox" data-consent-cat="pazarlama" data-consent-cookies="{{PAZARLAMA_CEREZLERI — örn. _fbp _fbc _gcl_*}}"> <span><strong>Reklam ve pazarlama</strong> — {{PAZARLAMA_ACIKLAMA — sağlayıcı, taraf, süre}}</span></label>
+      <label class="consent__cat"><input type="checkbox" data-consent-cat="gomulu"> <span><strong>Gömülü içerik</strong> — {{GOMULU_ACIKLAMA — video ve harita sağlayıcıları içerik yüklendiğinde kendi çerezlerini kullanır; amaç, sağlayıcı, taraf ve süre çerez tablosuyla aynı; örn. "sayfadaki videolar (YouTube): içerik yüklendiğinde YouTube kendi çerezlerini video gösterimi, tercih ve reklam için kullanır; üçüncü taraf, 6 aya kadar"}}</span></label>
+      <div class="consent__actions">
+        <button type="button" class="consent__btn" data-consent-accept>Hepsine İzin Ver</button>
+        <button type="button" class="consent__btn" data-consent-reject>Hepsini Reddet</button>
+        <button type="button" class="consent__btn" data-consent-save>Ayarları Kaydet</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- İzleyiciler böyle durur (örnek GA4): -->
+<script type="text/plain" data-consent-category="analitik" data-src="https://www.googletagmanager.com/gtag/js?id={{GA_ID}}"></script>
+<script type="text/plain" data-consent-category="analitik">
+  window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '{{GA_ID}}');
+</script>
+
+<!-- Gömülü içerik böyle bekler (örnek; K-Gömülü, Seçenek A): src yok, izin gelince load() data-src'yi src yapar. Yer ayırmak
+     için width/height ya da CSS aspect-ratio ver (sayfa kayması olmasın). Görünür kutu için tikla-yukle.html. -->
+<iframe data-consent-category="gomulu" data-src="{{GOMULU_ADRES — örn. https://www.youtube-nocookie.com/embed/VIDEO_KIMLIGI}}" title="{{IFRAME_BASLIGI — içeriğin kısa adı, örn. Atölye tanıtım videosu}}" width="560" height="315" allowfullscreen></iframe>
+
+<style>
+.consent { position: fixed; inset-inline: 0; bottom: 0; z-index: 80; background: var(--color-surface, #fff); border-top: 1px solid var(--color-border, #ccc); }
+.consent[hidden], .consent__prefs[hidden] { display: none; }
+.consent__inner { width: min(100% - 32px, 1200px); margin-inline: auto; padding-block: 16px; display: grid; gap: 12px; }
+.consent p { font-size: 14px; margin: 4px 0 0; }
+.consent__actions { display: flex; flex-wrap: wrap; gap: 8px; }
+/* Üç düğme AYNI sınıf: renk, boyut, punto eşit (Rehber s. 30). Birini öne çıkarma. */
+.consent__btn { flex: 1 1 160px; padding: 10px 16px; font: inherit; font-size: 15px; font-weight: 600; color: var(--color-ink, #111); background: var(--color-surface, #fff); border: 1px solid currentColor; border-radius: 8px; cursor: pointer; }
+.consent__btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.consent__cat { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; }
+/* İzin bekleyen gömülü içerik yerini ayırır ve dar ekranda taşmaz (sayfa kayması ve yatay kaydırma olmaz). */
+iframe[data-consent-category][data-src] { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; border: 0; }
+</style>
+
+<script>
+(function () {
+  var el = document.querySelector('[data-consent]'); if (!el) return;
+  var KEY = '{{KAYIT_ADI}}', VERSION = '{{TARIH}}', MAX_MS = {{YENIDEN_SORMA_GUN}} * 24 * 60 * 60 * 1000;
+  var cats = [].map.call(el.querySelectorAll('[data-consent-cat]'), function (c) { return c.getAttribute('data-consent-cat'); });
+  function read() { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) { return null; } }
+  function write(granted) { try { localStorage.setItem(KEY, JSON.stringify({ version: VERSION, at: Date.now(), granted: granted })); } catch (e) {} }
+  // İzin verilen kategorilerin betiklerini ve iframe'lerini açar; tikla-yukle.html kutularına "consent:change" ile haber verir.
+  function load(granted) {
+    document.querySelectorAll('script[type="text/plain"][data-consent-category]').forEach(function (s) {
+      if (granted.indexOf(s.getAttribute('data-consent-category')) < 0 || s.dataset.loaded) return;
+      var n = document.createElement('script');
+      if (s.dataset.src) { n.src = s.dataset.src; n.async = true; } else { n.textContent = s.textContent; }
+      s.dataset.loaded = '1'; s.after(n);
+    });
+    document.querySelectorAll('iframe[data-consent-category][data-src]').forEach(function (f) {
+      if (granted.indexOf(f.getAttribute('data-consent-category')) >= 0 && !f.getAttribute('src')) f.setAttribute('src', f.getAttribute('data-src'));
+    });
+    document.dispatchEvent(new CustomEvent('consent:change', { detail: { granted: granted.slice() } }));
+  }
+  // Birinci taraf çerezi siler. Çerez yalnız koyulduğu alan adı ve yolla silinir; bu yüzden alan adı yok / tam ad / üst alan
+  // adları (noktalı ve noktasız) ile yol / ve sayfanın yolu ve üstleri birlikte denenir. Sonu * olan ad önektir (_ga_*).
+  function deleteCookies(names) {
+    if (!names.length) return;
+    var present = document.cookie.split(';').map(function (c) { return c.split('=')[0].trim(); }).filter(Boolean);
+    var targets = present.filter(function (n) { return names.some(function (p) { return p.slice(-1) === '*' ? n.indexOf(p.slice(0, -1)) === 0 : n === p; }); });
+    var parts = location.hostname.split('.'), domains = [''];
+    for (var i = 0; i < parts.length - 1; i++) { var d = parts.slice(i).join('.'); domains.push('; domain=' + d, '; domain=.' + d); }
+    var segs = location.pathname.split('/'), paths = ['/'];
+    for (var j = segs.length; j > 1; j--) { var p = segs.slice(0, j).join('/'); if (p && paths.indexOf(p) < 0) paths.push(p); }
+    targets.forEach(function (n) {
+      domains.forEach(function (dm) { paths.forEach(function (pt) { document.cookie = n + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; max-age=0; path=' + pt + dm; }); });
+    });
+  }
+  // tikla-yukle.html'deki tıklamayla verilen gömülü içerik izni (ayrı anahtar). Panelde "gomulu" kapatılırsa silinir.
+  function clickRecord() { try { var c = JSON.parse(localStorage.getItem(KEY + '-gomulu') || 'null'); return c && c.version === VERSION && Date.now() - c.at < MAX_MS ? c : null; } catch (e) { return null; } }
+  function decide(granted) {
+    var prev = read(), before = prev && prev.granted ? prev.granted.slice() : [];
+    if (clickRecord() && before.indexOf('gomulu') < 0) before.push('gomulu');
+    if (granted.indexOf('gomulu') < 0) { try { localStorage.removeItem(KEY + '-gomulu'); } catch (e) {} }
+    var withdrawn = before.filter(function (c) { return granted.indexOf(c) < 0; });
+    write(granted); el.hidden = true;
+    if (!withdrawn.length) { load(granted); return; }
+    // Rızanın geri alınması: yüklenmiş iframe'ler kaldırılır, kategorinin birinci taraf çerezleri silinir, sayfa yenilenir.
+    withdrawn.forEach(function (c) {
+      document.querySelectorAll('iframe[data-consent-category="' + c + '"]').forEach(function (f) { f.remove(); });
+      var box = el.querySelector('[data-consent-cat="' + c + '"]');
+      deleteCookies(((box && box.getAttribute('data-consent-cookies')) || '').split(/\s+/).filter(Boolean));
+    });
+    location.reload();
+  }
+  el.querySelectorAll('[data-consent-accept]').forEach(function (b) { b.addEventListener('click', function () { decide(cats); }); });
+  el.querySelectorAll('[data-consent-reject]').forEach(function (b) { b.addEventListener('click', function () { decide([]); }); });
+  el.querySelector('[data-consent-save]').addEventListener('click', function () {
+    decide([].filter.call(el.querySelectorAll('[data-consent-cat]'), function (c) { return c.checked; }).map(function (c) { return c.getAttribute('data-consent-cat'); }));
+  });
+  var prefs = el.querySelector('#consent-prefs'), prefsBtn = el.querySelector('[data-consent-prefs]');
+  prefsBtn.addEventListener('click', function () { prefs.hidden = !prefs.hidden; prefsBtn.setAttribute('aria-expanded', String(!prefs.hidden)); });
+  // Rızayı geri alma / değiştirme: panel mevcut seçimle açılır; geri alınan izin decide() içinde temizlenir (yukarıda).
+  function open() {
+    var c = read(), gomuluTiklama = !!clickRecord();
+    el.querySelectorAll('[data-consent-cat]').forEach(function (x) {
+      var cat = x.getAttribute('data-consent-cat');
+      x.checked = !!(c && c.granted.indexOf(cat) >= 0) || (cat === 'gomulu' && gomuluTiklama);
+    });
+    prefs.hidden = false; el.hidden = false;
+  }
+  document.querySelectorAll('[data-consent-open]').forEach(function (b) { b.addEventListener('click', open); });
+  // tikla-yukle.html'deki "Çerezleri yönet" düğmesi paneli bu olayla açar.
+  document.addEventListener('consent:open', open);
+  var c = read();
+  if (c && c.version === VERSION && Date.now() - c.at < MAX_MS) load(c.granted); else el.hidden = false;
+})();
+</script>

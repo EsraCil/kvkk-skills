@@ -1,0 +1,62 @@
+<!-- Gönder düğmesinin hemen üstüne.
+     Varsayılan: yalnız aydınlatma "okudum" kutusu (zorunlu). Aydınlatma OKUNUR, kabul edilmez.
+     Aydınlatma ile açık rıza ayrı yapılır (Aydınlatma Tebliği md. 5/1-f): aydınlatma kutusuna rıza cümlesi yazılmaz.
+     Kullanım koşulları footer bağlantısıyla erişilebilir durur; iletişim formunda kabul istenmez (SKILL.md → K-Koşullar).
+     Yayından önce bu yorumları ve yer tutucu açıklamalarını sil. -->
+<div class="form__checks">
+  <!-- {{FORM_SURUM_ALANI — YALNIZ form üçüncü taraf hizmetten (Formspree vb.) gidiyorsa: gönderimle birlikte metin sürümü kaydedilsin diye
+  <input type="hidden" name="metin_surumu" value="{{TARIH}}">
+  Kendi sunucu fonksiyonunda gerekmez (sunucu-dogrulama.mjs → LEGAL_VERSION). Sınır: gizli alan tarayıcıda değiştirilebilir. }} -->
+  <label class="check"><input type="checkbox" id="f-kvkk" name="kvkk" value="1" required><span><a href="{{KVKK_URL}}" target="_blank" rel="noopener noreferrer">KVKK aydınlatma metnini</a> okudum.</span></label>
+  <!-- {{KABUL_KUTUSU — YALNIZ site kabul gerektiren bir hizmet sunuyorsa (üyelik, ücretli ya da kişiye özel araç, sipariş) ve site sahibi seçtiyse (K-Koşullar):
+  <label class="check"><input type="checkbox" id="f-terms" name="terms" value="1" required><span><a href="{{KOSULLAR_URL}}" target="_blank" rel="noopener noreferrer">Kullanım koşullarını</a> okudum ve kabul ediyorum.</span></label>
+  Bu durumda sunucu-dogrulama.mjs'de REQUIRE_TERMS = true yapılır. }} -->
+  <!-- {{BULTEN_BLOGU — YALNIZ bülten ya da kampanya e-postası gönderilecekse aşağıdaki iki biçimden birini ekle; yoksa hiçbir kutu ekleme.
+       Kutular isteğe bağlıdır, işaretsiz gelir ve formun gönderilmesinin ön şartı yapılmaz.
+       İki ayrı beyan alınır: 6563 ticari elektronik ileti onayı + KVKK açık rızası (md. 5/1). İki kutu ya da iki cümleli
+       tek kutu olabilir; biçimi site sahibi seçer (SKILL.md → Kararlar K-Bülten).
+       Bilgilendirme biçimini de site sahibi seçer:
+         (1) Kilit: aydınlatma metni açılmadan açık rıza kutusu etkinleşmez (aşağıdaki data-kilit örneği);
+             ispat kod ve sürüm geçmişiyle yapılır, "okudum" için ayrıca kayıt tutulmaz. Ticari ileti onay kutusu kilitlenmez.
+         (2) Katmanlı: kutunun hemen yanında kısa aydınlatma (kim, hangi veri, hangi amaç, nasıl geri alınır) ve tam metne bağlantı.
+       İki biçimde de rızanın kendisi kaydedilir: kendi sunucu fonksiyonunda sunucu-dogrulama.mjs → newsletterConsent;
+       üçüncü taraf form ya da bülten hizmetinde kaydı o hizmet tutar — site sahibine sorulur, raporda yazılır.
+
+  Biçim (1), iki kutu:
+  <label class="check"><input type="checkbox" id="f-ileti" name="ileti" value="1"><span>{{MARKA}} tarafından bülten ve kampanya e‑postası gönderilmesine onay veriyorum.</span></label>
+  <p class="check__hint" id="f-bulten-ipucu">Açık rıza kutusunu işaretlemek için önce <a href="{{KVKK_URL}}" target="_blank" rel="noopener noreferrer" data-kilit-ac>KVKK aydınlatma metnini</a> açın.</p>
+  <label class="check"><input type="checkbox" id="f-riza" name="riza" value="1" disabled aria-describedby="f-bulten-ipucu" data-kilitli><span>E‑posta adresimin bu e‑postaların gönderilmesi amacıyla işlenmesine açık rıza veriyorum.</span></label>
+
+  Biçim (2), iki cümleli tek kutu:
+  <label class="check"><input type="checkbox" id="f-bulten" name="bulten" value="1"><span>Bülten ve kampanya e‑postası almak istiyorum: ticari elektronik ileti gönderilmesine onay veriyor, e‑posta adresimin bu amaçla işlenmesine açık rıza veriyorum. {{KISA_AYDINLATMA — veri sorumlusu, işlenen veri (e‑posta adresi), amaç, her e‑postadaki bağlantıyla geri alma}} <a href="{{KVKK_URL}}" target="_blank" rel="noopener noreferrer">Ayrıntı</a></span></label>
+  }} -->
+</div>
+<!-- Düğmenin altına, bilgi cümlesi (onay kutusu DEĞİL): -->
+<p class="form__legal">E-posta adresiniz {{FORM_AMACI_KISA}} ve talebinizle ilgili iletişim için kullanılır{{TICARI_ILETI_CUMLESI — K-Ticari ileti: site tüketicilere de hizmet veriyorsa ya da bülten varsa "; onayınız olmadan ticari elektronik ileti gönderilmez"; yalnız işletmelere hizmet veriyor ve site sahibi tacir istisnasıyla onaysız ileti gönderecekse boş}}.</p>
+
+<style>
+.form__checks { display: grid; gap: 8px; }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; cursor: pointer; }
+.check input { width: 18px; height: 18px; margin: 1px 0 0; flex: none; }
+.check input:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.check input:disabled + span { opacity: .6; cursor: not-allowed; }
+.check__hint { font-size: 13px; margin: 4px 0 0; }
+</style>
+
+<script>
+// İstemci: yalnız kutular eksikse ayrı mesaj. Sunucu doğrulaması ŞART (sunucu-dogrulama.mjs).
+// form.checkValidity() başarısızsa:
+//   var onlyChecks = Array.prototype.every.call(form.querySelectorAll(':invalid'), function (el) { return el.type === 'checkbox'; });
+//   status.textContent = onlyChecks ? 'Aydınlatma metnini okuduğunuzu işaretleyin.' : 'Zorunlu alanlar boş.';
+
+// Bülten biçim (1) kullanılıyorsa: aydınlatma metni açılınca açık rıza kutusu etkinleşir.
+(function () {
+  var opener = document.querySelector('[data-kilit-ac]');
+  if (!opener) return;
+  opener.addEventListener('click', function () {
+    document.querySelectorAll('[data-kilitli]').forEach(function (box) { box.disabled = false; });
+    var hint = document.getElementById('f-bulten-ipucu');
+    if (hint) hint.textContent = 'Açık rıza kutusu artık işaretlenebilir.';
+  });
+})();
+</script>

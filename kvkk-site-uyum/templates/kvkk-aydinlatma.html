@@ -1,0 +1,141 @@
+<!--
+  Bu şablon bir başlangıç taslağıdır. Her cümle üç kaynaktan birine dayanmalıdır:
+    (1) mevzuat sabiti (dayanağı rapordaki Dayanak tablosunda),
+    (2) tarama bulgusu (cerez-uyum ölçümü, denetim.sh, kaynak kodu),
+    (3) site sahibinin beyanı.
+  Site sahibi bir olguyu bilmiyorsa (SKILL.md → "Bilmiyorum" cevabı):
+    metinde karşılığı olması gereken yerde aşağıdaki iddiasız cümle yazılır; ek iddia taşıyan cümle yazılmaz;
+    seçim gerektiren yerde varsayılan öneri uygulanır. Hepsi raporda "sizden beklenenler" listesine girer.
+  Kaynak etiketleri ([Kanun], [skill yorumu]…) ve [DOĞRULA] yalnız raporda durur, bu metne girmez.
+
+  {{...}} yer tutucularını doldur; sitenin kendi doküman sayfası şablonuna (head, stil, footer) yerleştir.
+  Yayından önce bu yorumu ve bütün yer tutucu açıklamalarını sil (metin-kontrol.mjs denetler).
+  {{VERI_SORUMLUSU}}: tüzel kişide ticaret unvanı; şahıs işletmesinde veri sorumlusu gerçek kişidir — adı soyadı
+  (varsa "… (İşletme adı)" ile). {{VERI_SORUMLUSU}}'un / 'a / 'na gibi ekleri adın son sesine göre düzelt.
+  ÖLÇÜM / RIZA / FORM / ALICI yer tutucularını tahminle DOLDURMA: önce cerez-uyum ile ölç, sonra
+    node ~/.claude/skills/cerez-uyum/scripts/kvkk-yansima.mjs sonuc.json --kok <site-kök>
+  çıktısındaki §2–§7 önerilerini kullan ve kullanıcıya onaya sun. [Örnek] köşeli
+  örnekleri yalnız o durumda geçerlidir (çerezsiz ölçüm, kendi form fonksiyonu, rıza yok).
+  Seçenekli satırlarda (form ve sunucu kaydının hukuki sebebi, yurt dışı biçimi) seçimi site sahibi yapar;
+  seçim raporun Kararlar bölümüne "seçen: site sahibi, tarih" diye girer (SKILL.md → Kararlar).
+-->
+  <h1>Kişisel Verilerin Korunması ve İşlenmesi Aydınlatma Metni</h1>
+  <p class="meta">6698 sayılı Kişisel Verilerin Korunması Kanunu'nun 10. maddesi uyarınca. Son güncelleme: {{TARIH}}</p>
+
+  <h2>1. Veri sorumlusu</h2>
+  <p>Bu aydınlatma metni, veri sorumlusu sıfatıyla {{VERI_SORUMLUSU}} tarafından hazırlanmıştır.</p>
+  <ul>
+    <li>İnternet sitesi: <a href="https://{{SITE}}">{{SITE}}</a></li>
+    <li>E‑posta: <a href="mailto:{{EPOSTA}}">{{EPOSTA}}</a></li>
+    <li>{{ADRES_SATIRI — site sahibi adres yazılmasını isterse "Adres: …"; istemezse satırı sil. §9'daki yazılı başvuru yolu için bir posta adresi yine gerekir.}}</li>
+  </ul>
+
+  <h2>2. Hangi kişisel veriler işlenir</h2>
+  <p>{{SITE}} üzerinden {{FORM_ADI}} formunu doldurduğunuzda {{FORM_ALANLARI}} işlenir.{{FORM_KAYIT_CUMLESI — kvkk-yansima §2. Kendi sunucu fonksiyonu ve sunucu-dogrulama.mjs: " Formu gönderdiğinizde, gönderimin kanıtı olarak gönderim zamanı, IP adresiniz ve okuduğunuz metnin sürümü talebinizle birlikte kaydedilir." Üçüncü taraf form hizmeti (Formspree vb.) ve formda gizli metin_surumu alanı (form-onay.html → FORM_SURUM_ALANI): " Formu gönderdiğinizde gönderim zamanı ve okuduğunuz metnin sürümü talebinizle birlikte form hizmetinde kaydedilir." (IP yalnız hizmetin kaydettiği teyit edilirse eklenir). mailto ya da form yoksa boş}}{{FORM_EK_NOT — formda başka bir veri (dosya eki, şirket adı) varsa bir cümleyle yaz; yoksa boş}}</p>
+  <p>Siteyi ziyaret ettiğinizde, sitenin barındırıldığı altyapı güvenlik ve hata ayıklama amacıyla IP adresinizi, istek zamanını ve tarayıcı bilgisini sunucu erişim kayıtlarında {{LOG_SURESI — tam zarf ifadesi: bilinen süre ("30 gün süreyle"); site sahibi bilmiyorsa "barındırma sağlayıcısının belirlediği süre boyunca". Site sahibi 5651 sayılı Kanun anlamında yer sağlayıcıysa "en az bir, en çok iki yıl süreyle"}} tutar. {{GOMULU_CUMLESI — gömülü video ya da harita varsa (kvkk-yansima §2, K-Gömülü): "Sayfadaki video ya da harita içeriğini açtığınızda IP adresiniz ve tarayıcı bilginiz içeriğin sağlayıcısına (ör. YouTube) iletilir." (yalnız görülen tür); yoksa sil}} {{FONT_CUMLESI — yazı tipi ya da başka kaynak üçüncü taraf sunucudan yükleniyorsa ve site sahibi kendi sunucusundan sunmayı seçmediyse (kvkk-yansima §2): "Sayfa yüklenirken yazı tipleri Google sunucularından alınır; bu sırada IP adresiniz ve tarayıcı bilginiz Google'a iletilir."; yoksa sil}} {{OLCUM_CUMLESI — kvkk-yansima §2; ölçüm yoksa sil. [Örnek: "Ziyaret sayıları çerezsiz ve bireysel ziyaretçiyi izlemeyen bir yöntemle ölçülür; ayrıntısı <a href="{{CEREZ_URL}}">çerez aydınlatma metninde</a> açıklanmıştır."]}}</p>
+
+  <h2>3. İşleme amaçları</h2>
+  <p>Kişisel verileriniz aşağıdaki amaçlarla işlenir:</p>
+  <ul>
+    <li>{{FORM_AMACI — formun gerçek amacı: teklif, hizmet ya da sipariş talebinin değerlendirilmesi, ya da soru, öneri ve şikâyetlerin cevaplandırılması; ikisi de varsa iki ayrı satır; site sahibi bilmiyorsa "Talebinizin değerlendirilmesi ve cevaplandırılması". §4'teki form satırıyla aynı amaç olmalı}},</li>
+    <li>{{EK_AMAC — işe özgü bir amaç varsa yaz (ör. randevu ya da sipariş görüşmelerinin yürütülmesi); yoksa satırı sil}},</li>
+    <li>Sitenin yayınlanması, güvenli ve doğru çalışmasının sağlanması; yetkisiz erişim ve kötüye kullanım girişimlerinin önlenmesi,</li>
+    <li>{{OLCUM_AMACI — kvkk-yansima §3; ölçüm yoksa satırı sil. Rızasız ölçüm: "Site kullanımının bireysel ziyaretçiyle ilişkilendirilmeden toplu olarak ölçülmesi". Rızaya dayanan ölçüm (GA4 vb.): "İzniniz hâlinde ziyaret istatistiklerinin üretilmesi". Reklam varsa ayrı satır: "İzniniz hâlinde reklam ve pazarlama faaliyetlerinin yürütülmesi"}},</li>
+    <li>{{BULTEN_AMACI — bülten ya da kampanya e‑postası varsa: "Açık rızanız ve ticari elektronik ileti onayınız hâlinde bülten ve kampanya e‑postalarının gönderilmesi"; yoksa satırı sil}},</li>
+    <li>Mevzuattan doğan yükümlülüklerin yerine getirilmesi ve yetkili kamu kurum ve kuruluşlarının taleplerinin cevaplandırılması,</li>
+    <li>Hukuki uyuşmazlıklarda hakların tesisi, kullanılması veya korunması.</li>
+  </ul>
+
+  <h2>4. Hukuki sebep</h2>
+  <p>Kişisel verileriniz, KVKK'nın 5. maddesinde belirtilen aşağıdaki hukuki sebeplere dayanılarak işlenir:</p>
+  <ul>
+    <!-- Form satırları: formun amacına göre site sahibi seçer (SKILL.md → Kararlar K-Form); bilmiyorsa FORM_SEBEP_F. Kullanılmayan satırı sil. -->
+    <li>{{FORM_SEBEP_C — kişinin kendi adına teklif, hizmet ya da sipariş talebi: "Teklif, hizmet ve sipariş taleplerine ilişkin form verileri: talebinize konu sözleşmenin kurulmasıyla doğrudan doğruya ilgili olması kaydıyla, sözleşmenin taraflarına ait kişisel verilerin işlenmesinin gerekli olması (madde 5/2‑c)" — talep türü §3'teki FORM_AMACI'na göre daraltılır}},</li>
+    <li>{{FORM_SEBEP_F — genel soru, öneri ve şikâyet formu: "Soru, öneri ve şikâyetlere ilişkin form verileri: …" (aşağıdaki metin); site sahibi formun amacını bilmiyorsa baş kısım "Talebinize ilişkin form verileri:" olur (§3'teki "Talebinizin değerlendirilmesi ve cevaplandırılması" ile aynı amaç). Metin: "Soru, öneri ve şikâyetlere ilişkin form verileri: temel hak ve özgürlüklerinize zarar vermemek kaydıyla, talebinizi cevaplayabilmemiz için veri sorumlusunun meşru menfaatleri bakımından veri işlenmesinin zorunlu olması (madde 5/2‑f)"}},</li>
+    <li>{{FORM_SEBEP_F_SIRKET — formu bir şirket adına dolduran kişi (ör. kurumsal teklif talebi): "Bir şirket adına ilettiğiniz teklif taleplerine ilişkin iletişim verileriniz: temel hak ve özgürlüklerinize zarar vermemek kaydıyla, talebi cevaplayabilmemiz için veri sorumlusunun meşru menfaatleri bakımından veri işlenmesinin zorunlu olması (madde 5/2‑f)"}},</li>
+    <li>{{FORM_KAYIT_SEBEP — FORM_KAYIT_CUMLESI yazıldıysa (kaydedilen alanlar o cümleyle aynı; IP yalnız kaydediliyorsa): "Form gönderim kaydı (gönderim zamanı, IP adresi, metin sürümü): bir hakkın tesisi, kullanılması veya korunması için veri işlemenin zorunlu olması (madde 5/2‑e)"; yoksa satırı sil}},</li>
+    <li>{{SUNUCU_SEBEP — varsayılan (ve site sahibi bilmiyorsa): "Sunucu erişim kayıtları: temel hak ve özgürlüklerinize zarar vermemek kaydıyla, sitenin güvenli ve doğru çalışması için veri sorumlusunun meşru menfaatleri bakımından veri işlenmesinin zorunlu olması (madde 5/2‑f)". Yalnız site sahibi 5651 anlamında yer sağlayıcıysa: "Sunucu erişim kayıtları: 5651 sayılı Kanun'dan doğan hukuki yükümlülüğümüzü yerine getirebilmemiz için zorunlu olması (madde 5/2‑ç)"}},</li>
+    <li>{{FONT_SEBEP — FONT_CUMLESI yazıldıysa: "Yazı tiplerinin yüklenmesi: temel hak ve özgürlüklerinize zarar vermemek kaydıyla, sayfanın doğru görüntülenmesi için veri sorumlusunun meşru menfaatleri bakımından veri işlenmesinin zorunlu olması (madde 5/2‑f)"; yoksa satırı sil}},</li>
+    <li>{{OLCUM_SEBEP — kvkk-yansima §4; yalnız rızasız ölçüm varsa: "Ziyaretlerin toplu ölçümü: temel hak ve özgürlüklerinize zarar vermemek kaydıyla, sitenin geliştirilmesi için veri sorumlusunun meşru menfaatleri bakımından veri işlenmesinin zorunlu olması (madde 5/2‑f)"; yoksa satırı sil}},</li>
+    <li>{{RIZA_SATIRI — kvkk-yansima §4; açık rıza gerektiren çerez varsa: "Çerez aydınlatma metninde belirtilen analitik ve reklam çerezleri: açık rızanız (madde 5/1)" (yalnız olanı yaz); yoksa satırı sil}},</li>
+    <li>{{GOMULU_SATIRI — gömülü video ya da harita varsa (kvkk-yansima §4, K-Gömülü): "Gömülü içerik (video, harita): içeriği açarken ya da çerez tercihlerinden verdiğiniz açık rıza (madde 5/1)"; yoksa satırı sil}},</li>
+    <li>{{BULTEN_SATIRI — bülten varsa (K-Bülten seçimine göre): "Bülten ve kampanya e‑postaları: açık rızanız (madde 5/1); ticari elektronik ileti onayınız ayrıca alınır"; yoksa satırı sil}},</li>
+    <li>Yasal saklama ve yetkili kurumlara bilgi verme: veri sorumlusunun hukuki yükümlülüğünü yerine getirebilmesi için zorunlu olması (madde 5/2‑ç),</li>
+    <li>Uyuşmazlık hâlinde: bir hakkın tesisi, kullanılması veya korunması için veri işlemenin zorunlu olması (madde 5/2‑e).</li>
+  </ul>
+  <p>{{RIZA_CUMLESI — kvkk-yansima §4. Rıza gerektiren kalem (çerez ya da bülten) YOKSA: "Şu an açık rızaya dayanan bir veri işleme faaliyeti bulunmamaktadır." VARSA bu cümle YANLIŞTIR: rızanın nereden verildiğini (çerez paneli, form kutusu) ve her zaman geri alınabileceğini yaz. Kullanıcının açık kararıdır; onaysız değiştirme.}}</p>
+
+  <h2>5. Toplama yöntemi</h2>
+  <p>Kişisel verileriniz aşağıdaki kanallar ve yöntemlerle toplanır:</p>
+  <ul>
+    <li>Sitedeki {{FORM_ADI}} formu: tamamen otomatik yollarla,</li>
+    <li>Sitenin sunucu erişim kayıtları: tamamen otomatik yollarla,</li>
+    <li>{{CEREZ_KANALI — kvkk-yansima §5; çerez ya da benzeri teknoloji varsa: "Sitede kullanılan çerezler ve benzeri teknolojiler: tamamen otomatik yollarla (ayrıntısı çerez aydınlatma metninde)"; yoksa satırı sil}},</li>
+    <li>Talebinize ilişkin {{YAZISMA_KANALLARI — gerçekte kullanılan kanallar: "e‑posta", "e‑posta ve telefon"}} yazışmaları{{GORUSME_NOTU — görüşme notu tutuluyorsa " ile görüşme notları"; tutulmuyorsa boş}}: kısmen otomatik yollarla ya da veri kayıt sisteminin parçası olmak kaydıyla otomatik olmayan yollarla.</li>
+  </ul>
+  <p>{{FORM_ILETIM_CUMLESI — kvkk-yansima §5. Kendi fonksiyonu: "Form gönderimleri, sitenin barındırıldığı altyapıda ({{BOLGE — vercel.json regions vb. ile doğrula}}) çalışan bir işlev aracılığıyla {{VERI_SORUMLUSU}}'un kurumsal e‑posta hesabına iletilir; üçüncü taraf bir form hizmeti kullanılmaz." İşlev bir e‑posta gönderim servisi (Resend, SendGrid, SES vb.) kullanıyorsa onu da an. Üçüncü taraf form hizmeti (Formspree vb.): o hizmeti ve veri konumunu yaz, "kullanılmaz" DEME; §6'ya form hizmeti sağlayıcısını ekle.}}</p>
+
+  <h2>6. Aktarım</h2>
+  <!-- Alıcı gruplarını GERÇEK iş akışına göre kırp/ekle (SKILL.md → Sorular → iş akışı). Olmayan grubu listeleme.
+       Her grubun yanında aktarım amacı durur (Aydınlatma Tebliği md. 5/1‑ı); marka adı şart değildir.
+       Sitenin kendisinden kaynaklanan gruplar (ölçüm, reklam ortakları, gömülü içerik, font/CDN, form hizmeti)
+       ve yurt dışı adayları: kvkk-yansima §6. -->
+  <p>Kişisel verileriniz, işleme amaçlarıyla sınırlı ve ölçülü olarak, aşağıdaki kişi ve kuruluşlara yanlarında belirtilen amaçlarla aktarılabilir:</p>
+  <ul>
+    <li>{{IS_ORTAKLARI — talebin karşılanmasında birlikte çalışılan iş ortakları (bayi, çözüm ortağı, alt yüklenici vb.) varsa: "<grup>: talebinizin karşılanması amacıyla"; yoksa satırı sil}},</li>
+    <li>{{TEKNIK_GRUP — gerçekte kullanılan teknik hizmetlere göre, ör. "Barındırma ve yazılım hizmeti sağlayıcıları"}}: sitenin yayınlanması, güvenliğinin sağlanması ve form gönderimlerinin iletilmesi amacıyla,</li>
+    <li>E‑posta ve iletişim hizmeti sağlayıcıları: talebinize ilişkin yazışmaların yürütülmesi amacıyla,</li>
+    <li>{{SOZLESME_GRUBU — talep sözleşmeye dönüşebiliyorsa: "Talebin sözleşmeye dönüşmesi hâlinde bankalar ve ödeme hizmeti sağlayıcıları: ödemelerin yapılması amacıyla"; yoksa satırı sil}},</li>
+    <li>{{DANISMAN_GRUBU — site sahibi bu hizmetleri alıyorsa: "Muhasebe, mali müşavirlik, hukuk ve denetim hizmeti sağlayan kişi ve kuruluşlar: yasal yükümlülüklerin yerine getirilmesi ve hakların korunması amacıyla"; almıyorsa satırı sil}},</li>
+    <li>Kanunen yetkili kamu kurum ve kuruluşları ile mahkemeler, savcılıklar ve diğer adli veya idari merciler: talep hâlinde, yasal yükümlülüklerin yerine getirilmesi amacıyla.</li>
+  </ul>
+  <p>{{TEDARIKCI_ROL — yalnız site sahibi, ilgili sağlayıcıların koşullarından teyit ederse: "Teknik hizmet sağlayıcılar verileri {{VERI_SORUMLUSU}} adına ve talimatları doğrultusunda işler." Teyit yoksa ya da site sahibi bilmiyorsa yazma (raporda "sizden beklenenler"). Veriyi kendi amacıyla da işleyen sağlayıcı (reklam ortağı, gömülü içerik) bu cümlenin kapsamına girmez.}}</p>
+  <p>{{YURT_DISI — yurt dışına aktarım yoksa sil. Varsa (SKILL.md → Kararlar K-Yurt dışı):
+     Varsayılan genel cümle: "Kişisel verileriniz, sitenin barındırılması ve çalıştırılması amacıyla yurt dışında bulunan bulut hizmeti ve yazılım sağlayıcılarına, KVKK'nın 9. maddesine uygun olarak aktarılabilir."
+     Rızasız ölçüm yurt dışındaysa birinci cümlenin amacı: "sitenin barındırılması, çalıştırılması ve ziyaretlerin ölçülmesi".
+     Rızaya dayanan ortak ya da gömülü içerik varsa ikinci cümle (parçalar taramaya göre): "İzin vermeniz ya da içeriği açmanız hâlinde, ziyaret istatistikleri, reklam ve harita ya da video gibi gömülü içeriklerin gösterilmesi amacıyla yurt dışında bulunan ölçüm, reklam ve içerik ortaklarına da aktarılabilir." Gömülü içerikte yalnız görülen tür yazılır ("video gibi", "harita gibi" ya da ikisi). Birinci cümle yoksa "da" eki düşer — kvkk-yansima §6 cümleyi hazır verir.
+     Sağlayıcı adlı liste ("<Sağlayıcı> (<ülke>): <amaç>") metne yalnız site sahibi isterse girer.
+     Aktarım yolu teyit edilmese de metin genel cümleyle yazılır; raporda "aktarımın dayanağı belirlenmedi" uyum engeli kalır.}}</p>
+
+  <h2>7. Saklama süresi</h2>
+  <ul>
+    <li>Talebinize ilişkin veriler (form verileri ve yazışmalar{{FORM_KAYIT_EK — FORM_KAYIT_CUMLESI yazıldıysa " ile form gönderim kaydı"; yoksa boş}}): {{TALEP_SURESI — tam zarf ifadesi: site sahibinin verdiği süre ("talebin sonuçlanmasından itibaren 2 yıl"); site sahibi bilmiyorsa "talebinizin gerektirdiği süre boyunca ve mevzuatta öngörülen saklama süreleri saklı kalmak kaydıyla"}} saklanır; sürenin sonunda silinir, yok edilir veya anonim hâle getirilir,</li>
+    <li>{{SOZLESME_SURESI — talep sözleşmeye dönüşebiliyorsa: "Talep bir sözleşmeye dönüşürse veriler sözleşme süresince ve ilgili mevzuatın öngördüğü saklama süreleri boyunca saklanır"; yoksa satırı sil}},</li>
+    <li>Sunucu erişim kayıtları {{LOG_SURESI}} tutulur,</li>
+    <li>{{BULTEN_SURESI — bülten varsa: "Ticari elektronik ileti onay kayıtları onayın sona ermesinden itibaren üç yıl saklanır"; yoksa satırı sil}}.</li>
+  </ul>
+
+  <h2>8. Haklarınız</h2>
+  <p>KVKK madde 11 uyarınca, veri sorumlusuna başvurarak:</p>
+  <ul>
+    <li>Kişisel verinizin işlenip işlenmediğini öğrenme,</li>
+    <li>İşlenmişse buna ilişkin bilgi talep etme,</li>
+    <li>İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme,</li>
+    <li>Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme,</li>
+    <li>Eksik veya yanlış işlenmişse düzeltilmesini isteme,</li>
+    <li>KVKK madde 7 kapsamında silinmesini veya yok edilmesini isteme,</li>
+    <li>Düzeltme, silme ve yok etme işlemlerinin aktarıldığı üçüncü kişilere bildirilmesini isteme,</li>
+    <li>Münhasıran otomatik sistemlerle analiz edilmesi suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme,</li>
+    <li>Kanuna aykırı işleme nedeniyle zarara uğramanız hâlinde zararın giderilmesini talep etme</li>
+  </ul>
+  <p>haklarına sahipsiniz.</p>
+
+  <h2>9. Başvuru</h2>
+  <p>Taleplerinizi <em>Veri Sorumlusuna Başvuru Usul ve Esasları Hakkında Tebliğ</em>'e uygun olarak, Türkçe ve aşağıdaki yollardan biriyle iletebilirsiniz:</p>
+  <ul>
+    <li>Yazılı olarak {{POSTA_ADRESI}} adresine,</li>
+    <li>Kayıtlı elektronik posta (KEP) adresi, güvenli elektronik imza veya mobil imza kullanarak {{KEP_HEDEF — KEP adresi varsa "{{KEP}} KEP adresimize"; yoksa "<a href=\"mailto:{{EPOSTA}}\">{{EPOSTA}}</a> adresimize"}},</li>
+    <li>Daha önce {{VERI_SORUMLUSU}}'na bildirdiğiniz ve sistemimizde kayıtlı olan e‑posta adresinizden <a href="mailto:{{EPOSTA}}">{{EPOSTA}}</a> adresine,</li>
+    <li>{{BASVURU_UYGULAMASI — başvuru için geliştirilmiş bir yazılım ya da form varsa: "Başvuru amacıyla sunduğumuz <a href=\"…\">başvuru formu</a> aracılığıyla"; yoksa satırı sil ve önceki satırın sonundaki virgülü noktaya çevir}}.</li>
+  </ul>
+  <p>Başvurunuzda ad soyadınız, yazılı başvurularda imzanız, Türkiye Cumhuriyeti vatandaşları için T.C. kimlik numaranız, yabancılar için uyruğunuz ile pasaport numaranız veya varsa kimlik numaranız, tebligata esas yerleşim yeri veya iş yeri adresiniz, varsa bildirime esas e‑posta adresiniz, telefon ve faks numaranız ile talebinizin konusu bulunmalıdır. Talebinize ilişkin bilgi ve belgeler başvuruya eklenir.</p>
+  <p>Başvurunuz kabul edilir ya da gerekçesi açıklanarak reddedilir. Başvurular en kısa sürede ve en geç otuz gün içinde ücretsiz olarak sonuçlandırılır; işlemin ayrıca bir maliyet gerektirmesi hâlinde Kişisel Verileri Koruma Kurulu tarafından belirlenen tarifedeki ücret alınabilir. Yanıt yazılı olarak ya da elektronik ortamda iletilir.</p>
+
+  <h2>10. Veri güvenliği</h2>
+  <p>{{HTTPS_CUMLESI — yalnız ölçüldüyse (SKILL.md → Denetim: http:// isteği https:// adresine yönleniyor): "Site yalnızca şifreli bağlantı (HTTPS) üzerinden sunulur."; ölçülmediyse sil}} {{FORM_GUVENLIK_CUMLESI — §5'teki form cümlesiyle aynı gerçeği söyle (kvkk-yansima §5). Kendi işlevi ve kendi e‑posta hesabı: "Form verisi üçüncü taraf bir form hizmetinden geçmez; {{VERI_SORUMLUSU}}'un e‑posta hesabına iletilir ve bu hesaba yalnızca yetkili kişiler erişir." E‑posta gönderim servisi varsa onu an; bilinmiyorsa "yalnızca" deme. Üçüncü taraf form hizmeti varsa o hizmeti adıyla an, "geçmez" DEME. Sitede form yoksa cümleyi sil.}}</p>
+
+  <h2>11. Üçüncü taraf siteler</h2>
+  <p>Sitede üçüncü taraf sitelere bağlantılar bulunabilir. Bu siteler kendi gizlilik politikalarına tabidir; {{VERI_SORUMLUSU}} bu sitelerin veri işleme faaliyetlerinden sorumlu değildir.</p>
+
+  <h2>12. Güncelleme</h2>
+  <p>Bu metin mevzuat, Kurul kararları veya veri işleme süreçlerimizdeki değişiklikler doğrultusunda güncellenebilir. Güncel metin ve tarihi bu sayfada yayımlanır.</p>

@@ -1,0 +1,620 @@
+{
+  "_aciklama": "cerez-tespit.mjs ve tablo.mjs bu dosyayı okur. 'desen' JavaScript RegExp (büyük/küçük harf duyarsız). 'riza': true = açık rıza gerekir, false = rıza gerekmez (Kriter A/B), 'kosullu' = yapılandırmaya göre değişir, notu oku. Süreler tedarikçi beyanıdır, değişebilir; metne yazmadan önce canlı tespitteki gerçek süreyi kullan. Kaynak: tedarikçi dokümanları + Kurum Çerez Rehberi (Temmuz 2025).",
+  "cerezler": [
+    {
+      "desen": "^_ga$",
+      "saglayici": "Google Analytics",
+      "sinif": "analitik",
+      "taraf": "birinci",
+      "riza": true,
+      "sure": "2 yıl",
+      "amac": "Ziyaretçiyi ayırt etmek ve kullanım istatistiği üretmek (Google Analytics)",
+      "not": "Veri Google'a gider; Rehber 5.9 'üçüncü tarafa iletilmez' şartını karşılamaz"
+    },
+    {
+      "desen": "^_ga_[A-Z0-9]+$",
+      "saglayici": "Google Analytics 4",
+      "sinif": "analitik",
+      "taraf": "birinci",
+      "riza": true,
+      "sure": "2 yıl",
+      "amac": "Oturum durumunu sürdürmek (Google Analytics 4)"
+    },
+    {
+      "desen": "^_gid$",
+      "saglayici": "Google Analytics",
+      "sinif": "analitik",
+      "taraf": "birinci",
+      "riza": true,
+      "sure": "24 saat",
+      "amac": "Ziyaretçiyi ayırt etmek (Google Analytics)"
+    },
+    {
+      "desen": "^_gat",
+      "saglayici": "Google Analytics",
+      "sinif": "analitik",
+      "taraf": "birinci",
+      "riza": true,
+      "sure": "1 dakika",
+      "amac": "İstek hızını sınırlamak (Google Analytics)"
+    },
+    {
+      "desen": "^_gcl_",
+      "saglayici": "Google Ads",
+      "sinif": "reklam",
+      "taraf": "birinci",
+      "riza": true,
+      "sure": "90 gün",
+      "amac": "Reklam dönüşümünü ölçmek (Google Ads)"
+    },
+    {
+      "desen": "^(IDE|DSID|test_cookie)$",
+      "saglayici": "Google DoubleClick",
+      "sinif": "reklam",
+      "taraf": "üçüncü",
+      "riza": true,
+      "sure": "13 ay / 2 hafta / 15 dk",
+      "amac": "Reklam gösterimi ve hedefleme (Google)"
+    },
+    {
+      "desen": "^(NID|1P_JAR|AEC|SOCS|CONSENT)$",
+      "saglayici": "Google",
+      "sinif": "reklam/tercih",
+      "taraf": "üçüncü",
+      "riza": true,
+      "sure": "6 ay – 13 ay",
+      "amac": "Google hizmet tercihleri ve reklam (gömülü Harita/YouTube/reCAPTCHA ile gelir)"
+    },
+    {
+      "desen": "^_GRECAPTCHA$",
+      "saglayici": "Google reCAPTCHA",
+      "sinif": "güvenlik",
+      "taraf": "üçüncü",
+      "riza": "kosullu",
+      "sure": "6 ay",
+      "amac": "Bot tespiti (Google reCAPTCHA)",
+      "not": "Güvenlik amacı 5.10'a yakın ama veri Google'a gider ve Google başka amaçla da işleyebilir; tartışmalı. Turnstile veya honeypot öner"
+    },
+    {
+      "desen": "^_fbp$|^_fbc$|^fr$",
+      "saglayici": "Meta Pixel",
+      "sinif": "reklam",
+      "taraf": "birinci",
+      "riza": true,
+      "sure": "90 gün",
+      "amac": "Reklam ölçümü ve hedefleme (Meta)"
+    },
+    {
+      "desen": "^_hj",
+      "saglayici": "Hotjar",
+      "sinif": "analitik",
+      "taraf": "birinci",
+      "riza": true,
+      "sure": "30 dk – 1 yıl",
+      "amac": "Oturum kaydı ve ısı haritası (Hotjar)"
+    },
+    {
+      "desen": "^_clck$|^_clsk$|^CLID$|^MUID$|^ANONCHK$|^SM$",
+      "saglayici": "Microsoft Clarity",
+      "sinif": "analitik",
+      "taraf": "birinci/üçüncü",
+      "riza": true,
+      "sure": "1 gün – 1 yıl",
+      "amac": "Oturum kaydı ve ısı haritası (Microsoft Clarity)"
+    },
+    {
+      "desen": "^_ym_|^yandexuid$|^yuidss$|^ymex$",
+      "saglayici": "Yandex Metrica",
+      "sinif": "analitik",
+      "taraf": "birinci/üçüncü",
+      "riza": true,
+      "sure": "1 yıl",
+      "amac": "Kullanım istatistiği ve oturum kaydı (Yandex)"
+    },
+    {
+      "desen": "^(li_sugr|bcookie|lidc|UserMatchHistory|AnalyticsSyncHistory|li_gc)$",
+      "saglayici": "LinkedIn Insight",
+      "sinif": "reklam",
+      "taraf": "üçüncü",
+      "riza": true,
+      "sure": "1 gün – 1 yıl",
+      "amac": "Reklam ölçümü ve hedefleme (LinkedIn)"
+    },
+    {
+      "desen": "^_ttp$|^_tt_enable_cookie$|^ttwid$",
+      "saglayici": "TikTok Pixel",
+      "sinif": "reklam",
+      "taraf": "birinci/üçüncü",
+      "riza": true,
+      "sure": "13 ay",
+      "amac": "Reklam ölçümü (TikTok)"
+    },
+    {
+      "desen": "^(hubspotutk|__hstc|__hssc|__hssrc|messagesUtk)$",
+      "saglayici": "HubSpot",
+      "sinif": "analitik/pazarlama",
+      "taraf": "birinci",
+      "riza": true,
+      "sure": "oturum – 6 ay",
+      "amac": "Ziyaretçi takibi ve pazarlama otomasyonu (HubSpot)"
+    },
+    {
+      "desen": "^intercom-",
+      "saglayici": "Intercom",
+      "sinif": "işlevsel",
+      "taraf": "birinci",
+      "riza": "kosullu",
+      "sure": "1 hafta – 9 ay",
+      "amac": "Canlı destek sohbeti (Intercom)",
+      "not": "Sohbet kullanıcı açıkça başlatınca yüklenirse 5.1'e yakın; sayfa açılışında kimlik yerleştiriyorsa rıza"
+    },
+    {
+      "desen": "^(TawkConnectionTime|twk_|__tawkuuid)",
+      "saglayici": "Tawk.to",
+      "sinif": "işlevsel",
+      "taraf": "birinci/üçüncü",
+      "riza": "kosullu",
+      "sure": "oturum – 6 ay",
+      "amac": "Canlı destek sohbeti (Tawk.to)"
+    },
+    {
+      "desen": "^crisp-client",
+      "saglayici": "Crisp",
+      "sinif": "işlevsel",
+      "taraf": "birinci",
+      "riza": "kosullu",
+      "sure": "6 ay",
+      "amac": "Canlı destek sohbeti (Crisp)"
+    },
+    {
+      "desen": "^(VISITOR_INFO1_LIVE|YSC|VISITOR_PRIVACY_METADATA|__Secure-YEC|LOGIN_INFO|PREF)$",
+      "saglayici": "YouTube",
+      "sinif": "reklam",
+      "taraf": "üçüncü",
+      "riza": true,
+      "sure": "oturum – 6 ay",
+      "amac": "Video gömme, tercih ve reklam (YouTube)",
+      "not": "youtube-nocookie.com ile oynatmadan önce çerez azalır; tıkla-yükle (facade) öner"
+    },
+    {
+      "desen": "^vuid$",
+      "saglayici": "Vimeo",
+      "sinif": "analitik",
+      "taraf": "üçüncü",
+      "riza": true,
+      "sure": "2 yıl",
+      "amac": "Video izlenme istatistiği (Vimeo)",
+      "not": "dnt=1 parametresi"
+    },
+    {
+      "desen": "^__cf_bm$",
+      "saglayici": "Cloudflare",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "30 dakika",
+      "amac": "Bot yönetimi ve site güvenliği (Cloudflare)",
+      "kriter": "5.10"
+    },
+    {
+      "desen": "^cf_clearance$",
+      "saglayici": "Cloudflare",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "yapılandırmaya göre (1 yıla kadar)",
+      "amac": "Güvenlik doğrulamasının geçildiğini hatırlamak (Cloudflare)",
+      "kriter": "5.10"
+    },
+    {
+      "desen": "^(__cflb|_cfuvid)$",
+      "saglayici": "Cloudflare",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "oturum – 23 saat",
+      "amac": "Yük dengeleme / istek sınırlama (Cloudflare)",
+      "kriter": "5.5 / 5.10"
+    },
+    {
+      "desen": "^_vercel_jwt$",
+      "saglayici": "Vercel",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "oturum",
+      "amac": "Önizleme (preview) koruması (Vercel)",
+      "not": "Yalnız korumalı preview'da; production'da görünüyorsa ayarı kontrol et"
+    },
+    {
+      "desen": "^cookiesession1$",
+      "saglayici": "Fortinet (FortiGate/FortiWeb)",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "yapılandırmaya göre",
+      "amac": "Yük dengeleme / oturum kalıcılığı (güvenlik duvarı katmanı)",
+      "kriter": "5.5 / 5.10",
+      "not": "Tedarikçi eşleşmesi ad benzerliğine dayanır; site sahibine doğrulat"
+    },
+    {
+      "desen": "^(PHPSESSID|JSESSIONID|ASP\\.NET_SessionId|connect\\.sid|laravel_session|sessionid)$",
+      "saglayici": "Sunucu oturumu",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "oturum",
+      "amac": "Oturumun sürekliliği",
+      "kriter": "5.1 / 5.2"
+    },
+    {
+      "desen": "^(csrftoken|XSRF-TOKEN|_csrf)$",
+      "saglayici": "Sunucu güvenliği",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "oturum – 1 yıl",
+      "amac": "Form sahteciliğine karşı koruma (CSRF)",
+      "kriter": "5.3 / 5.10"
+    },
+    {
+      "desen": "^(wordpress_|wordpress_logged_in_|wp-settings-)",
+      "saglayici": "WordPress",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "oturum – 1 yıl",
+      "amac": "Yönetici girişi ve arayüz ayarı (WordPress)",
+      "kriter": "5.2"
+    },
+    {
+      "desen": "^(woocommerce_|wp_woocommerce_session_)",
+      "saglayici": "WooCommerce",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "oturum – 2 gün",
+      "amac": "Alışveriş sepeti (WooCommerce)",
+      "kriter": "5.1"
+    },
+    {
+      "desen": "^(cookieyes-consent|CookieConsent|OptanonConsent|OptanonAlertBoxClosed|cookie_consent|cookiepolicy_status|cc_cookie|klaro|borlabs-cookie|cmplz_)",
+      "saglayici": "Rıza yönetim platformu",
+      "sinif": "zorunlu",
+      "taraf": "birinci",
+      "riza": false,
+      "sure": "6 ay – 1 yıl",
+      "amac": "Çerez tercihinizi hatırlamak",
+      "kriter": "5.8"
+    },
+    {
+      "desen": "^_pk_(id|ses)",
+      "saglayici": "Matomo",
+      "sinif": "analitik",
+      "taraf": "birinci",
+      "riza": "kosullu",
+      "sure": "30 dk – 13 ay",
+      "amac": "Kullanım istatistiği (Matomo)",
+      "not": "Kendi sunucunda, IP maskeli, çapraz takip yok, veri paylaşılmıyorsa 5.9'a en yakın aday; çerezsiz modda çerez kalmaz"
+    },
+    {
+      "desen": "^(lang|locale|language|i18n)",
+      "saglayici": "Site",
+      "sinif": "işlevsel",
+      "taraf": "birinci",
+      "riza": "kosullu",
+      "sure": "?",
+      "amac": "Dil tercihini hatırlamak",
+      "kriter": "5.6",
+      "not": "Kullanıcı açıkça seçtiyse Kriter B; otomatik konduysa ve kalıcıysa rıza"
+    }
+  ],
+  "depolama": [
+    {
+      "desen": "consent|cookie.?(policy|pref|choice)|cmp|gdpr|kvkk",
+      "saglayici": "Site / rıza platformu",
+      "sinif": "zorunlu",
+      "riza": false,
+      "amac": "Çerez tercihini hatırlamak",
+      "kriter": "5.8'e benzetme"
+    },
+    {
+      "desen": "^(theme|color-?scheme|dark-?mode)$",
+      "saglayici": "Site",
+      "sinif": "işlevsel",
+      "riza": "kosullu",
+      "amac": "Tema tercihini hatırlamak",
+      "kriter": "5.6'ya benzetme",
+      "not": "Kullanıcı düğmeyle seçtiyse"
+    },
+    {
+      "desen": "^_hj|^hotjar",
+      "saglayici": "Hotjar",
+      "sinif": "analitik",
+      "riza": true,
+      "amac": "Oturum kaydı (Hotjar)"
+    },
+    {
+      "desen": "^_cl|clarity",
+      "saglayici": "Microsoft Clarity",
+      "sinif": "analitik",
+      "riza": true,
+      "amac": "Oturum kaydı (Clarity)"
+    },
+    {
+      "desen": "^_ym|^ym_",
+      "saglayici": "Yandex Metrica",
+      "sinif": "analitik",
+      "riza": true,
+      "amac": "Kullanım istatistiği (Yandex)"
+    },
+    {
+      "desen": "^(tt_|_tt)",
+      "saglayici": "TikTok",
+      "sinif": "reklam",
+      "riza": true,
+      "amac": "Reklam ölçümü (TikTok)"
+    },
+    {
+      "desen": "^(yt-|ytidb)",
+      "saglayici": "YouTube",
+      "sinif": "reklam",
+      "riza": true,
+      "amac": "Video oynatıcı ve tercih (YouTube)"
+    },
+    {
+      "desen": "^(intercom|twk_|crisp)",
+      "saglayici": "Canlı destek",
+      "sinif": "işlevsel",
+      "riza": "kosullu",
+      "amac": "Sohbet durumu"
+    },
+    {
+      "desen": "^(plausible_ignore|umami\\.disabled)$",
+      "saglayici": "Plausible / Umami",
+      "sinif": "işlevsel",
+      "riza": false,
+      "amac": "Site sahibinin kendi ziyaretlerini ölçümden çıkarması"
+    }
+  ],
+  "hostlar": [
+    {
+      "desen": "(^|\\.)google-analytics\\.com$|(^|\\.)analytics\\.google\\.com$",
+      "saglayici": "Google Analytics",
+      "sinif": "analitik",
+      "riza": true,
+      "yurtdisi": true,
+      "not": "Consent Mode 'advanced' rıza öncesi çerezsiz ping gönderir: yine Google'a veri aktarımıdır, rıza öncesi istek görülürse raporla"
+    },
+    {
+      "desen": "(^|\\.)googletagmanager\\.com$",
+      "saglayici": "Google Tag Manager",
+      "sinif": "etiket yöneticisi",
+      "riza": "kosullu",
+      "yurtdisi": true,
+      "not": "GTM kendi çerez koymaz ama yüklediği etiketler koyar; rıza öncesi yüklenmesi IP'yi Google'a gönderir"
+    },
+    {
+      "desen": "(^|\\.)(doubleclick\\.net|googlesyndication\\.com|googleadservices\\.com|adservice\\.google\\.com)$",
+      "saglayici": "Google Ads / DoubleClick",
+      "sinif": "reklam",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(facebook\\.net|facebook\\.com)$",
+      "saglayici": "Meta",
+      "sinif": "reklam",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(hotjar\\.com|hotjar\\.io)$",
+      "saglayici": "Hotjar",
+      "sinif": "analitik",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)clarity\\.ms$|(^|\\.)bing\\.com$",
+      "saglayici": "Microsoft Clarity / Bing",
+      "sinif": "analitik",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(mc\\.yandex\\.(ru|com|com\\.tr)|yandex\\.(ru|com|com\\.tr))$",
+      "saglayici": "Yandex",
+      "sinif": "analitik",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(licdn\\.com|linkedin\\.com)$",
+      "saglayici": "LinkedIn",
+      "sinif": "reklam",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(tiktok\\.com|tiktokw\\.us|byteoversea\\.com)$",
+      "saglayici": "TikTok",
+      "sinif": "reklam",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(hs-scripts\\.com|hs-analytics\\.net|hubspot\\.com|hsforms\\.(com|net)|hs-banner\\.com)$",
+      "saglayici": "HubSpot",
+      "sinif": "analitik/pazarlama",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(static\\.)?cloudflareinsights\\.com$",
+      "saglayici": "Cloudflare Web Analytics",
+      "sinif": "çerezsiz ölçüm",
+      "riza": "kosullu",
+      "yurtdisi": true,
+      "not": "Çerez/depolama yazmaz; tarayıcıdan sayfa ve performans bilgisini Cloudflare'e gönderir. Rehber kapsamı dışında (beacon). 5.9'a benzetme mümkün ama veri üçüncü tarafa gider: K-Ölçüm kararı (analitik.md → Kural 2, üç şart)"
+    },
+    {
+      "desen": "(^|\\.)plausible\\.io$",
+      "saglayici": "Plausible (bulut)",
+      "sinif": "çerezsiz ölçüm",
+      "riza": "kosullu",
+      "yurtdisi": "tedarikçiye göre",
+      "not": "Çerezsiz; veri işleyen üçüncü taraf. Kendi sunucunda barındırılırsa 5.9'a daha yakın"
+    },
+    {
+      "desen": "(^|\\.)(umami\\.is|cloud\\.umami\\.is)$",
+      "saglayici": "Umami (bulut)",
+      "sinif": "çerezsiz ölçüm",
+      "riza": "kosullu",
+      "yurtdisi": "tedarikçiye göre"
+    },
+    {
+      "desen": "(^|\\.)usefathom\\.com$|(^|\\.)cdn\\.usefathom\\.com$",
+      "saglayici": "Fathom",
+      "sinif": "çerezsiz ölçüm",
+      "riza": "kosullu",
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)vercel-(insights|analytics)\\.com$|^va\\.vercel-scripts\\.com$",
+      "saglayici": "Vercel Web Analytics / Speed Insights",
+      "sinif": "çerezsiz ölçüm",
+      "riza": "kosullu",
+      "yurtdisi": true,
+      "not": "Tedarikçi beyanı: çerez yok, ziyaretçi günlük değişen hash ile ayrılır"
+    },
+    {
+      "desen": "(^|\\.)(youtube\\.com|ytimg\\.com|googlevideo\\.com)$",
+      "saglayici": "YouTube",
+      "sinif": "reklam",
+      "riza": true,
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)youtube-nocookie\\.com$",
+      "saglayici": "YouTube (nocookie)",
+      "sinif": "gömülü içerik",
+      "riza": "kosullu",
+      "yurtdisi": true,
+      "not": "Oynatmadan önce çerez azalır; oynatınca yerel depolama/çerez gelebilir"
+    },
+    {
+      "desen": "(^|\\.)(vimeo\\.com|vimeocdn\\.com)$",
+      "saglayici": "Vimeo",
+      "sinif": "gömülü içerik",
+      "riza": "kosullu",
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(maps\\.googleapis\\.com|maps\\.gstatic\\.com)$|^www\\.google\\.com$",
+      "saglayici": "Google Haritalar / Google",
+      "sinif": "gömülü içerik",
+      "riza": true,
+      "yurtdisi": true,
+      "not": "Statik harita görseli + bağlantı alternatifi öner"
+    },
+    {
+      "desen": "(^|\\.)(fonts\\.googleapis\\.com|fonts\\.gstatic\\.com)$",
+      "saglayici": "Google Fonts",
+      "sinif": "üçüncü taraf kaynak",
+      "riza": "kosullu",
+      "yurtdisi": true,
+      "not": "Çerez koymaz ama IP Google'a gider; self-host öner"
+    },
+    {
+      "desen": "(^|\\.)recaptcha\\.net$|^www\\.gstatic\\.com$",
+      "saglayici": "Google reCAPTCHA",
+      "sinif": "güvenlik",
+      "riza": "kosullu",
+      "yurtdisi": true
+    },
+    {
+      "desen": "^challenges\\.cloudflare\\.com$",
+      "saglayici": "Cloudflare Turnstile",
+      "sinif": "güvenlik",
+      "riza": false,
+      "yurtdisi": true,
+      "kriter": "5.10'a benzetme"
+    },
+    {
+      "desen": "(^|\\.)(cdnjs\\.cloudflare\\.com|cdn\\.jsdelivr\\.net|unpkg\\.com|vjs\\.zencdn\\.net|code\\.jquery\\.com|stackpath\\.bootstrapcdn\\.com|maxcdn\\.bootstrapcdn\\.com)$",
+      "saglayici": "Açık CDN",
+      "sinif": "üçüncü taraf kaynak",
+      "riza": false,
+      "yurtdisi": true,
+      "not": "IP CDN'e gider; genelde aydınlatmada 'altyapı sağlayıcıları' grubunda"
+    },
+    {
+      "desen": "(^|\\.)(tawk\\.to|embed\\.tawk\\.to)$",
+      "saglayici": "Tawk.to",
+      "sinif": "işlevsel",
+      "riza": "kosullu",
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(intercom\\.io|intercomcdn\\.com)$",
+      "saglayici": "Intercom",
+      "sinif": "işlevsel",
+      "riza": "kosullu",
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)crisp\\.chat$",
+      "saglayici": "Crisp",
+      "sinif": "işlevsel",
+      "riza": "kosullu",
+      "yurtdisi": true
+    },
+    {
+      "desen": "(^|\\.)(cookielaw\\.org|onetrust\\.com|cookiebot\\.com|cookieyes\\.com|usercentrics\\.eu|iubenda\\.com|consentmanager\\.net)$",
+      "saglayici": "Rıza yönetim platformu",
+      "sinif": "zorunlu",
+      "riza": false,
+      "yurtdisi": true,
+      "kriter": "5.8"
+    },
+    {
+      "desen": "(^|\\.)(formspree\\.io|getform\\.io|usebasin\\.com|formsubmit\\.co|web3forms\\.com|formcarry\\.com)$",
+      "saglayici": "Form hizmeti",
+      "sinif": "form işleme",
+      "riza": false,
+      "yurtdisi": true,
+      "not": "Çerez değil; form verisi üçüncü tarafa (çoğu ABD) gider. KVKK aydınlatma §Aktarım ve form metni konusu (kvkk-site-uyum); formda 'üçüncü taraflarla paylaşılmaz' yazıyorsa çelişki"
+    },
+    {
+      "desen": "^vercel\\.live$",
+      "saglayici": "Vercel (önizleme araç çubuğu)",
+      "sinif": "üçüncü taraf kaynak",
+      "riza": false,
+      "yurtdisi": true,
+      "not": "Önizleme/araç çubuğu; production'da görünüyorsa Vercel Toolbar ayarını kontrol et"
+    }
+  ],
+  "yollar": [
+    {
+      "desen": "^/_vercel/insights(/|$)",
+      "saglayici": "Vercel Web Analytics",
+      "isletici": "Vercel",
+      "sinif": "çerezsiz ölçüm",
+      "riza": "kosullu",
+      "yurtdisi": true,
+      "amac": "Ziyaret istatistiği (Vercel Web Analytics)",
+      "not": "Sitenin kendi alan adındaki yol (birinciTarafOlcum); istek sitenin alan adına gider, hizmeti Vercel işletir. Tedarikçi beyanı: çerez yok, ziyaretçi günlük değişen hash ile ayrılır. Karar: K-Ölçüm (analitik.md → Kural 2). tablo.mjs ve kvkk-yansima.mjs okur"
+    },
+    {
+      "desen": "^/_vercel/speed-insights(/|$)",
+      "saglayici": "Vercel Speed Insights",
+      "isletici": "Vercel",
+      "sinif": "çerezsiz ölçüm",
+      "riza": "kosullu",
+      "yurtdisi": true,
+      "amac": "Sayfa yükleme performansının ölçülmesi (Vercel Speed Insights)",
+      "not": "Sitenin kendi alan adındaki yol (birinciTarafOlcum); istek sitenin alan adına gider, hizmeti Vercel işletir. Tedarikçi beyanı: çerez yok. Karar: K-Ölçüm (analitik.md → Kural 2). tablo.mjs ve kvkk-yansima.mjs okur"
+    }
+  ]
+}

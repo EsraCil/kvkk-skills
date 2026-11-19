@@ -1,0 +1,87 @@
+<!-- Çerez Aydınlatma Metni — Rehber EK-4 yapısı (s. 48–53) [Rehber: tavsiye], references/metin-kurallari.md.
+     Her cümle üç kaynaktan birine dayanır: mevzuat sabiti / tarama bulgusu (cerez-tespit, tarama.sh) / site sahibinin
+     beyanı (SKILL.md → Üç kaynak). Hiçbirine dayanmayan cümle bu metne yazılmaz; raporda [DOĞRULA] kalır.
+     Kaynak etiketleri ([Kanun], [Rehber: tavsiye]…) ve [DOĞRULA] yalnız bu yorumlarda ve raporda durur, görünen metne girmez.
+     Giriş: veri sorumlusunun kimliği — KVKK md. 10/1-a [Kanun]; EK-4'ün ilk unsuru (s. 48) [Rehber: tavsiye]. VERI_SORUMLUSU:
+       tüzel kişide ticaret unvanı; şahıs işletmesinde veri sorumlusu gerçek kişidir, adı soyadı (varsa işletme adıyla).
+     Yer tutucuları doldur; bilinmeyeni tahminle doldurma, raporda [DOĞRULA] / [İÇERİK GEREKLİ] bırak.
+     §1 ve §2'deki durum cümlesini, §4 ve §6'daki model cümlesini sitenin modeline göre seç (metin-kurallari.md). Site stiline uyarla.
+     Bu yorumu ve aşağıdaki yönerge yorumlarını yayımlanan dosyaya taşıma. -->
+<main class="doc">
+  <h1>Çerez Aydınlatma Metni</h1>
+  <p class="meta">Son güncelleme: {{TARIH}}</p>
+  <p>Bu çerez aydınlatma metni, veri sorumlusu sıfatıyla {{VERI_SORUMLUSU}} tarafından, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun 10. maddesi uyarınca hazırlanmıştır. Metin, {{SITE}} sitesinde kullanılan çerezleri ve benzeri teknolojileri ve bunların hangi amaçla kullanıldığını açıklar.</p>
+
+  <h2>1. Çerez nedir</h2>
+  <p>Çerezler, ziyaret ettiğiniz internet sitesinin cihazınıza yerleştirdiği küçük metin dosyalarıdır. Siteler çerezleri oturumu sürdürmek, tercihleri hatırlamak, kullanımı ölçmek veya ilgi alanına göre reklam göstermek gibi amaçlarla kullanır. {{DURUM_CUMLESI — örn. "Bu sitede reklam ve takip amaçlı çerez kullanılmamaktadır. Sitenin çalışması ve ziyaretlerin toplu ölçümü için kullanılan teknolojiler, tarayıcınızda bilgi saklayanlar ve tarayıcınızdan bilgi alanlar dahil, 3. bölümde gösterilmiştir."}}</p>
+
+  <h2>2. Çerez türleri</h2>
+  <p>Süresine göre:</p>
+  <ul>
+    <li>Oturum çerezleri: oturumun sürekliliği için kullanılır, tarayıcı kapatılınca silinir.</li>
+    <li>Kalıcı çerezler: tarayıcı kapatılınca silinmez; belirli bir tarihte veya süre sonunda kendiliğinden silinir.</li>
+  </ul>
+  <p>Kullanım amacına göre:</p>
+  <ul>
+    <li>Kesinlikle gerekli (zorunlu) çerezler: giriş yapma, form doldurma, gizlilik tercihlerinin hatırlanması gibi talep ettiğiniz bir hizmetin sunulması için zorunludur.</li>
+    <li>İşlevsel çerezler: kişiselleştirme ve tercihlerin hatırlanması için kullanılır.</li>
+    <li>Performans ve analitik çerezler: ziyaret sayısı, görüntülenen sayfalar gibi istatistiksel ölçümler üretir.</li>
+    <li>Reklam ve pazarlama çerezleri: çevrim içi hareketleri izleyerek ilgi alanına göre reklam gösterir.</li>
+  </ul>
+  <p>Tarafına göre:</p>
+  <ul>
+    <li>Birinci taraf çerezler: adres çubuğunda görünen site tarafından yerleştirilir.</li>
+    <li>Üçüncü taraf çerezler: ziyaret edilen siteden farklı bir alan adı tarafından yerleştirilir.</li>
+  </ul>
+  <!-- GOMULU_CUMLESI yalnız gömülü içerik (video, harita) varsa ve K-Gömülü'de A ya da B seçildiyse yazılır; yoksa paragrafı sil.
+       Gömülü içerik Rehber'in amaç türlerinden biri değildir; panelde ve tabloda ayrı kategoridir (K-Gömülü; reklamdan ayrı
+       rıza, EK-5 Örnek-2 [Rehber: tavsiye]). Yalnız ölçülen türü yaz (video, harita ya da ikisi). -->
+  <p>{{GOMULU_CUMLESI — örn. "Sayfadaki videolar başka bir siteden (YouTube) yüklenen gömülü içeriktir; yüklendiğinde sağlayıcısı kendi çerezlerini kullanır. Bu çerezler 3. bölümdeki tabloda "Gömülü içerik" türüyle gösterilmiştir."}}</p>
+  <p>Bu sitede kullanılan teknolojilerin türü ve tarafı 3. bölümdeki tabloda gösterilmiştir.</p>
+
+  <h2>3. Bu sitede kullanılan teknolojiler</h2>
+  <!-- Tablo tablo.mjs'den gelir. Gömülü içerik sağlayıcısının (YouTube, Vimeo, Google Haritalar) kalemleri "Gömülü içerik"
+       türüyle ayrı satırlarda durur; amaç hücresi sağlayıcının kendi amaçlarını (reklam dahil) söyler, panel kategorisiyle aynı
+       ad kullanılır (K-Gömülü). Yeni kurulumda şerit ya da panelin kendi tercih kaydı satırı (KAYIT_ADI, YENIDEN_SORMA_GUN,
+       5/2-f; Rehber 5.8) tabloda yer alır. -->
+  <div class="tbl">
+  <table>
+    <thead><tr><th>Ad</th><th>Tür</th><th>Taraf</th><th>Amaç</th><th>Hukuki sebep</th><th>Süre</th></tr></thead>
+    <tbody>
+{{TABLO_SATIRLARI — node scripts/tablo.mjs sonuc.json}}
+    </tbody>
+  </table>
+  </div>
+  <!-- Tablodaki bir kalemle yurt dışına veri gidiyorsa (kvkk-yansima §6) YURTDISI yazılır: sağlayıcı adı vermeden,
+       "aktarılabilir" diye, KVKK aydınlatma metninin "Aktarım" bölümüne yönlendirir. Sağlayıcı adı yalnız site sahibi
+       isterse ve KVKK metninde de liste varsa yazılır. Aktarım yolu (standart sözleşme ve Kurum'a bildirim) teyit
+       edilmese de yazılır; raporda K-Yurt dışı altında "aktarımın dayanağı belirlenmedi" uyum engeli kalır
+       (SKILL.md → Sınıflama → Yurt dışı) [skill yorumu]. Aktarım yoksa YURTDISI yer tutucusunu sil. -->
+  <p>{{YURTDISI — örn. "Bu teknolojilerin bir kısmıyla işlenen kişisel verileriniz yurt dışında bulunan hizmet sağlayıcılarına aktarılabilir; ayrıntısı <a href="{{KVKK_URL}}">KVKK aydınlatma metninin</a> "Aktarım" bölümündedir."}} İleride çerez eklenirse bu tabloda listelenir; rıza gerektiren bir çerez yalnızca izniniz alındıktan sonra yüklenir.</p>
+
+  <h2>4. Tercihlerinizi yönetme</h2>
+  <!-- TERCIH_CUMLESI modele göre. Bilgi şeridinde kayıt bir tercih değil, şeridin kapatıldığının kaydıdır: tablodaki
+       KAYIT_ADI satırının amacı "Bilgilendirme şeridinin kapatıldığını hatırlamak" diye yazılır, "tercih" denmez.
+       Rıza panelinde bağlantı adı panel başlığıyla aynıdır ("Çerez Tercihleri" ya da "Gizlilik Tercihleri").
+       Tıklayınca yükle kutusu varsa (K-Gömülü, Seçenek B) bilgi şeridi biçiminin "izninize bağlı bir çerez kullanılmadığı"
+       cümlesi yazılmaz: içerik açıldığında sağlayıcı kendi çerezlerini kullanır; yerine kutu cümlesi girer. -->
+  <p>{{TERCIH_CUMLESI — bilgi şeridi: "Bu sitede izninize bağlı bir çerez kullanılmadığı için değiştirilecek bir izin yoktur. Bilgilendirme şeridini kapattığınızı hatırlayan {{KAYIT_ADI}} kaydını tarayıcınızın site verilerini temizleyerek silebilirsiniz; şerit bir sonraki ziyaretinizde yeniden görünür." · rıza paneli: "Tercihlerinizi sayfanın altındaki "Çerez Tercihleri" bağlantısından her zaman değiştirebilir, verdiğiniz izni geri alabilirsiniz." · tıklayınca yükle kutusu (bilgi şeridiyle birlikte, ilk cümle yerine; yalnız ölçülen tür: "Videolar", "Haritalar" ya da "Video ve haritalar"): "Videolar yalnızca kutudaki düğmeye bastığınızda yüklenir. Bu seçiminiz, aynı sağlayıcının içeriği bir sonraki ziyaretinizde yeniden sorulmadan açılsın diye tarayıcınızda kaydedilir. İzninizi içeriğin altındaki düğmeyle (rıza paneli varsa \"Çerezleri yönet\" ile) her zaman geri alabilirsiniz. Yüklenen içeriğin sağlayıcısı kendi çerezlerini kullanır; bunları tarayıcınızın site verilerini temizleyerek silebilirsiniz."}} Tarayıcınızda çerezleri ve site verilerini yönetmek için:</p>
+  <ul>
+    <li><a href="https://support.google.com/chrome/answer/95647?hl=tr" target="_blank" rel="noopener noreferrer">Google Chrome</a></li>
+    <li><a href="https://support.mozilla.org/tr/kb/clear-cookies-and-site-data-firefox" target="_blank" rel="noopener noreferrer">Mozilla Firefox</a></li>
+    <li><a href="https://support.apple.com/tr-tr/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer">Safari (Mac)</a></li>
+    <li><a href="https://support.apple.com/tr-tr/105082" target="_blank" rel="noopener noreferrer">Safari (iPhone, iPad)</a></li>
+    <li><a href="https://support.microsoft.com/tr-tr/microsoft-edge/63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer">Microsoft Edge</a></li>
+  </ul>
+
+  <h2>5. Kişisel veriler ve haklarınız</h2>
+  <p>Site ziyaretinizle ilgili işlenen veriler, <a href="{{KVKK_URL}}">KVKK aydınlatma metninde</a> açıklanan esaslara tabidir. KVKK madde 11 kapsamındaki haklarınızı kullanmak için aydınlatma metninin "Başvuru" bölümündeki yöntemi izleyebilirsiniz.</p>
+
+  <h2>6. Değişiklikler</h2>
+  <!-- DEGISIKLIK_CUMLESI modele göre: bilgi şeridinde sorulmuş bir tercih yoktur, "yeniden sorulur" yazılmaz.
+       Metin güncellenince sürüm (TARIH) değişir ve şerit ya da panel yeniden görünür (metin-kurallari.md → Sürüm). -->
+  <p>{{DEGISIKLIK_CUMLESI — bilgi şeridi: "Kullanılan çerezler veya ölçüm yöntemi değişirse bu metin güncellenir ve bilgilendirme şeridi yeniden gösterilir." · rıza paneli: "Kullanılan çerezler veya ölçüm yöntemi değişirse bu metin güncellenir; rıza gerektiren yeni bir çerez eklenmesi hâlinde tercihiniz yeniden sorulur."}} Son güncelleme tarihi sayfanın üstünde belirtilir.</p>
+
+  <h2>7. İletişim</h2>
+  <p>Sorularınız için: <a href="mailto:{{EPOSTA}}">{{EPOSTA}}</a></p>
+</main>

@@ -1,0 +1,38 @@
+<!--
+  {{...}} yer tutucularını doldur; sitenin kendi doküman sayfası şablonuna (head, stil, footer) yerleştir.
+  Site-özel cümleleri (form alanları, araçlar, ortaklar) gerçek duruma göre düzenle; olmayan şeyi bırakma.
+  {{VERI_SORUMLUSU}}'un / 'a gibi ekleri unvanın son sesine göre düzelt.
+  Bu metin bilgilendirme metnidir: siteye yalnız göz atan ziyaretçi için "kullanmanız kabul sayılır" ya da
+  "kullanmaya devam etmeniz değişikliği kabul sayılır" yazılmaz (TBK md. 21, 24). Sitede üyelik ya da kabul
+  gerektiren bir araç varsa açık kabul (tıklayarak onay) ayrı bir iştir; raporda belirt. İletişim formunda bu koşulların
+  kabulü istenmez (form-onay.html → KABUL_KUTUSU, K-Koşullar).
+  Site tüketicilere hitap ediyorsa §6'daki sorumluluk sınırı haksız şart denetimine tabi olabilir (6502 sayılı Kanun md. 5);
+  raporda risk olarak belirt.
+  Yayından önce bu yorumu ve yer tutucu açıklamalarını sil.
+-->
+  <h1>Kullanım Koşulları</h1>
+  <p class="meta">Son güncelleme: {{TARIH}}</p>
+
+  <h2>1. Kapsam</h2>
+  <p>Bu koşullar, {{VERI_SORUMLUSU}} tarafından işletilen {{SITE}} sitesinin{{ARAC_KAPSAMI — sitede ücretsiz araç varsa " ve site altında sunulan ücretsiz araçların"; yoksa boş}} kullanımına ilişkin kuralları açıklar.</p>
+
+  <h2>2. Sitedeki bilgiler</h2>
+  <p>Sitedeki {{SITE_BILGI_TURLERI — sitenin içeriğine göre yaz (ör. hizmet açıklamaları, ürün bilgileri, fiyatlar)}} genel bilgilendirme amaçlıdır. Açıkça aksi belirtilmedikçe bağlayıcı bir teklif, taahhüt veya mesleki danışmanlık niteliği taşımaz. {{TEKLIF_CUMLESI — teklifle hizmet satan sitede: "Kapsam, süre ve bedel yalnızca tarafınıza iletilen yazılı teklif ve imzalanan sözleşme ile belirlenir."; değilse sil}} {{VERI_SORUMLUSU}} sitedeki bilgileri güncel tutmaya özen gösterir; buna rağmen hata, eksiklik veya güncelliğini yitirmiş bilgi bulunabilir ve içerik önceden bildirilmeksizin değiştirilebilir.</p>
+
+  <h2>3. Ücretsiz araçlar</h2>
+  <p>{{ARAC_MADDESI — sitede tarayıcıda çalışan/hesaplama yapan araç varsa: ne yaptığı, verinin sunucuya gitmediği, çıktının hukuki/mesleki görüş olmadığı, güncel olmayabileceği, kararın sorumluluğunun kullanıcıda olduğu. Araç yoksa bu maddeyi sil ve numaraları kaydır.}}</p>
+
+  <h2>4. Fikrî mülkiyet</h2>
+  <p>{{VERI_SORUMLUSU}} adı ve logosu, sitedeki metinler, görseller{{ICERIK_EKI — sitede gerçekten olanları ekle: ", animasyonlar", ", araçların kaynak kodu"; yoksa boş}} ve sayfa tasarımı, aksi belirtilmedikçe {{VERI_SORUMLUSU}}'a aittir ve yazılı izin olmaksızın çoğaltılamaz, değiştirilemez, ticari amaçla kullanılamaz veya başka bir mecrada yeniden yayımlanamaz. {{UCUNCU_MARKA_CUMLESI — sitede başka markaya ait panel/logo/görsel varsa: "… markası X'e aittir ve hak sahibinin izniyle gösterilmektedir." İzin teyitli değilse yazma, Riskler bölümüne yaz.}}</p>
+
+  <h2>5. Üçüncü taraf bağlantıları</h2>
+  <p>Sitede üçüncü taraf sitelere bağlantılar bulunabilir. Bu siteler kendi kullanım koşullarına ve gizlilik politikalarına tabidir; {{VERI_SORUMLUSU}} bu sitelerin içeriğinden, güvenliğinden veya veri işleme faaliyetlerinden sorumlu değildir.</p>
+
+  <h2>6. Kesintiler ve sorumluluğun sınırlandırılması</h2>
+  <p>Site bakım, teknik arıza, altyapı kesintisi, siber saldırı veya mücbir sebep nedeniyle geçici olarak kullanılamayabilir; {{VERI_SORUMLUSU}} sitenin kesintisiz ve hatasız çalışacağını garanti etmez. {{VERI_SORUMLUSU}}, yürürlükteki mevzuatın izin verdiği ölçüde, sitenin{{ARAC_SORUMLULUK — araç varsa " veya araçların"; yoksa boş}} kullanımından, sitedeki bilgilere dayanılarak alınan kararlardan, üçüncü taraf sitelerden ve makul kontrolü dışındaki kesintilerden doğan zararlardan sorumlu tutulamaz. Bu sınırlama, {{VERI_SORUMLUSU}}'un kasıt veya ağır kusurundan doğan sorumluluğu ile mevzuat gereği sınırlandırılamayan sorumlulukları kapsamaz.</p>
+
+  <h2>7. Kişisel veriler</h2>
+  <p>Site kullanımı sırasında işlenen kişisel veriler <a href="{{KVKK_URL}}">KVKK aydınlatma metninde</a>, çerez ve ölçüm yöntemleri <a href="{{CEREZ_URL}}">çerez aydınlatma metninde</a> açıklanmıştır.</p>
+
+  <h2>8. Güncelleme, uygulanacak hukuk ve iletişim</h2>
+  <p>{{VERI_SORUMLUSU}} bu koşulları mevzuat, sunulan hizmetler veya teknik gelişmeler doğrultusunda güncelleyebilir; güncel metin ve tarihi bu sayfada yayımlanır. Bu koşullara Türkiye Cumhuriyeti hukuku uygulanır.{{YETKI_SARTI — varsayılan: boş (genel yetki kuralları uygulanır). Yalnız site yalnızca işletmelere (tacirlere) hizmet veriyorsa ve site sahibi isterse: " Tacirler arasındaki uyuşmazlıklarda {{MAHKEME_ILI}} mahkemeleri ve icra daireleri yetkilidir." (HMK md. 17: yetki sözleşmesi yalnız tacirler ya da kamu tüzel kişileri arasında; md. 18/2: yazılı yapılmalı ve belirli bir hukuki ilişkiye dayanmalı — tıklamayla kabulün bu şartı karşılayıp karşılamadığı tartışmalıdır, raporda risk)}} Sorularınız için: <a href="mailto:{{EPOSTA}}">{{EPOSTA}}</a></p>

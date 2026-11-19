@@ -1,0 +1,50 @@
+<!-- Bilgi şeridi — rıza gerektiren çerez YOKSA (SKILL.md → Karar). Bu yorumu yayımlanan dosyaya taşıma.
+     Girişte bilgilendirme: Rehber s. 36 [Rehber: gerekli]; yalnız sunucu kaydı varsa [skill yorumu: s. 36 ve s. 39'dan genişletme].
+     Rehber'de bilgi şeridi için bir model yoktur; bu desen skill'in uygulamasıdır [skill yorumu].
+     Rıza istenmez: Kabul/Reddet KOYMA — amaç Kriter A/B içindeyse rıza istemek dürüstlük kuralına aykırı sayılabilir
+       (s. 38, EK-5 Örnek-1 s. 54) [Kurul kararı]. Tam genişlik alt şerit, içeriği kapatmaz.
+     Aydınlatma ile rıza ayrıdır (Tebliğ 5/1-f) [Tebliğ]: "Tamam" yalnız şeridi kapatır. Okudum beyanı alınmaz,
+       tıklama sunucuya kaydedilmez (metin-kurallari.md → Sürüm) [skill yorumu].
+     SERIT_CUMLESI: her cümle üç kaynaktan birine dayanır (SKILL.md → Üç kaynak); etiket ve [DOĞRULA] yalnız bu yorumda
+       ve raporda durur. Ölçüm yoksa "ve ziyaretlerin toplu ölçümü" kısmını, form yoksa son cümleyi çıkar. Ölçüm kısmı
+       yalnız K-Ölçüm'de rızasız ölçüm seçildiyse (analitik.md → Kural 1 ya da 2) yazılır.
+     Tıklayınca yükle kutusu varsa (tikla-yukle.html, K-Gömülü Seçenek B) "reklam ve takip amaçlı çerez kullanılmaz" kısmı
+       yazılmaz ya da "sitenin kendisi … kullanmaz" diye daraltılır: içerik açıldığında sağlayıcının kendi çerezleri (ör.
+       YouTube: video, tercih ve reklam; tedarikciler.json) devreye girer; bunu kutunun metni söyler (metin-kurallari.md) [skill yorumu].
+     Kayıt "sürüm|zaman": data-consent-version değişince (yasal metin güncellenince) ya da YENIDEN_SORMA_GUN dolunca
+       şerit yeniden görünür. Sürüm metnin tarihidir (TARIH), çerez aydınlatma metninin "Son güncelleme" tarihiyle aynı.
+       YENIDEN_SORMA_GUN: kaydın ömrü (gün); site sahibiyle belirlenir; bilinmiyorsa
+       ölçülen ömür, yoksa 365 gün (K-Yeniden sorma); rıza panelindeki sayıyla ve çerez tablosundaki kayıt süresiyle aynı. Rehber gün vermez;
+       hatırlatma çerez ömrüyle orantılı (s. 30), ömür md. 4 ilkelerine göre (s. 24) [Rehber: tavsiye].
+     Anahtar adını (KAYIT_ADI) metindeki tabloyla aynı yaz. -->
+<div class="consent" data-consent data-consent-version="{{TARIH}}" hidden role="region" aria-label="Çerez bilgilendirmesi">
+  <div class="consent__inner">
+    <p>{{SERIT_CUMLESI — örn. "Bu siteyi ziyaret ettiğinizde kişisel verileriniz sitenin çalışması, güvenliği ve ziyaretlerin toplu ölçümü için işlenir; reklam ve takip amaçlı çerez kullanılmaz. Form gönderirseniz işlenen veriler KVKK Aydınlatma Metni'nde açıklanmıştır."}} <a href="{{CEREZ_URL}}">Çerez Aydınlatma Metni</a> · <a href="{{KVKK_URL}}">KVKK Aydınlatma Metni</a></p>
+    <button type="button" class="consent__ok" data-consent-ok>Tamam</button>
+  </div>
+</div>
+
+<style>
+.consent { position: fixed; inset-inline: 0; bottom: 0; z-index: 80; background: var(--color-surface, #fff); color: inherit; border-top: 1px solid var(--color-border, #ccc); }
+.consent[hidden] { display: none; }
+.consent__inner { width: min(100% - 32px, 1200px); margin-inline: auto; padding-block: 12px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 32px; }
+.consent p { font-size: 14px; margin: 0; }
+.consent a { white-space: nowrap; }
+.consent__ok { padding: 8px 20px; font: inherit; cursor: pointer; }
+.consent__ok:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+</style>
+
+<script>
+(function () {
+  var el = document.querySelector('[data-consent]'); if (!el) return;
+  var KEY = '{{KAYIT_ADI — örn. site-consent}}', MAX_MS = {{YENIDEN_SORMA_GUN}} * 24 * 60 * 60 * 1000;
+  var version = el.getAttribute('data-consent-version');
+  var record;
+  try { record = String(localStorage.getItem(KEY) || '').split('|'); } catch (e) { record = []; }
+  if (record[0] !== version || Date.now() - (Number(record[1]) || 0) > MAX_MS) el.hidden = false;
+  el.querySelector('[data-consent-ok]').addEventListener('click', function () {
+    try { localStorage.setItem(KEY, version + '|' + Date.now()); } catch (e) { /* depolama kapalı */ }
+    el.hidden = true;
+  });
+})();
+</script>

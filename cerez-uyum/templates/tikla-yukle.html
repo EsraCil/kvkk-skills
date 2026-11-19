@@ -1,0 +1,140 @@
+<!-- Tıklayınca yükle — gömülü video ve harita (SKILL.md → K-Gömülü, Seçenek B; panelsiz sitede, panel varken de kullanılır).
+     Bu yorumu ve yer tutucu açıklamalarını yayımlanan dosyaya taşıma.
+     Dayanak: gömülü içerik sağlayıcısı içerik yüklendiğinde kendi çerezlerini kullanır; yükleme izne ya da tıklamaya bağlanır:
+       açık rıza md. 5/1 [Kanun]; rıza alınmadan yükleme yok, opt-in (s. 37–38) [Kurul kararı]. Kutu metni sağlayıcıyı ve
+       çerez kullandığını söyler; tıklama md. 5/1 açık rızasıdır ve yalnız o sağlayıcının içeriği için kaydedilir
+       (tarayıcıda "<KAYIT_ADI>-gomulu" anahtarı: sürüm, zaman, sağlayıcı alan adları); sonraki ziyarette aynı sağlayıcının
+       kutuları kendiliğinden yüklenir. Rıza geri alınabilir: panelli sitede "Çerezleri yönet" paneli açar (Gömülü içerik
+       kategorisi); panelsiz sitede içerik yüklenince altında "Bu içerik için verdiğim izni geri al" düğmesi çıkar.
+       Geri almada kayıt silinir, çerçeve kaldırılır, sayfa yenilenir; sağlayıcının kendi (üçüncü taraf) çerezleri
+       site tarafından silinemez, bu Çerez Aydınlatma Metni'nde söylenir [skill yorumu].
+     Tıklamadan önce sağlayıcıya istek GİTMEZ: önizleme görseli yalnız sitenin kendi sunucusundan (ONIZLEME_GORSELI) ya da düz
+       kutu. i.ytimg.com, img.youtube.com, maps.googleapis.com gibi sağlayıcı adreslerinden görsel çekilmez; o istek izinden
+       önce IP adresini sağlayıcıya gönderir [skill yorumu].
+     Kutu aspect-ratio ile yer ayırır (sayfa kayması olmaz); içerik aynı kutunun içine yüklenir. Varsayılan oran 16 / 9;
+       başka oran için kutuya style="--tikla-yukle-oran: 4 / 3" verilir. Tıkla-yükle ilk açılışı genelde hızlandırır:
+       sağlayıcının oynatıcısı sayfa açılışında yüklenmez (ölçülmedi).
+     Kutu metni sağlayıcıya göre (KUTU_METNI, DUGME_METNI, BAGLANTI_METNI): video için "Bu video YouTube'dan yüklenir;
+       yüklendiğinde YouTube çerez kullanır." + "Videoyu göster"; harita için "Bu harita Google Haritalar'dan yüklenir;
+       yüklendiğinde Google çerez kullanır." + "Haritayı göster". İçeriğin sağlayıcıdaki sayfasına bağlantı her zaman durur;
+       betik çalışmasa da içerik açılabilir (düğme yalnız betik çalışınca görünür).
+     DUGME_ETIKETI görünen düğme metniyle başlar (ör. "Videoyu göster: Atölye tanıtım videosu"); IFRAME_BASLIGI yüklenen
+       çerçevenin title'ıdır. Düğme klavyeyle açılır; içerik yüklenince odak çerçeveye geçer.
+     KAYIT, paneldeki (varsa) aynı KAYIT_ADI, TARIH ve YENIDEN_SORMA_GUN ile doldurulur; panel yoksa da doldurulur.
+       PANEL: sitede riza-paneli.html varsa true. Panelde "gomulu" izni verilmişse bütün kutular kendiliğinden yüklenir;
+       panelde aynı sayfada izin verilince de yüklenir ("consent:change" olayı).
+     GOMULU_ADRES için YouTube'da youtube-nocookie.com adresi önerilir (oynatmadan önce çerez azalır; tedarikçi beyanı) [DOĞRULA].
+     Birden çok kutu olabilir; stil ve betik sayfada bir kez yer alır.
+     Uygulamadan sonra: cerez-tespit.mjs → "ilk"te sağlayıcıya istek OLMAMALI; tıklamalı ölçüm: --tikla ".tikla-yukle__dugme". -->
+<figure class="tikla-yukle" data-tikla-yukle data-consent-category="gomulu" data-src="{{GOMULU_ADRES — sağlayıcının gömme adresi, örn. https://www.youtube-nocookie.com/embed/VIDEO_KIMLIGI ya da https://www.google.com/maps/embed?pb=…}}" data-baslik="{{IFRAME_BASLIGI — içeriğin kısa adı, örn. Atölye tanıtım videosu}}">
+  <img class="tikla-yukle__onizleme" src="{{ONIZLEME_GORSELI — sitenin kendi sunucusundaki görsel, örn. /img/tanitim-kapak.webp; görsel yoksa bu img satırını sil, kutu düz kalır}}" alt="{{ONIZLEME_ALT — görselin kısa açıklaması}}" width="{{ONIZLEME_GENISLIK}}" height="{{ONIZLEME_YUKSEKLIK}}" loading="lazy" decoding="async">
+  <div class="tikla-yukle__bilgi">
+    <p>{{KUTU_METNI — video: "Bu video YouTube'dan yüklenir; yüklendiğinde YouTube çerez kullanır." · harita: "Bu harita Google Haritalar'dan yüklenir; yüklendiğinde Google çerez kullanır."}} <a href="{{CEREZ_URL}}">Ayrıntı: Çerez Aydınlatma Metni</a></p>
+    <button type="button" class="tikla-yukle__yonet" data-tikla-yonet hidden>Çerezleri yönet</button>
+    <button type="button" class="tikla-yukle__dugme" aria-label="{{DUGME_ETIKETI — görünen metinle başlar, örn. Videoyu göster: Atölye tanıtım videosu}}" hidden>{{DUGME_METNI — Videoyu göster · Haritayı göster}}</button>
+    <a class="tikla-yukle__baglanti" href="{{SAGLAYICI_SAYFASI — içeriğin sağlayıcıdaki sayfası, örn. https://www.youtube.com/watch?v=VIDEO_KIMLIGI}}" target="_blank" rel="noopener noreferrer">{{BAGLANTI_METNI — örn. YouTube'da aç · Google Haritalar'da aç}}</a>
+  </div>
+</figure>
+
+<style>
+.tikla-yukle { position: relative; width: 100%; margin: 0; aspect-ratio: var(--tikla-yukle-oran, 16 / 9); overflow: hidden; background: var(--color-border, #d9d9d9); border-radius: 8px; }
+.tikla-yukle__onizleme, .tikla-yukle__cerceve { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.tikla-yukle__onizleme { object-fit: cover; }
+.tikla-yukle__bilgi { position: absolute; inset: auto 12px 12px; max-height: calc(100% - 24px); overflow: auto; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 12px 16px; font-size: 14px; color: var(--color-ink, #111); background: var(--color-surface, #fff); border-radius: 8px; }
+.tikla-yukle__bilgi p { flex: 1 1 100%; margin: 0; }
+.tikla-yukle__dugme { min-height: 44px; padding: 10px 16px; font: inherit; font-weight: 600; color: var(--color-surface, #fff); background: var(--color-ink, #111); border: 1px solid var(--color-ink, #111); border-radius: 8px; cursor: pointer; }
+.tikla-yukle__yonet, .tikla-yukle__geri button { min-height: 44px; padding: 10px 12px; font: inherit; color: inherit; background: transparent; border: 1px solid currentColor; border-radius: 8px; cursor: pointer; }
+.tikla-yukle__geri { margin: 8px 0 0; font-size: 14px; }
+.tikla-yukle__yonet:focus-visible, .tikla-yukle__geri button:focus-visible { outline: 2px solid var(--color-ink, #111); outline-offset: 2px; }
+.tikla-yukle__baglanti { display: inline-flex; align-items: center; min-height: 24px; color: inherit; }
+.tikla-yukle__dugme:focus-visible, .tikla-yukle__baglanti:focus-visible { outline: 2px solid var(--color-ink, #111); outline-offset: 2px; }
+.tikla-yukle__dugme:hover { opacity: .85; }
+/* Geçiş yalnız hareket azaltma tercihi yoksa. Oynatıcı kendiliğinden başlatılmaz (autoplay eklenmez). */
+@media (prefers-reduced-motion: no-preference) { .tikla-yukle__dugme { transition: opacity .15s ease; } }
+</style>
+
+<script>
+(function () {
+  // Panel varsa riza-paneli.html'deki aynı üç değer. PANEL: sitede rıza paneli varsa true.
+  var KAYIT = { anahtar: '{{KAYIT_ADI}}', surum: '{{TARIH}}', gun: {{YENIDEN_SORMA_GUN}} };
+  var PANEL = {{PANEL_VAR — true ya da false}};
+  var GUN_MS = KAYIT.gun * 24 * 60 * 60 * 1000;
+  function oku(anahtar) { try { return JSON.parse(localStorage.getItem(anahtar) || 'null'); } catch (e) { return null; } }
+  function gecerli(c) { return !!(c && c.version === KAYIT.surum && Date.now() - c.at < GUN_MS); }
+  function saglayici(kutu) { try { return new URL(kutu.getAttribute('data-src'), location.href).hostname; } catch (e) { return ''; } }
+  // Panelde "gomulu" kategorisine izin verilmiş mi?
+  function panelIzni() { var c = oku(KAYIT.anahtar); return gecerli(c) && c.granted && c.granted.indexOf('gomulu') >= 0; }
+  // Kutudaki tıklamayla verilen izinler: yalnız o sağlayıcı için (md. 5/1, belirli konuya ilişkin).
+  function tiklamaKaydi() { var c = oku(KAYIT.anahtar + '-gomulu'); return gecerli(c) ? c : null; }
+  function tiklamaIzni(host) { var c = tiklamaKaydi(); return !!(c && c.saglayicilar.indexOf(host) >= 0); }
+  function kaydet(host) {
+    var c = tiklamaKaydi(), liste = c ? c.saglayicilar.slice() : [];
+    if (liste.indexOf(host) < 0) liste.push(host);
+    try { localStorage.setItem(KAYIT.anahtar + '-gomulu', JSON.stringify({ version: KAYIT.surum, at: Date.now(), kaynak: 'tiklama', saglayicilar: liste })); } catch (e) {}
+  }
+  function geriAl(host) {
+    var c = tiklamaKaydi(), liste = c ? c.saglayicilar.filter(function (h) { return h !== host; }) : [];
+    try {
+      if (liste.length) localStorage.setItem(KAYIT.anahtar + '-gomulu', JSON.stringify({ version: KAYIT.surum, at: c.at, kaynak: 'tiklama', saglayicilar: liste }));
+      else localStorage.removeItem(KAYIT.anahtar + '-gomulu');
+    } catch (e) {}
+    location.reload();
+  }
+  function yonetDugmesi() {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'tikla-yukle__yonet'; b.textContent = 'Çerezleri yönet';
+    b.addEventListener('click', function () { document.dispatchEvent(new CustomEvent('consent:open', { detail: { kategori: 'gomulu' } })); });
+    return b;
+  }
+  function yukle(kutu, odakla) {
+    if (kutu.hasAttribute('data-yuklendi')) return;
+    var host = saglayici(kutu);
+    var f = document.createElement('iframe');
+    f.className = 'tikla-yukle__cerceve';
+    f.src = kutu.getAttribute('data-src');
+    f.title = kutu.getAttribute('data-baslik') || '';
+    f.setAttribute('allow', 'encrypted-media; fullscreen; picture-in-picture');
+    f.setAttribute('allowfullscreen', '');
+    // Panelde rıza geri alınınca riza-paneli.html bu çerçeveyi kategorisinden tanıyıp kaldırır.
+    f.setAttribute('data-consent-category', kutu.getAttribute('data-consent-category') || 'gomulu');
+    kutu.setAttribute('data-yuklendi', '');
+    kutu.textContent = '';
+    kutu.appendChild(f);
+    // Rızayı geri alma yolu, içeriğin hemen altında.
+    var satir = document.createElement('p');
+    satir.className = 'tikla-yukle__geri';
+    if (PANEL) satir.appendChild(yonetDugmesi());
+    else {
+      var g = document.createElement('button');
+      g.type = 'button'; g.textContent = 'Bu içerik için verdiğim izni geri al';
+      g.addEventListener('click', function () { geriAl(host); });
+      satir.appendChild(g);
+    }
+    kutu.insertAdjacentElement('afterend', satir);
+    if (odakla) f.focus();
+  }
+  function baslat() {
+    var kutular = [].slice.call(document.querySelectorAll('[data-tikla-yukle]'));
+    if (!kutular.length) return;
+    kutular.forEach(function (kutu) {
+      var host = saglayici(kutu);
+      if ((PANEL && panelIzni()) || tiklamaIzni(host)) { yukle(kutu, false); return; }
+      var dugme = kutu.querySelector('.tikla-yukle__dugme');
+      if (!dugme) return;
+      dugme.hidden = false;
+      dugme.addEventListener('click', function () { kaydet(host); yukle(kutu, true); });
+      var yonet = kutu.querySelector('[data-tikla-yonet]');
+      if (yonet && PANEL) {
+        yonet.hidden = false;
+        yonet.addEventListener('click', function () { document.dispatchEvent(new CustomEvent('consent:open', { detail: { kategori: 'gomulu' } })); });
+      }
+    });
+    // Panelde aynı sayfada izin verilirse (riza-paneli.html → "consent:change"), kutular yüklenir.
+    document.addEventListener('consent:change', function (e) {
+      var izin = (e.detail && e.detail.granted) || [];
+      kutular.forEach(function (kutu) { if (izin.indexOf(kutu.getAttribute('data-consent-category') || 'gomulu') >= 0) yukle(kutu, false); });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', baslat); else baslat();
+})();
+</script>
