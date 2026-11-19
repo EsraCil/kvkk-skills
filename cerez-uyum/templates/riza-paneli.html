@@ -1,20 +1,24 @@
 <!-- İki katmanlı rıza paneli — rıza gerektiren çerez VARSA (SKILL.md → Karar; Rehber s. 29–31, EK-2, EK-3). Bu yorumu yayımlanan dosyaya taşıma.
      Dayanak: açık rıza md. 5/1 [Kanun]; rıza alınmadan yükleme yok, opt-in (s. 37–38) [Kurul kararı].
      1. katman: Hepsini Kabul Et / Hepsini Reddet / Tercihler — EŞİT renk, boyut, punto (aynı sınıf). Rehber s. 30 bunu
-        "iyi uygulama örneği olabilecektir" diye yazar [Rehber: tavsiye]; üç düğmenin yokluğu EK-5'te kötü örnek (s. 54–57).
+        "iyi uygulama örneği olabilecektir" diye yazar [Rehber: tavsiye]. EK-5: aydınlatma ile çerez yönetim paneli ayrı ve
+        Reddet düğmesi var (s. 54 "gerekmektedir", s. 55 "yer almalı") [Rehber: gerekli]; eşit büyüklük/renk ve
+        Tercihler düğmesi (s. 55) [Rehber: tavsiye].
         Kalınlık ve alan eşitliği skill'in ölçüm kuralıdır [skill yorumu].
      Düğmeleri aydınlatma metnini açma şartına BAĞLAMA (kilit yok): ilk katman bilgilendirmenin kendisidir; kilit düğme
         eşitliğini bozar [skill yorumu]. Aydınlatma bağlantısı panelde durur (s. 30–31) [Rehber: tavsiye].
      PANEL_BASLIK ve PANEL_GIRIS ölçüme göre (metin-kurallari.md → iki katmanlı panel): çerez varsa "Çerez tercihleri" ve
         "İnternet sitemizde çerezler yoluyla kişisel veri işlenir."; çerez yoksa ve yalnız çerezsiz ölçüm ya da gömülü içerik
         izne bağlıysa "Gizlilik tercihleri" ve "İnternet sitemizde bazı hizmetler yalnızca izninizle çalışır." [skill yorumu].
-     2. katman: kategori anahtarları, rıza gerektirenler VARSAYILAN KAPALI (s. 31) [Rehber: tavsiye]; zorunlu kilitli açık.
+     2. katman: kategori anahtarları, rıza gerektirenler VARSAYILAN KAPALI (s. 31) [Rehber: tavsiye]; s. 56'da "gerekmektedir"
+        [Rehber: gerekli] — sonuç: gerekli; zorunlu kilitli açık.
      İzleyiciler type="text/plain" + data-consent-category ile durur; izin gelmeden ÇALIŞMAZ.
      Gömülü içerik (YouTube, Vimeo, Google Haritalar) ayrı "gomulu" kategorisindedir: reklamdan ayrı rıza (EK-5 Örnek-2, s. 55)
         [Rehber: tavsiye]; her amaç için ayrı rıza (s. 40) [Kurul kararı]; karar K-Gömülü, Seçenek A. iframe src'siz,
         data-consent-category="gomulu" ve data-src ile bekler; izin gelince load() src'yi verir; ret ya da geri almada yüklenmez.
         Bekleyen içeriğin yerinde görünür bir kutu ve tek tıkla yükleme için templates/tikla-yukle.html (aynı kayıt anahtarı).
-     Footer'a: <button type="button" data-consent-open>Çerez Tercihleri</button> (rızayı geri alma, s. 29–30) [Rehber: tavsiye];
+     Footer'a: <button type="button" data-consent-open>Çerez Tercihleri</button> (rızanın geri alınabilmesi ve panele sürekli erişim, s. 29) [Rehber: gerekli];
+        küçük simge/bant biçimi (s. 30) [Rehber: tavsiye];
         etiket panel başlığıyla aynı (PANEL_BASLIK "Gizlilik tercihleri" ise "Gizlilik Tercihleri").
      Rızanın geri alınması: geri alınan kategorinin yüklenmiş iframe'leri kaldırılır, data-consent-cookies'teki birinci taraf
         çerezleri silinir (alan adı ve yol varyasyonlarıyla), sayfa yenilenir; yüklenmiş betik başka yolla durdurulamaz.
@@ -31,7 +35,7 @@
         yeniden sorar (metin-kurallari.md → Sürüm).
      YENIDEN_SORMA_GUN: tercih kaydının ömrü (gün); site sahibiyle belirlenir, site sahibi bilmiyorsa önce ölçülen ömür, yoksa 365 gün (K-Yeniden sorma); bilgi
         şeridindeki sayıyla ve çerez tablosundaki kayıt süresiyle aynı. Rehber gün vermez; hatırlatma çerez ömrüyle
-        orantılı (s. 30), ömür md. 4 ilkelerine göre (s. 24) [Rehber: tavsiye].
+        orantılı (s. 30), ömür md. 4 ilkelerine göre: s. 24 "tavsiye edilmektedir" [Rehber: tavsiye], s. 30 "…göz önünde bulundurulması gerekmektedir" [Rehber: gerekli].
      Panel her kararda document üzerinde "consent:change" olayı yayar (detail.granted: izin verilen kategoriler); tikla-yukle.html
         bunu dinler. Rıza kaydı: tarayıcı kaydı; sunucu kaydı site sahibiyle kararlaştırılır (K-Rıza kaydı; EK-1 s. 45 [Rehber: tavsiye]).
      Uygulamadan sonra: cerez-tespit.mjs → "ilk" ve "reddet"te riza:true kalem ve gömülü içerik isteği OLMAMALI. -->

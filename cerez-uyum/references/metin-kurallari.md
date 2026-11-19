@@ -123,7 +123,8 @@ dayanağı belirlenmedi" uyum engeli durur.
 ### Rıza gerektiren çerez YOKSA → bilgi şeridi
 
 Rıza istenmez: amaç Kriter A/B içindeyse rıza istemek hukuka ve dürüstlük
-kuralına aykırı sayılabilir (s. 38; EK-5 Kötü Örnek-1, s. 54) [Kurul kararı].
+kuralına aykırılık şeklinde yorumlanır (s. 38, Kurul 2020/173 özeti) [Kurul kararı];
+Rehber'in kendi metni de aynı yönde (s. 16–17; EK-5 Kötü Örnek-1, s. 54) [Rehber: gerekli].
 Rehber'de bilgi şeridi ya da tek düğmeli bant için bir model yoktur; bu desen
 skill'in uygulamasıdır [skill yorumu]. Çerezsiz ölçüm (beacon, localStorage
 ile ölçüm) varsa bilgi şeridi ancak K-Ölçüm'de rızasız ölçüm seçildiyse
@@ -158,8 +159,10 @@ sunucusundan gelir, tıklamadan önce sağlayıcıya istek gitmez.
   zorunluların amacı, diğerlerinin rıza hâlinde hangi amaçla; aydınlatma
   bağlantısı; **Hepsini Kabul Et / Hepsini Reddet / Tercihler** eşit renk,
   boyut, punto. Rehber eşitliği "iyi uygulama örneği olabilecektir" diye
-  yazar (s. 30) [Rehber: tavsiye]; üç düğmenin yokluğu EK-5'te kötü örnektir
-  (s. 54–57) [Rehber: tavsiye].
+  yazar (s. 30) [Rehber: tavsiye]. EK-5'e göre aydınlatma ile çerez yönetim
+  paneli ayrı olmalı ve Reddet düğmesi bulunmalı (s. 54 "gerekmektedir", s. 55
+  "yer almalı") [Rehber: gerekli]; eşit büyüklük/renk ve Tercihler düğmesi
+  (s. 55) [Rehber: tavsiye].
 - Giriş cümlesi ve başlık ölçüme göre (PANEL_GIRIS, PANEL_BASLIK): çerez
   varsa "İnternet sitemizde çerezler yoluyla kişisel veri işlenir." ve
   "Çerez tercihleri"; çerez yoksa ve yalnız çerezsiz ölçüm ya da gömülü
@@ -170,7 +173,8 @@ sunucusundan gelir, tıklamadan önce sağlayıcıya istek gitmez.
 - Düğmeler aydınlatma metnini açma şartına bağlanmaz (kilit yok): ilk katman
   bilgilendirmenin kendisidir; kilit düğme eşitliğini bozar [skill yorumu].
 - 2. katman (EK-3) [Rehber: tavsiye]: kategori satırları; zorunlu "her zaman
-  açık", diğerleri **varsayılan kapalı** (s. 31) [Rehber: tavsiye] — opt-in
+  açık", diğerleri **varsayılan kapalı** (s. 31) [Rehber: tavsiye]; s. 56'da
+  "gerekmektedir" [Rehber: gerekli] — sonuç: gerekli; opt-in
   (s. 37–38) [Kurul kararı]; her kategoride amaç, taraf, süre; Hepsine İzin
   Ver / Hepsini Reddet / Ayarları Kaydet.
 - Gömülü içerik (video, harita) ayrı "Gömülü içerik" kategorisidir: reklamdan
@@ -180,8 +184,9 @@ sunucusundan gelir, tıklamadan önce sağlayıcıya istek gitmez.
   tablosuyla aynı. Varsayılan kapalı; iframe izin gelene kadar `src`'siz
   bekler (K-Gömülü, Seçenek A). Panelsiz sitede tıklayınca yükle kutusu
   (Seçenek B).
-- Rıza sonradan geri alınabilir: sayfada küçük simge veya footer'da
-  "Çerez Tercihleri" (Rehber s. 29–30) [Rehber: tavsiye]. Geri alınınca
+- Rıza sonradan geri alınabilir ve panele erişim sürekli olmalı (Rehber s. 29)
+  [Rehber: gerekli]; biçim: sayfada küçük simge veya footer'da "Çerez Tercihleri"
+  (s. 30) [Rehber: tavsiye]. Geri alınınca
   kategorinin yüklenmiş iframe'leri kaldırılır, sitenin koyduğu (birinci
   taraf) çerezleri silinir ve sayfa yenilenir; üçüncü taraf çerezleri site
   silemez, ziyaretçi tarayıcıdan siler (§4 bağlantıları) [skill yorumu].
@@ -189,11 +194,14 @@ sunucusundan gelir, tıklamadan önce sağlayıcıya istek gitmez.
 
 ### Hiçbir durumda
 
-- "Siteyi kullanarak / devam ederek kabul etmiş olursunuz" (EK-5 Örnek-4,
-  Kurul 2020/173) [Kurul kararı].
-- Tek "Kabul" düğmesi; soluk/küçük "Reddet"; "daha fazla bilgi"nin ne olduğu
-  belirsiz (EK-5 Örnek-1, 2) [Rehber: tavsiye].
-- Önceden açık kategori (EK-5 Örnek-3) [Rehber: tavsiye]; opt-in (s. 37–38)
+- "Siteyi kullanarak / devam ederek kabul etmiş olursunuz" (EK-5 Örnek-4, s. 57,
+  "hukuka uygun bir kullanım şekli değildir") [Rehber: gerekli]; Kurul 2020/173
+  Gizlilik Bildirimi vakası (s. 38) [Kurul kararı].
+- Tek "Kabul" düğmesi (Reddet yok); "daha fazla bilgi"nin aydınlatma mı panel mi
+  olduğu belirsiz (EK-5 Örnek-1, 2; s. 54 "gerekmektedir", s. 55 "yer almalı")
+  [Rehber: gerekli]; soluk/küçük "Reddet", Tercihler düğmesi yok (eşit
+  büyüklük/renk, s. 55) [Rehber: tavsiye].
+- Önceden açık kategori (EK-5 Örnek-3, s. 56 "gerekmektedir") [Rehber: gerekli]; opt-in (s. 37–38)
   [Kurul kararı].
 - Farklı amaçlar tek rızada (EK-5 Örnek-2) [Rehber: tavsiye]; her amaç için
   ayrı rıza (s. 40) [Kurul kararı].
@@ -201,7 +209,7 @@ sunucusundan gelir, tıklamadan önce sağlayıcıya istek gitmez.
   izinden önce gelir (s. 37–38) [Kurul kararı]; YURT_DISI'deki "içeriği
   açmanız hâlinde" ifadesi yanıltıcı olur (Tebliğ 5/1-j) [Tebliğ] (K-Gömülü).
 - Rızayı kullanım koşullarına/gizlilik bildirimine gömmek: reklam çerezleri
-  için s. 31 [Rehber: tavsiye]; Gizlilik Bildirimi rıza alındığı anlamına
+  için s. 31 [Rehber: gerekli]; Gizlilik Bildirimi rıza alındığı anlamına
   gelmez, s. 38–39 [Kurul kararı].
 
 ### Çerez duvarı
@@ -224,7 +232,7 @@ güncelle ve bunu kodda yorumla yaz.
 Yeniden sorma süresi: bilgi şeridinde ve rıza panelinde tek yer tutucu,
 `{{YENIDEN_SORMA_GUN}}`. Tercih kaydının (çerezin ya da depolamanın) ömrüyle
 aynıdır ve site sahibiyle belirlenir. Karar: K-Yeniden sorma. Önce ölçülür: sitede şerit ya da panel varsa tercih kaydının ölçülen ömrü kullanılır (tarama bulgusu). Yeni kurulumda site sahibi bilmiyorsa varsayılan öneri 365 gün: Rehber gün vermez, tek sayısal dayanak EK-4 örneğindeki tercih çerezi süresi (s. 52) [Rehber: tavsiye — örnek]; Chrome'un 400 günlük çerez sınırının altında. "Sizden beklenenler"e not: süre kısaltılabilir, çerez ömrüyle aynı olmalı. Rehber gün vermez; hatırlatma çerez ömrüyle orantılı olmalı
-(s. 30) ve ömür md. 4 ilkelerine göre belirlenir (s. 24) [Rehber: tavsiye].
+(s. 30) ve ömür md. 4 ilkelerine göre belirlenir: s. 24 "tavsiye edilmektedir" [Rehber: tavsiye], s. 30 "…göz önünde bulundurulması gerekmektedir" [Rehber: gerekli].
 EK-4 örneğinde tercih çerezi 365 gündür (s. 52); bu yalnız bir örnektir.
 
 Bilgi şeridinde okudum beyanı alınmaz; **"Tamam" tıklaması sunucuya

@@ -67,7 +67,7 @@ Formu kişiler kendi adına mı, bir şirket adına mı dolduruyor?
 
 - Seçenek C: md. 5/2‑c — teklif ya da hizmet talebi; sözleşmenin kurulmasıyla doğrudan doğruya ilgili, taraflarına ait, gerekli veri. Yalnız işletmelere hizmet veren sitede formu kendi adına dolduran esnaf ya da şahıs işletmesi sahibi sözleşmenin tarafıdır; ona da C uyar. [Kanun] + [skill yorumu]
 - Seçenek F: md. 5/2‑f — genel iletişim; ya da formu şirket adına dolduran çalışan (sözleşmenin tarafı şirkettir, kişi değil; 5/2‑c zayıflar). Gerekçe yazılır: mesaja cevap verebilmek için gerekli, kişinin kendi gönderdiği bilgiyle sınırlı. [Kanun] + [skill yorumu]
-- Elenen: açık rıza — başka hukuki sebep varken rıza istemek dürüstlük kuralına aykırı sayılabilir (Çerez Rehberi s. 38, Kurul 2020/173 özeti); rıza geri alınırsa talep cevaplanamaz. [Kurul kararı]
+- Elenen: açık rıza — başka hukuki sebep varken rıza istemek dürüstlük kuralına aykırılık şeklinde yorumlanır (Çerez Rehberi s. 38, Kurul 2020/173 özeti) [Kurul kararı]; Çerez Rehberi'nin kendi metni de aynı yönde (s. 16–17, s. 54) [Rehber: gerekli]. Ayrıca rıza geri alınırsa talep cevaplanamaz [skill yorumu].
 - Öneri: teklif formunda C, genel iletişimde ve şirket adına doldurulan formda F. İki amaç varsa iki satır.
 - Bilmiyorum: site sahibi formun amacını bilmiyorsa varsayılan öneri F (FORM_SEBEP_F); §3'te "Talebinizin değerlendirilmesi ve cevaplandırılması". 5/2-c'nin şartları amaç bilinmeden doğrulanamaz. "Sizden beklenenler"e not: form ağırlıklı teklif ya da sipariş içinse 5/2-c daha güçlü dayanaktır. [skill yorumu]
 
@@ -101,7 +101,7 @@ Yazı tipi ya da başka bir kaynak üçüncü taraf sunucudan yükleniyorsa sayf
    - Rızaya dayanan ortak ya da gömülü içerik varsa ikinci cümle; amaç ve ortak türü taramaya göre: "İzin vermeniz ya da içeriği açmanız hâlinde, ziyaret istatistikleri, reklam ve harita ya da video gibi gömülü içeriklerin gösterilmesi amacıyla yurt dışında bulunan ölçüm, reklam ve içerik ortaklarına da aktarılabilir." (Gömülü içerik yoksa "ya da içeriği açmanız" düşer; yalnız ölçüm varsa "ziyaret istatistikleri amacıyla … ölçüm ortaklarına".) Teknik cümle yoksa "da" eki düşer. Ölçüm, reklam ve gömülü içerik sağlayıcıları teknik sağlayıcı grubuna konmaz: veriyi kendi amaçlarıyla da işlerler. [skill yorumu]
    - Sağlayıcı adlı liste metne yalnız site sahibi isterse girer.
 5. Yol teyit edilmezse metin yine genel cümleyle yazılır; raporun Riskler bölümüne **uyum engeli** girer: "Bu aktarımların KVKK md. 9'a göre dayanağı belirlenmedi." [skill yorumu]
-- Elenen: arızi hâller, açık rıza dahil — yalnız süreklilik arz etmeyen aktarım için (Yönetmelik md. 16/1); sürekli barındırma ve araç kullanımına uymaz. [Kanun] + [Yönetmelik]
+- Elenen: arızi hâller, açık rıza dahil — yalnız süreklilik arz etmeyen ve olağan faaliyet akışı içinde bulunmayan aktarım için (Yönetmelik md. 16/1); sürekli barındırma ve araç kullanımına uymaz. [Kanun] + [Yönetmelik]
 - Elenen: çerez rızasını aktarım rızası saymak — aktarım rızası muhtemel riskler hakkında bilgilendirme ister ve zaten arızi aktarımla sınırlı. [Kanun] + [skill yorumu]
 - Elenen: yeterlilik kararı — Kurul'un ilan ettiği karar yok (hazırlayan beyanı, 19.11.2026; güncel kaynak aracı varsa kontrol et). [skill yorumu]
 - Öneri: önce azaltma; kalan sağlayıcılar için standart sözleşme ve bildirim. Metin genel cümle.
@@ -112,7 +112,7 @@ Yazı tipi ya da başka bir kaynak üçüncü taraf sunucudan yükleniyorsa sayf
 Bu soru K-Koşullar'daki yetki şartında da kullanılır.
 
 - "Talep edilen yazışma ticari ileti değildir" diye kesin hüküm yazılmaz; böyle bir hüküm kaynakta yok, tanım geniş (6563 md. 2/1‑c). Yönetmelik md. 6/1'deki istisna yalnız temin edilmiş mal ya da hizmetin değişiklik, kullanım ve bakım iletileri içindir. [Kanun] + [Yönetmelik]
-- Yalnız işletmelere: kutu önerilmez. Not: ileti ticari sayılsa bile tacir ve esnafa onaysız gönderim istisnası kapsamında (Kanun md. 6/2, Yönetmelik md. 6/3); ret hakkı saklı. Şirket adına yazan çalışanın kurumsal adresi gri alandır: alıcının şirket mi kişi mi sayılacağı kaynakta açık değil. [Kanun] + [Yönetmelik] + [skill yorumu]
+- Yalnız işletmelere: kutu önerilmez. Not: ileti ticari sayılsa bile tacir ve esnafa onaysız gönderim istisnası kapsamında (Kanun md. 6/2, Yönetmelik md. 6/3); ret hakkı saklı. Bu istisnayla göndermeden önce alıcının adresi İYS'ye kaydedilir ve ret kontrol edilir (Yönetmelik md. 6/6) — teklif e‑postası için de. Şirket adına yazan çalışanın kurumsal adresi gri alandır: alıcının şirket mi kişi mi sayılacağı kaynakta açık değil. [Kanun] + [Yönetmelik] + [skill yorumu]
 - Tüketicilere de: yanıt yalnız talep edilen içerikle sınırlı kalır ve kampanya ya da tanıtım eklenmezse risk düşük. Hatırlatma, indirim, başka ürün tanıtımı onay ister. [skill yorumu]
 - Seçenek (daha sıkı): her kitle için isteğe bağlı ticari ileti kutusu. Bedeli: kutu işaretlenmezse teklifin gönderilip gönderilemeyeceği belirsizleşir.
 - Öneri: kitleye göre yukarıdaki iki not; kutu yok. Formdaki bilgi cümlesi (`form-onay.html` → TICARI_ILETI_CUMLESI): tüketicilere de hizmet veren ya da bülteni olan sitede "onayınız olmadan ticari elektronik ileti gönderilmez"; yalnız işletmelere hizmet veren ve tacir istisnasıyla onaysız ileti gönderecek sitede bu taahhüt yazılmaz.
@@ -139,7 +139,7 @@ Yalnız bülten varsa. Yoksa kutu konmaz.
 - Elenen: "Kullanmaya devam etmeniz güncel koşulları kabul sayılır" — TBK md. 24. Yerine: "güncel metin ve tarihi bu sayfada yayımlanır." [Kanun]
 - Yetki şartı (HMK md. 17 ve 18/2): [Kanun]
   - Varsayılan: yazılmaz; genel yetki kuralları uygulanır.
-  - Seçenek: site yalnız işletmelere hizmet veriyorsa "tacirler arasındaki uyuşmazlıklarda {il} mahkemeleri ve icra daireleri yetkilidir." Risk: yetki sözleşmesi yazılı olmalı ve belirli bir hukuki ilişkiye dayanmalı (md. 18/2); tıklamayla kabulün bunu karşılayıp karşılamadığı tartışmalı.
+  - Seçenek: site yalnız işletmelere hizmet veriyorsa "tacirler arasındaki uyuşmazlıklarda {il} mahkemeleri ve icra daireleri yetkilidir." Risk: yetki sözleşmesi yazılı olmalı, hukuki ilişki belirli ya da belirlenebilir olmalı ve mahkeme gösterilmeli (md. 18/2); tıklamayla kabulün bunu karşılayıp karşılamadığı tartışmalı.
 - Formdaki kabul kutusu: [skill yorumu]
   - Varsayılan: iletişim formunda yalnız aydınlatma "okudum" kutusu; kullanım koşulları footer bağlantısıyla durur. Kabul kutusu basit bir mesajı genel işlem koşullu sözleşmeye çevirir; sorumluluk sınırı ve yetki şartı ziyaretçinin kabul ettiği koşullara dönüşür.
   - Seçenek: site kabul gerektiren bir hizmet sunuyorsa (üyelik, ücretli ya da kişiye özel araç, sipariş) zorunlu kabul kutusu (`form-onay.html` → KABUL_KUTUSU; `sunucu-dogrulama.mjs` → REQUIRE_TERMS).
@@ -150,7 +150,7 @@ Yalnız bülten varsa. Yoksa kutu konmaz.
 Kendi sunucu fonksiyonu yoksa gönderim kaydını form hizmeti tutar.
 
 - Formda gizli metin sürümü alanı (`form-onay.html` → FORM_SURUM_ALANI). Aydınlatma §2: "Formu gönderdiğinizde gönderim zamanı ve okuduğunuz metnin sürümü talebinizle birlikte form hizmetinde kaydedilir." IP yalnız hizmetin kaydettiği teyit edilirse ("Bilmiyorum", tür 2). [skill yorumu]
-- Raporda site sahibine kontrol listesi: hizmetteki kayıtları saklama süresi boyunca dışa aktarıp saklayın; bülten varsa onayı 3 iş günü içinde İYS'ye kaydedin, 24 saat içinde teyit e‑postası gönderin (bülten aracının çift onayı), onay kaydını onayın sona ermesinden itibaren 3 yıl saklayın. [Yönetmelik]
+- Raporda site sahibine kontrol listesi: hizmetteki kayıtları saklama süresi boyunca dışa aktarıp saklayın; bülten varsa onayı 3 iş günü içinde İYS'ye kaydedin, onay bilgisini reddetme imkânıyla birlikte 24 saat içinde alıcıya iletin (bülten aracının çift onay e‑postası), onay kaydını onayın sona ermesinden itibaren 3 yıl saklayın. [Yönetmelik]
 - Sınır: gizli alan tarayıcıda değiştirilebilir; kanıt değeri sunucu kaydından zayıftır. Daha güçlü kanıt için kendi form fonksiyonu (K-Form iletimi, cerez-uyum). [skill yorumu]
 
 ## K-Saklama — Saklama süreleri

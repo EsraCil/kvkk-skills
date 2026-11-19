@@ -249,7 +249,7 @@ Kurallar:
 - Yeterlilik kararı ve uygun güvence yollarında ayrıca md. 5 ya da 6'daki şartlardan biri gerekir (md. 9/1, 9/4); yollar
   sıralıdır: yeterlilik kararı → uygun güvence → arızi hâller
   (md. 9/1, 9/4, 9/6) [Kanun].
-- Arızi, süreklilik arz etmeyen aktarımdır (Yönetmelik md. 16/1) [Yönetmelik].
+- Arızi, süreklilik arz etmeyen ve olağan faaliyet akışı içinde bulunmayan aktarımdır (Yönetmelik md. 16/1) [Yönetmelik].
   Arızi hâller, açık rıza dahil, rutin ya da sürekli barındırma ve araç
   kullanımı için elenir.
 - Çerez rızası aktarım rızası yerine geçmez: aktarım rızası muhtemel riskler
@@ -290,13 +290,18 @@ olduğunu söyle.
 - Reddet ile Kabul aynı küme → seçim etkisiz.
 - Reddet sonrası şerit geri geliyor → tercih kaydedilmiyor.
 - Eşitlik: Rehber s. 30 yalnız renk, büyüklük ve punto sayar ve bunu "iyi
-  uygulama örneği olabilecektir" diye yazar [Rehber: tavsiye]; üç düğmenin
-  yokluğu EK-5'te kötü örnektir (s. 54–57) [Rehber: tavsiye]. Kalınlık, alan
+  uygulama örneği olabilecektir" diye yazar [Rehber: tavsiye]. EK-5'e göre
+  aydınlatma ile çerez yönetim paneli ayrı olmalı ve Reddet düğmesi bulunmalı
+  (s. 54 "gerekmektedir", s. 55 "yer almalı") [Rehber: gerekli]; eşit
+  büyüklük/renk ve Tercihler düğmesi (s. 55) [Rehber: tavsiye]. Kalınlık, alan
   eşiği (Kabul'ün %80'inden küçük = eşit değil) ve bağlantı-düğme farkı
   skill'in ölçüm kuralıdır [skill yorumu].
-- Önceden açık kategori (s. 31) [Rehber: tavsiye], "kullanarak kabul" kalıbı
-  (EK-5 Örnek-4) [Kurul kararı], tek düğme, belirsiz "daha fazla bilgi"
-  (EK-5 Örnek-1) [Rehber: tavsiye].
+- Önceden açık kategori (s. 31) [Rehber: tavsiye]; s. 56'da "gerekmektedir"
+  [Rehber: gerekli] — sonuç: gerekli. "Kullanarak kabul" kalıbı (EK-5 Örnek-4,
+  s. 57 "hukuka uygun bir kullanım şekli değildir") [Rehber: gerekli] + Gizlilik
+  Bildirimi vakası (s. 38) [Kurul kararı]. Tek düğme (Reddet yok), aydınlatma
+  ile paneli ayırmayan belirsiz "daha fazla bilgi" (EK-5 Örnek-1, s. 54)
+  [Rehber: gerekli].
 - Şerit yok ama ziyaretle veri işleniyor (sunucu kaydı, ölçüm) → girişte
   bilgilendirme öner. Çerez ve benzeri için Rehber girişte bilgilendirmeyi
   gerekli görür (s. 36) [Rehber: gerekli]; Kurul 2020/173 (s. 39) [Kurul kararı].
@@ -513,7 +518,7 @@ Bu skill'in raporunda çıkabilecek kararlar:
   ```
   ### K-Gömülü — Gömülü içerik (<sağlayıcılar>)
   - Elenen: bekletmesiz gömme — içerik sayfa açılışında izin ya da tıklama olmadan yüklenir; YURT_DISI ikinci cümlesi "içeriği açmanız hâlinde" dediği için metin yanıltıcı olur (Aydınlatma Tebliği md. 5/1-j) [Tebliğ]
-  - Seçenek A: rıza panelinde ayrı "Gömülü içerik" kategorisi ve bekletme — şart: rıza paneli var; reklamdan ayrı rıza (EK-5 Örnek-2, s. 55) [Rehber: tavsiye], varsayılan kapalı (s. 31) [Rehber: tavsiye] — sitede gerektirdiği: riza-paneli.html'de "gomulu" kategorisi; iframe src'siz, data-src ile bekler — risk: izin verilmezse içerik görünmez — kaynak: KVKK md. 5/1 [Kanun]
+  - Seçenek A: rıza panelinde ayrı "Gömülü içerik" kategorisi ve bekletme — şart: rıza paneli var; reklamdan ayrı rıza (EK-5 Örnek-2, s. 55) [Rehber: tavsiye], varsayılan kapalı (s. 31) [Rehber: tavsiye]; s. 56'da "gerekmektedir" [Rehber: gerekli] — sonuç: gerekli — sitede gerektirdiği: riza-paneli.html'de "gomulu" kategorisi; iframe src'siz, data-src ile bekler — risk: izin verilmezse içerik görünmez — kaynak: KVKK md. 5/1 [Kanun]
   - Seçenek B: tıklayınca yükle kutusu, panelsiz — şart: tıklamadan önce sağlayıcıya istek yok; önizleme görseli sitenin kendi sunucusundan ya da düz kutu — sitede gerektirdiği: templates/tikla-yukle.html — risk: içerik için bir tıklama gerekir; ilk açılışı genelde hızlandırır (ölçülmedi) — kaynak: KVKK md. 5/1 [Kanun] + [skill yorumu]
   - Seçenek C: içeriği kaldırıp bağlantı koymak — şart: yok — sitede gerektirdiği: iframe yerine sağlayıcıdaki sayfaya bağlantı; metinlerden gömülü içerik çıkar — risk: içerik sayfada gösterilmez — kaynak: KVKK md. 4/2-ç [Kanun]
   - Öneri: panel varsa A, yoksa B, çünkü panel varken izin tek yerde verilir ve panelden geri alınır; panel yoksa yalnız gömülü içerik için panel kurmak gerekmez.
@@ -529,7 +534,7 @@ Bu skill'in raporunda çıkabilecek kararlar:
   (`{{YENIDEN_SORMA_GUN}}`), tablodaki kayıt süresinde ve metinde aynı. Gün
   sayısı `- Tek yol:` satırına site sahibinin beyanı olarak tarihiyle yazılır
   (verilmediyse `[DOĞRULA]`). Ölçüt: hatırlatma çerez ömrüyle orantılı (s. 30),
-  ömür md. 4 ilkelerine göre (s. 24) [Rehber: tavsiye]; EK-4 örneğindeki 365
+  ömür md. 4 ilkelerine göre: s. 24 "tavsiye edilmektedir" [Rehber: tavsiye], s. 30 "…göz önünde bulundurulması gerekmektedir" [Rehber: gerekli]; EK-4 örneğindeki 365
   gün (s. 52) yalnız örnektir.
 - **K-Rıza kaydı** — rıza paneli varsa: A yalnız tarayıcı kaydı / B tarayıcı
   + sunucu kaydı (kayıt alanları ve saklama süresiyle). EK-1 rıza kaydının

@@ -20,14 +20,14 @@ Rehber 5.9'un koşulları aynı ağırlıkta değildir:
 
 | Koşul | Rehber | Etiket |
 |---|---|---|
-| a. Amaç yalnız sitenin kendi kitlesini ve performansını ölçmek (reklam, yeniden hedefleme, profil çıkarma, kitle paylaşımı yok) | s. 25 | [Rehber: gerekli] |
+| a. Amaç yalnız sitenin kendi kitlesini ve performansını ölçmek (reklam, yeniden hedefleme, profil çıkarma, kitle paylaşımı yok [skill yorumu]) | s. 25 | [Rehber: tavsiye] — senaryonun kapsam şartı (s. 25 "…ölçmekle sınırlı olan çerezler … değerlendirilebileceği düşünülmektedir"); karşılanmazsa 5.9 uygulanmaz |
 | b. Yalnız anonim istatistik (birey düzeyinde oturum kaydı, ısı haritası, kullanıcı kimliği yok) | s. 25, "gerekmektedir" | [Rehber: gerekli] |
 | c. Siteler ve uygulamalar arası çapraz takip yok | s. 25, "gerekmektedir" | [Rehber: gerekli] |
 | d. Gereksiz veri anonimleştirilir (ör. IP maskeleme) | s. 25, "tavsiye edilmektedir" | [Rehber: tavsiye] |
 | e. Makul ömür: çerez süresi amaçla orantılı | s. 26, "tedbirler arasında sayılabilir" | [Rehber: tavsiye] |
 | f. Toplanan veri üçüncü taraflara iletilmez | s. 26, "tedbirler arasında sayılabilir" | [Rehber: tavsiye] |
 
-Sonuç:
+Sonuç (a kapsam şartı olduğu için tavsiye diliyle yazılsa da hâlâ aranır: karşılamayan çerez 5.9 senaryosuna girmez):
 
 - **a, b ve c'nin hepsi evet ve araç kendi sunucunuzda çalışıyor** (veri bir
   sağlayıcıya gitmiyor) → 5.9 kapsamında; rıza gerekmez, bilgi şeridi yeter
@@ -38,7 +38,7 @@ Sonuç:
   paneli; sağlayıcının rolü ne olursa olsun [skill yorumu]. Rehber üçüncü
   tarafa iletmemeyi tedbir sayar (s. 26); skill bunu şart olarak uygular,
   yani Rehber'den sıkıdır. Sağlayıcı veriyi kendi amacıyla da kullanıyorsa
-  ayrıca a bozulur (s. 25) [Rehber: gerekli]. Sağlayıcı yurt dışındaysa
+  ayrıca a bozulur (s. 25, kapsam şartı) [Rehber: tavsiye]. Sağlayıcı yurt dışındaysa
   ayrıca K-Yurt dışı.
 - **Aracın nerede çalıştığı bilinmiyorsa** rıza paneli (SKILL.md →
   "Bilmiyorum" cevabı, tür 3) [skill yorumu].

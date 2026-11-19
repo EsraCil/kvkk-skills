@@ -55,7 +55,7 @@ parçası olarak taşınan küçük metin dosyası.
 | Eksen | Türler | Not |
 |---|---|---|
 | Süre (s. 11) | Oturum / Kalıcı | Kalıcı çerez her ziyarette veriyi sunucuya taşır; bu yüzden "izleme çerezi" de denir |
-| Amaç (s. 11–13) | Kesinlikle gerekli (zorunlu) / İşlevsel / Performans-analitik / Reklam-pazarlama | Zorunlu çerez pazarlamada kullanılmamalı [Rehber: tavsiye]. İşlevsel çerezde, kullanıcının hizmeti açıkça talep ettiği aşikâr değilse rıza gerekir [Rehber: tavsiye] |
+| Amaç (s. 11–13) | Kesinlikle gerekli (zorunlu) / İşlevsel / Performans-analitik / Reklam-pazarlama | Zorunlu çerez pazarlamada kullanılmamalı (s. 12, "kullanılmamalıdırlar") [Rehber: gerekli]. İşlevsel çerezde, kullanıcının hizmeti açıkça talep ettiği aşikâr değilse rıza gerekir (s. 12, "açık rızaya dayanılması gerekecektir") [Rehber: gerekli] |
 | Taraf (s. 13) | Birinci taraf / Üçüncü taraf | Adres çubuğundaki alan adı mı, farklı alan adı mı |
 
 ## 3. 5809 sayılı Elektronik Haberleşme Kanunu (s. 14–15)
@@ -74,7 +74,8 @@ Rehber iki kriteri tavsiye olarak sunar (s. 16) [Rehber: tavsiye]:
   için kesinlikle gerekli.
 - Sıra: önce açık rıza dışındaki şartlar (KVKK md. 5/2, 6) değerlendirilir;
   hiçbiri yoksa açık rıza (s. 16–17, s. 38) [Kurul kararı]. Rıza dışı bir şart varken rıza istemek dürüstlük
-  kuralına aykırı sayılabilir (s. 38, EK-5 Kötü Örnek-1) [Kurul kararı].
+  kuralına aykırılık şeklinde yorumlanır (s. 38, Kurul 2020/173 özeti) [Kurul kararı]; Rehber'in
+  kendi metni de aynı yönde (s. 16–17; EK-5 Kötü Örnek-1, s. 54) [Rehber: gerekli].
 - 5/2-f (meşru menfaat) dayanılıyorsa **denge testi** önerilir; Kriter A/B
   kapsamı yol gösterir (s. 17) [Rehber: tavsiye].
 - Örnekler: yük dengeleme çerezi → Kriter A, 5/2-f (s. 17); sepete ürün
@@ -85,14 +86,14 @@ Rehber iki kriteri tavsiye olarak sunar (s. 16) [Rehber: tavsiye]:
 | § | Senaryo | Kriter | Koşullar / dikkat |
 |---|---|---|---|
 | 5.1 (s. 18–19) | Kullanıcı girdili (form, sepet) | B | Birinci taraf, oturum kimliğine bağlı, en geç oturum sonunda biter [Rehber: tavsiye] |
-| 5.2 (s. 19–20) | Kimlik doğrulama | B | Oturum çerezi. Tarayıcı oturumları arası kalıcı giriş Kriter B **değil** → "beni hatırla" kutusu. İkincil amaçla (takip) kullanılamaz [Rehber: tavsiye] |
+| 5.2 (s. 19–20) | Kimlik doğrulama | B | Oturum çerezi. Tarayıcı oturumları arası kalıcı giriş Kriter B **değil** → "beni hatırla" kutusu [Rehber: tavsiye]. İkincil amaçla (takip) kullanılamaz (s. 20) [Rehber: gerekli] |
 | 5.3 (s. 20–21) | Kullanıcı merkezli güvenlik (başarısız giriş tespiti) | B | Daha uzun ömür olabilir [Rehber: tavsiye] |
 | 5.4 (s. 21) | Multimedya oynatıcı oturum çerezi | B | Oturum sonunda biter; kullanıcı içeriği açıkça istedi [Rehber: tavsiye] |
 | 5.5 (s. 21–22) | Yük dengeleme oturum çerezi | A | Tek amaç sunucu uç noktası [Rehber: tavsiye] |
 | 5.6 (s. 22–23) | Arayüz kişiselleştirme (dil, sonuç sayısı) | B | Kullanıcının açık eylemiyle (buton/kutu) konur; kalıcı kimlikle bağlanmaz; ek bilgi yoksa oturumdan uzun hatırlama niyeti varsayılmaz [Rehber: tavsiye] |
-| 5.7 (s. 23–24) | Sosyal eklenti içerik paylaşımı | B yalnız **oturum açmış üyeler** için | Üye olmayan / çıkış yapmış kişiler için rıza; oturum çerezi olmalı [Rehber: tavsiye] |
+| 5.7 (s. 23–24) | Sosyal eklenti içerik paylaşımı | B yalnız **oturum açmış üyeler** için | Üye olmayan / çıkış yapmış kişiler için rıza (s. 23) [Rehber: tavsiye]. Oturum çerezi olmak zorundadır (s. 24) [Rehber: gerekli] |
 | 5.8 (s. 24) | Rıza yönetim platformu çerezi (tercihi hatırlama) | B | Rıza gerekmez; ömrü md. 4 ilkelerine göre (Rehber örneğinde 365 gün, s. 52) [Rehber: tavsiye] |
-| 5.9 (s. 24–26) | **Birinci taraf analitik** | B | Gerekli (s. 25, "gerekmektedir") [Rehber: gerekli]: amaç yalnız sitenin kendi kitlesini/performansını ölçmek, veri amaçla sınırlı ve ölçülü; yalnız anonim istatistik; siteler/uygulamalar arası **çapraz takip yok**. Tavsiye (s. 25, "tavsiye edilmektedir") [Rehber: tavsiye]: gereksiz veri anonim (ör. IP maskeleme). Tedbir (s. 26, "tedbirler arasında sayılabilir") [Rehber: tavsiye]: makul ömür; **toplanan verinin üçüncü taraflara iletilmemesi**. Skill bu tedbiri şart olarak uygular: rızasız yol yalnız kendi sunucusunda çalışan araçla, veri bir sağlayıcıya gidiyorsa rıza paneli [skill yorumu]. Rehber üçüncü tarafa iletmemeyi tedbir sayar (s. 26); skill bunu şart olarak uygular, yani Rehber'den sıkıdır. Uygulama: `analitik.md` → Kural 1 |
+| 5.9 (s. 24–26) | **Birinci taraf analitik** | B | Kapsam şartı (s. 25, "…ölçmekle sınırlı olan çerezler … değerlendirilebileceği düşünülmektedir") [Rehber: tavsiye]: amaç yalnız sitenin kendi kitlesini/performansını ölçmek; karşılanmazsa 5.9 uygulanmaz. Gerekli (s. 25, "gerekmektedir") [Rehber: gerekli]: yalnız anonim istatistik; siteler/uygulamalar arası **çapraz takip yok**. Tavsiye (s. 25, "tavsiye edilmektedir") [Rehber: tavsiye]: veri amaçla sınırlı ve ölçülü; gereksiz veri anonim (ör. IP maskeleme). Tedbir (s. 26, "tedbirler arasında sayılabilir") [Rehber: tavsiye]: makul ömür; **toplanan verinin üçüncü taraflara iletilmemesi**. Skill bu tedbiri şart olarak uygular: rızasız yol yalnız kendi sunucusunda çalışan araçla, veri bir sağlayıcıya gidiyorsa rıza paneli [skill yorumu]. Rehber üçüncü tarafa iletmemeyi tedbir sayar (s. 26); skill bunu şart olarak uygular, yani Rehber'den sıkıdır. Uygulama: `analitik.md` → Kural 1 |
 | 5.10 (s. 26) | Site güvenliği (WAF, istek sınırlama) | B | 5/2-f'ye dayanılabilir [Rehber: tavsiye] |
 
 ## 6. Rıza gerektiren senaryolar (s. 27–28)
@@ -101,14 +102,14 @@ Başka işleme şartı olmadığı için açık rıza (md. 5/1) [Kanun]; senaryo
 
 - 6.1 Sosyal eklenti **takip** çerezleri (davranışsal reklam, analitik, pazar
   araştırması için üye/üye olmayanı izleme). Üye olmayanlara gösterilen
-  sayfalarda varsayılan olarak üçüncü taraf çerez yerleştirilmemeli.
+  sayfalarda varsayılan olarak üçüncü taraf çerez yerleştirilmemeli (s. 27) [Rehber: gerekli].
 - 6.2 Davranışsal reklamcılık çerezleri — gösterim sıklığı, finansal kayıt,
   reklam ortaklığı, tıklama sahtekârlığı tespiti, pazar analizi, ürün
   geliştirme ve hata ayıklama amaçlı reklam çerezleri **dahil**.
 
 ## 7. Açık rızanın unsurları ve arayüz (s. 28–33)
 
-- Aktif, olumlayıcı eylem. **Siteye girmek rıza değildir** (s. 28) [Rehber: tavsiye];
+- Aktif, olumlayıcı eylem. **Siteye girmek rıza değildir** (s. 28) [Rehber: gerekli];
   Kurul 2020/173'te "siteyi ziyaret ederek kabul" kalıbı da bu yüzden eleştirildi (s. 38–39) [Kurul kararı].
   Opt-in, opt-out değil (s. 37–38) [Kurul kararı].
 - **Belirli konu** (s. 29): her çerez için amaç, amaçla ölçülü süre ve
@@ -116,7 +117,7 @@ Başka işleme şartı olmadığı için açık rıza (md. 5/1) [Kanun]; senaryo
   ediyorum" gibi açık uçlu rıza geçersiz. Açık rıza tanımı "belirli bir konuya
   ilişkin" rıza ister (md. 3/1-a) [Kanun]; Rehber'in uygulaması [Rehber: tavsiye].
 - **Özgür irade** (s. 29–31):
-  - Rıza her an geri alınabilmeli; yönetim paneline erişim sürekli olmalı (s. 29) —
+  - Rıza her an geri alınabilmeli; yönetim paneline erişim sürekli olmalı (s. 29) [Rehber: gerekli];
     iyi örnek: içeriği engellemeyen küçük simge/bant (s. 30) [Rehber: tavsiye].
   - Rıza yorgunluğu: her girişte sorma; çerez ömrüyle orantılı periyodik
     hatırlatma uygun (s. 30) [Rehber: tavsiye]. Rehber gün sayısı vermez;
@@ -125,20 +126,24 @@ Başka işleme şartı olmadığı için açık rıza (md. 5/1) [Kanun]; senaryo
   - İlk katman: siteye girişte panel (pop-up/bant); **"Kabul et", "Reddet"
     ve "Tercihler" eşit derecede (renk, büyüklük, punto)** — Rehber bunu
     "iyi uygulama örneği olabilecektir" diye yazar (s. 30) [Rehber: tavsiye];
-    üç düğmenin yokluğu EK-5'te kötü örnektir (s. 54–57) [Rehber: tavsiye].
+    EK-5'e göre aydınlatma ile çerez yönetim paneli ayrı olmalı ve Reddet düğmesi
+    bulunmalı (s. 54 "gerekmektedir", s. 55 "yer almalı") [Rehber: gerekli]; eşit
+    büyüklük/renk ve Tercihler düğmesi (s. 55) [Rehber: tavsiye].
   - Panelde aydınlatmaya bağlantı — "doğru uygulama örneği" (s. 30–31) [Rehber: tavsiye].
   - Rıza gerektiren çerezler panelde **varsayılan kapalı** — Rehber "önem arz
-    etmektedir" der (s. 31) [Rehber: tavsiye]; opt-in (s. 37–38) [Kurul kararı].
+    etmektedir" der (s. 31) [Rehber: tavsiye]; EK-5 Örnek-3'te "gerekmektedir" (s. 56)
+    [Rehber: gerekli] — sonuç: gerekli; opt-in (s. 37–38) [Kurul kararı].
   - Reklam çerezi rızası kullanım koşulları / gizlilik bildirimine
-    iliştirilemez (bundled consent yok); sözleşmenin ön koşulu yapılamaz (s. 31) [Rehber: tavsiye].
+    iliştirilemez (bundled consent yok); sözleşmenin ön koşulu yapılamaz (s. 31) [Rehber: gerekli].
   - Her farklı amaç için ayrı rıza mekanizması (s. 40) [Kurul kararı]; EK-5 Örnek-2 (s. 55, "önerilir") [Rehber: tavsiye].
 - **Çerez duvarı** (s. 31–32): rıza hizmetin ön koşulu yapılırsa özgür irade
   sakatlanabilir; olay bazında, adil alternatif sunuluyorsa değerlendirilebilir
   [Rehber: tavsiye]. Skill çerez duvarı önermez; adil alternatifi tanımlamaz
   (metin-kurallari.md → Çerez duvarı).
 - **Tarafların sorumluluğu** (s. 32–33): üçüncü taraf çerezde site sahibi ve
-  üçüncü taraf birlikte bilgilendirme/rızadan sorumlu; sözleşmeye hüküm
-  konulabilir [Rehber: tavsiye].
+  üçüncü taraf birlikte bilgilendirme/rızadan sorumlu ("rızalarını almakla
+  yükümlüdür", s. 32) [Rehber: gerekli]; sözleşmeye hüküm konulabilir (s. 32)
+  [Rehber: tavsiye].
 
 ## 8. Yurt dışına aktarım (s. 33–35)
 
@@ -148,8 +153,9 @@ Başka işleme şartı olmadığı için açık rıza (md. 5/1) [Kanun]; senaryo
 - Yönetmelik: Kişisel Verilerin Yurt Dışına Aktarılmasına İlişkin Usul ve
   Esaslar Hakkında Yönetmelik, RG 10.07.2024/32598 [Yönetmelik].
 - Yurt dışı şirketler aracılığıyla çerez kullanılıyorsa aktarım md. 9 ve
-  Yönetmeliğe uygun olmalı; Kurum'un Yurt Dışına Aktarım Rehberi de dikkate
-  alınabilir (s. 34–35; Rehber "dikkate alınabilecektir" der) [Rehber: tavsiye].
+  Yönetmeliğe uygun olmalı (s. 35) [Kanun] + [Rehber: gerekli]; Kurum'un Yurt
+  Dışına Aktarım Rehberi de dikkate alınabilir (s. 34–35; Rehber "dikkate
+  alınabilecektir" der) [Rehber: tavsiye].
 - Rehber'de yazmayan ama md. 9/5'te olan: **standart sözleşmeye dayanılırsa
   imzadan itibaren 5 iş günü içinde Kurum'a bildirim** [Kanun]. Raporda K-Yurt dışı
   kararında site sahibine sor; yapılıp yapılmadığını varsayma.
@@ -164,7 +170,7 @@ Başka işleme şartı olmadığı için açık rıza (md. 5/1) [Kanun]; senaryo
   veri elde edilirken** aydınlatma; ispat yükü veri sorumlusunda (s. 35) [Kanun] + [Tebliğ].
 - Açık rıza ile aydınlatma **ayrı ayrı** (Tebliğ 5/1-f) (s. 35–36) [Tebliğ].
 - Kolay erişilebilir, fark edilebilir; açık, sade, anlaşılır. Karmaşık ve
-  başka konularla dolu "Gizlilik Bildirimi" aydınlatma sayılmaz (s. 36) [Rehber: tavsiye];
+  başka konularla dolu "Gizlilik Bildirimi" aydınlatma sayılmaz (s. 36) [Rehber: gerekli];
   Kurul 2020/173'te de Gizlilik Bildirimi aydınlatma ve rıza yerine geçmedi (s. 38–39) [Kurul kararı].
 - Ziyaretle birlikte veri işlenmeye başlanıyorsa aydınlatma **siteye giriş
   aşamasında** yapılır (ör. pop-up/bant); Rehber bunu "gerekmekte" diye yazar,
@@ -175,7 +181,7 @@ Başka işleme şartı olmadığı için açık rıza (md. 5/1) [Kanun]; senaryo
   araçları" ifadesi geniş okumayı destekler].
 - Aydınlatma metninde **çerezin adı, kullanım amacı, süresi, birinci/üçüncü
   taraf** bilgisi tavsiye edilir (s. 36, "tavsiye olunur") [Rehber: tavsiye].
-- Hedef kitle çocuksa algı düzeyine uygun dil (s. 37) [Rehber: tavsiye].
+- Hedef kitle çocuksa algı düzeyine uygun dil (s. 37) [Rehber: gerekli].
 
 ## 10. Kurul kararı 27.02.2020, 2020/173 (s. 37–40)
 
@@ -238,7 +244,7 @@ Reklam/Pazarlama — kapalı; İşlevsel — kapalı), aydınlatma bağlantısı
 Not: Örnekte birinci taraf analitik çerez "zorunlu" grubunda gösterilmiş
 (5.9 ile tutarlı).
 
-### EK-5 Kötü örnekler (s. 54–57) — şerit denetiminde kontrol et [Rehber: tavsiye]
+### EK-5 Kötü örnekler (s. 54–57) — şerit denetiminde kontrol et (etiket örneğe göre: Örnek-1 ayrı panel ve Reddet, Örnek-3 önceden açık kategori ve Örnek-4 "kullanarak kabul" [Rehber: gerekli]; Örnek-2 eşitlik ve Tercihler [Rehber: tavsiye])
 
 1. Yalnız "Tüm çerezleri kabul et" butonu; "daha fazla bilgi" bağlantısının
    aydınlatma mı panel mi olduğu belirsiz; temel işlevsellik (Kriter A/B)

@@ -46,7 +46,7 @@ export function acknowledgementLine(ip) {
 // - Kutular isteğe bağlıdır; işaretsiz gelmeleri formu reddettirmez (onay ön şart yapılamaz).
 // - Ticari ileti onayı ile KVKK açık rızası ayrı beyanlardır; ikisi de kaydedilir.
 // - Kayıtta onayı verenin ad soyadı ve adresi (e-posta) bulunur (Yönetmelik md. 7/1).
-// - Elektronik ortamda alınan onay 24 saat içinde alıcıya bildirilir (teyit e-postası).
+// - Elektronik ortamda alınan onayın bilgisi, reddetme imkânı da tanınarak 24 saat içinde alıcıya iletilir (teyit e-postası).
 // - Onay 3 iş günü içinde İleti Yönetim Sistemi'ne (İYS) kaydedilir; kaydedilmeyen onay geçersizdir.
 // - Onay kaydı, onayın sona ermesinden itibaren 3 yıl saklanır (talep kaydından ayrı süre).
 // Dayanaklar: Ticari İletişim ve Ticari Elektronik İletiler Hakkında Yönetmelik md. 7 ve 13; KVKK md. 5/1.

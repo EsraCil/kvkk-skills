@@ -7,9 +7,9 @@ sitede yayımlanan metne yazılmaz. Rehber tavsiye niteliğindedir (s. 9).
 Bağlayıcı olan Kanun, yönetmelikler ve tebliğlerdir; Kurul kararları, Kurul'un
 uygulamasını gösterir.
 
-Bu dosya 11.11.2026 tarihinde resmî metinlerden (mevzuat.gov.tr, Resmî Gazete,
-kvkk.gov.tr) denetlenmiştir; "(doğrulanmadı)" işaretli ifadeler bu denetimden sonra
-eklenmiş ve resmî metinle karşılaştırılmamıştır. Sonraki değişiklikler için SKILL.md → Güncel kaynak.
+Bu dosya 11.11.2026 ve 19.11.2026 tarihlerinde resmî metinlerden (mevzuat.gov.tr,
+Resmî Gazete, kvkk.gov.tr) denetlenmiştir; "(doğrulanmadı)" işaretli ifadeler
+resmî metinle karşılaştırılamamıştır. Sonraki değişiklikler için SKILL.md → Güncel kaynak.
 
 ## 6698 sayılı KVKK
 
@@ -40,9 +40,9 @@ maddesi aynı şey değil; konuşurken "sayfadaki §6 / KVKK md. 9" de.
 
 - Yollar **sırayla** uygulanır: yeterlilik kararı → uygun güvence → arızi hâller. [Kanun]
 - Yeterlilik kararı ve uygun güvence yollarında ayrıca md. 5 ya da 6'daki şartlardan biri bulunur (md. 9/1, 9/4). [Kanun]
-- Uygun güvencenin dört türü: kamu kurumları arası anlaşma, bağlayıcı şirket kuralları (Kurul onaylı), standart sözleşme, yazılı taahhütname (Kurul izinli) (türlerin sayımı doğrulanmadı). Uygun güvencede ilgili kişinin haklarını kullanma ve etkili kanun yollarına başvurma imkânı da bulunur. [Kanun]
+- Uygun güvencenin dört türü: kamu kurumları arası anlaşma, bağlayıcı şirket kuralları (Kurul onaylı), standart sözleşme, yazılı taahhütname (Kurul izinli). Uygun güvencede ilgili kişinin haklarını kullanma ve etkili kanun yollarına başvurma imkânı da bulunur. [Kanun]
 - Standart sözleşme, imzaların tamamlanmasından itibaren **5 iş günü** içinde Kurum'a bildirilir (md. 9/5; Yönetmelik md. 14). Metni değiştirilemez. [Kanun] + [Yönetmelik]
-- Arızi hâller (açık rıza, sözleşmenin ifası için zorunlu olma…) ancak ilk iki yol yoksa ve **arızi olmak kaydıyla** uygulanır. Arızi: düzenli olmayan, bir veya birkaç defa gerçekleşen, süreklilik arz etmeyen aktarım (Yönetmelik md. 16/1). Açık rıza, muhtemel riskler hakkında bilgilendirme kaydıyla. [Kanun] + [Yönetmelik]
+- Arızi hâller (açık rıza, sözleşmenin ifası için zorunlu olma…) ancak ilk iki yol yoksa ve **arızi olmak kaydıyla** uygulanır. Arızi: düzenli olmayan, tek veya birkaç sefer gerçekleşen, süreklilik arz etmeyen ve olağan faaliyet akışı içinde bulunmayan aktarım (Yönetmelik md. 16/1). Açık rıza, muhtemel riskler hakkında bilgilendirme kaydıyla. [Kanun] + [Yönetmelik]
 - Sonuç: sürekli barındırma ve araç kullanımı arızi hâllere dayandırılmaz; çerez rızası aktarım rızası yerine geçmez. [skill yorumu]
 - Kurul'un ilan ettiği yeterlilik kararı yok (hazırlayan beyanı, 19.11.2026). Güncel kaynak aracı varsa kontrol et. [skill yorumu]
 
@@ -66,7 +66,7 @@ RG 10.03.2018/30356; RG 28.04.2019/30758 ile değişik. Md. 5/1:
 
 - Başvuru Türkçe yapılır (md. 4/2). [Tebliğ]
 - Yollar (md. 5/1): yazılı; kayıtlı elektronik posta (KEP); güvenli elektronik imza; mobil imza; ilgili kişinin daha önce veri sorumlusuna bildirdiği ve sistemde kayıtlı e‑posta adresi; başvuru amacına yönelik yazılım ya da uygulama. E‑posta yolu yalnız kayıtlı adresten geçerlidir. [Tebliğ]
-- İçerik (md. 5/2): ad soyad; yazılıysa imza; T.C. vatandaşı için kimlik numarası, yabancı için uyruk ve pasaport numarası ya da varsa kimlik numarası; tebligata esas adres; varsa e‑posta, telefon, faks (faks doğrulanmadı); talep konusu. Talebe ilişkin bilgi ve belgeler eklenir (md. 5/3). [Tebliğ]
+- İçerik (md. 5/2): ad soyad; yazılıysa imza; T.C. vatandaşı için kimlik numarası, yabancı için uyruk ve pasaport numarası ya da varsa kimlik numarası; tebligata esas adres; varsa e‑posta, telefon, faks; talep konusu. Talebe ilişkin bilgi ve belgeler eklenir (md. 5/3). [Tebliğ]
 - Veri sorumlusu başvuruyu kabul eder ya da **gerekçesini açıklayarak reddeder** (md. 6/2). "İşleme alınmaz" ifadesi kaynakta yok. [Tebliğ]
 - Ücret (md. 7): yazılı yanıtta 10 sayfaya kadar ücretsiz; sonrası tarifeye göre. [Tebliğ]
 
@@ -90,8 +90,9 @@ Rehberi'ndeki özetinden (s. 37-40) doğrulanmıştır. [Kurul kararı]
 - Ticari elektronik ileti tanımı geniştir: ticari amaçla elektronik ortamda gönderilen ileti (Kanun md. 2/1‑c). [Kanun]
 - Kural: ileti ancak önceden onay alınarak gönderilir (Kanun md. 6/1). [Kanun]
 - Onay aranmayan dar istisna (Yönetmelik md. 6/1): alıcıyla kurulmuş bir sözleşme kapsamında **temin edilen** mal ya da hizmetin değişikliği, kullanımı ve bakımına yönelik iletiler. Sözleşme öncesi teklif bu istisnaya girmez. [Yönetmelik]
-- Tacir ve esnafa onaysız gönderim (Kanun md. 6/2; Yönetmelik md. 6/3); alıcı ret hakkını kullanırsa gönderim durur. İYS kaydına ilişkin hüküm Yönetmelik md. 6/6. [Kanun] + [Yönetmelik]
-- Onayın biçimi (Yönetmelik md. 7): önceden seçili olamaz, hizmetin ön şartı yapılamaz; İYS dışında alınan onayda alıcının ad soyadı ve adresi bulunur (7/1); elektronik ortamda alınan onay 24 saat içinde alıcıya bildirilir (7/3); 3 iş günü içinde İYS'ye kaydedilir, kaydedilmeyen onay geçersizdir (7/11-12). [Yönetmelik]
+- Tacir ve esnafa onaysız gönderim (Kanun md. 6/2; Yönetmelik md. 6/3); alıcı ret hakkını kullanırsa gönderim durur. Bu istisnayla göndermeden önce tacir ya da esnaf alıcının elektronik iletişim adresi İYS'ye kaydedilir ve ret hakkını kullanıp kullanmadığı İYS üzerinden kontrol edilir (Yönetmelik md. 6/6).
+- Devam eden abonelik, tahsilat, satın alma, teslimat ve benzeri durumlara ilişkin bildirimler onaysız gönderilebilir; bunlarda mal ya da hizmet tanıtımı yapılamaz (Yönetmelik md. 6/2). [Yönetmelik] [Kanun] + [Yönetmelik]
+- Onayın biçimi (Yönetmelik md. 7): önceden seçili olamaz, hizmetin ön şartı yapılamaz; onayda olumlu irade beyanı, alıcının adı ve soyadı ile elektronik iletişim adresi bulunur (7/1); elektronik ortamda alınan onayın bilgisi, reddetme imkânı da tanınarak 24 saat içinde alıcıya iletilir (7/3; İYS üzerinden alınan onayda uygulanmaz); 3 iş günü içinde İYS'ye kaydedilir, kaydedilmeyen onay geçersizdir (7/11-12). [Yönetmelik]
 - Onay kayıtları onayın sona ermesinden itibaren **3 yıl** saklanır (Yönetmelik md. 13/2). [Yönetmelik]
 - Her iletide gönderenin kimliği ve kolay ret yolu (Kanun md. 7/2, 8/2). [Kanun]
 - "Talep edilen teklif ya da rapor e‑postası ticari ileti değildir" diye bir hüküm **yok**; kitleye göre değerlendirme `karar-agaci.md`'de. [skill yorumu]
@@ -104,8 +105,8 @@ Rehberi'ndeki özetinden (s. 37-40) doğrulanmıştır. [Kurul kararı]
 
 ## 6098 sayılı TBK ve 6100 sayılı HMK (kullanım koşulları)
 
-- Genel işlem koşulları, karşı tarafa açıkça bilgi verilip içeriğini öğrenme imkânı sağlanır ve karşı taraf kabul ederse sözleşmeye girer; aksi hâlde yazılmamış sayılır (TBK md. 21). Siteye yalnız göz atan ziyaretçi için "kullanmanız kabul sayılır" bu şartı karşılamaz. [Kanun] + [skill yorumu]
-- Düzenleyene karşı taraf aleyhine tek yanlı değişiklik yetkisi veren genel işlem koşulu yazılmamış sayılır (TBK md. 24; "aleyhine" unsuru doğrulanmadı). [Kanun]
-- Ağır kusurdan sorumsuzluk anlaşması kesin olarak hükümsüzdür (TBK md. 115/1); sorumluluk sınırında kasıt ve ağır kusur istisnası bu yüzden yazılır. [Kanun]
-- Yetki sözleşmesi yalnız tacirler ya da kamu tüzel kişileri arasında yapılabilir (HMK md. 17); yazılı yapılmalı ve belirli bir hukuki ilişkiye dayanmalıdır (md. 18/2, doğrulanmadı). [Kanun]
-- Tüketici sözleşmelerinde haksız şart denetimi: 6502 sayılı Kanun md. 5 (doğrulanmadı). [Kanun]
+- Karşı tarafın menfaatine aykırı genel işlem koşulları, karşı tarafa açıkça bilgi verilip içeriğini öğrenme imkânı sağlanır ve karşı taraf kabul ederse sözleşmeye girer; aksi hâlde yazılmamış sayılır (TBK md. 21). Siteye yalnız göz atan ziyaretçi için "kullanmanız kabul sayılır" bu şartı karşılamaz. [Kanun] + [skill yorumu]
+- Düzenleyene karşı taraf aleyhine tek yanlı değişiklik yetkisi veren genel işlem koşulu yazılmamış sayılır (TBK md. 24). [Kanun]
+- Ağır kusurdan sorumsuzluk anlaşması kesin olarak hükümsüzdür (TBK md. 115/1); sorumluluk sınırında kasıt ve ağır kusur istisnası bu yüzden yazılır. Hizmet sözleşmesinden doğan borçlarda önceden sorumsuzluk anlaşması (115/2) ve izinle yürütülen uzmanlık mesleklerinde hafif kusurdan sorumsuzluk (115/3) da kesin olarak hükümsüzdür: site sahibi böyle bir meslekteyse sorumluluk sınırı maddesi buna göre daraltılır. [Kanun]
+- Yetki sözleşmesi yalnız tacirler ya da kamu tüzel kişileri arasında yapılabilir (HMK md. 17); yazılı yapılmalı, uyuşmazlığın kaynaklandığı hukuki ilişki belirli ya da belirlenebilir olmalı ve yetkili mahkeme gösterilmelidir (md. 18/2). [Kanun]
+- Tüketici sözleşmelerinde haksız şart denetimi: 6502 sayılı Kanun md. 5: tüketiciyle müzakere edilmeden sözleşmeye konan ve dürüstlük kuralına aykırı biçimde tüketici aleyhine dengesizlik yaratan şart haksızdır ve kesin olarak hükümsüzdür; standart sözleşmedeki şart müzakere edilmemiş sayılır. [Kanun]
