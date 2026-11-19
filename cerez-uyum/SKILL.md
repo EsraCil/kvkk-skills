@@ -240,8 +240,8 @@ sırada IP adresiniz ve tarayıcı bilginiz Google'a iletilir."), §4'e FONT_SEB
 (md. 5/2-f, sayfanın doğru görüntülenmesi) [Kanun]; yurt dışı teknik cümleyle
 karşılanır. Diğer üçüncü taraf kaynaklarda (CDN) aynı kalıp, sağlayıcı adıyla.
 Seçim bilinmiyorsa metin bugünkü durumu yazar ("Bilmiyorum" cevabı, tür 3).
-Raporda risk notu: Almanya'da LG München I, 20.01.2022 kararı Google Fonts'un
-rızasız yüklenmesini GDPR'a aykırı buldu (künye doğrulanmadı; Türk hukukunda
+Raporda risk notu: Almanya'da LG München I'in 20.01.2022 tarihli, 3 O 17493/20 sayılı kararı Google Fonts'un
+rızasız yüklenmesini GDPR'a aykırı buldu (künye Bavyera'nın resmî karar portalında, gesetze-bayern.de; Türk hukukunda
 bağlayıcı değil) [skill yorumu].
 
 Kurallar:
@@ -255,8 +255,10 @@ Kurallar:
 - Çerez rızası aktarım rızası yerine geçmez: aktarım rızası muhtemel riskler
   hakkında bilgilendirme ister ve arızi aktarımla sınırlıdır (md. 9/6-a)
   [Kanun] + [skill yorumu].
-- Kurul'un ilan ettiği yeterlilik kararı yok (hazırlayan beyanı, 19.11.2026;
-  güncel kaynak aracı varsa kontrol edilir) [skill yorumu].
+- 19.11.2026 itibarıyla Kurul'un ilan ettiği bir yeterlilik kararı bulunmuyor
+  (hazırlayanın bilgisi). Yeterlilik kararları Resmî Gazete'de yayımlandığından
+  (KVKK md. 9/2) rapordan önce Resmî Gazete'den kontrol edilmesi önerilir;
+  güncel kaynak aracı varsa onunla da bakılır [Kanun] + [skill yorumu].
 - Genel cümlenin "aktarılabilir" kipi Kanun md. 10/1-c ve Aydınlatma Tebliği
   md. 4'ün dilidir ("aktarılabileceği"); Tebliğ 5/1-ı alıcı grubunu ve amacı
   ister, marka adını istemez [Kanun] + [Tebliğ].

@@ -89,7 +89,7 @@ Yazı tipi ya da başka bir kaynak üçüncü taraf sunucudan yükleniyorsa sayf
 - Seçenek A: kaynağı sitenin kendi sunucusundan sunmak — veri sağlayıcıya gitmez; aydınlatmada satır ve yurt dışı aktarım gerekmez.
 - Seçenek B: sürdürmek — §2'ye FONT_CUMLESI, §4'e FONT_SEBEP (md. 5/2‑f, sayfanın doğru görüntülenmesi için zorunlu), yurt dışı yurt dışı teknik cümlesiyle (K-Yurt dışı). [Kanun]
 - Elenen: rızaya bağlamak — yazı tipi izin gelene kadar yüklenmez, tasarım bozulur; yaygın uygulama değil. [skill yorumu]
-- Öneri: A. Risk notu (B seçilirse raporda): Almanya'da LG München I, 20.01.2022 kararı Google Fonts'un rızasız yüklenmesini GDPR'a aykırı buldu (künye doğrulanmadı; Türk hukukunda bağlayıcı değil, 5/2‑f denge testinde aleyhe işaret). [skill yorumu]
+- Öneri: A. Risk notu (B seçilirse raporda): Almanya'da LG München I'in 20.01.2022 tarihli, 3 O 17493/20 sayılı kararı Google Fonts'un rızasız yüklenmesini GDPR'a aykırı buldu (künye Bavyera'nın resmî karar portalında, gesetze-bayern.de; Türk hukukunda bağlayıcı değil, 5/2‑f denge testinde aleyhe işaret). [skill yorumu]
 
 ## K-Yurt dışı — Barındırma ve araçlarla sürekli aktarım
 
@@ -103,7 +103,7 @@ Yazı tipi ya da başka bir kaynak üçüncü taraf sunucudan yükleniyorsa sayf
 5. Yol teyit edilmezse metin yine genel cümleyle yazılır; raporun Riskler bölümüne **uyum engeli** girer: "Bu aktarımların KVKK md. 9'a göre dayanağı belirlenmedi." [skill yorumu]
 - Elenen: arızi hâller, açık rıza dahil — yalnız süreklilik arz etmeyen ve olağan faaliyet akışı içinde bulunmayan aktarım için (Yönetmelik md. 16/1); sürekli barındırma ve araç kullanımına uymaz. [Kanun] + [Yönetmelik]
 - Elenen: çerez rızasını aktarım rızası saymak — aktarım rızası muhtemel riskler hakkında bilgilendirme ister ve zaten arızi aktarımla sınırlı. [Kanun] + [skill yorumu]
-- Elenen: yeterlilik kararı — Kurul'un ilan ettiği karar yok (hazırlayan beyanı, 19.11.2026; güncel kaynak aracı varsa kontrol et). [skill yorumu]
+- Elenen: yeterlilik kararı — 19.11.2026 itibarıyla Kurul'un ilan ettiği bir yeterlilik kararı bulunmuyor (hazırlayanın bilgisi). Yeterlilik kararları Resmî Gazete'de yayımlandığından (KVKK md. 9/2) rapordan önce Resmî Gazete'den kontrol edilmesi önerilir; güncel kaynak aracı varsa onunla da bakılır. [Kanun] + [skill yorumu]
 - Öneri: önce azaltma; kalan sağlayıcılar için standart sözleşme ve bildirim. Metin genel cümle.
 
 ## K-Ticari ileti — İstenen teklif, rapor ya da destek e‑postası
@@ -143,7 +143,7 @@ Yalnız bülten varsa. Yoksa kutu konmaz.
 - Formdaki kabul kutusu: [skill yorumu]
   - Varsayılan: iletişim formunda yalnız aydınlatma "okudum" kutusu; kullanım koşulları footer bağlantısıyla durur. Kabul kutusu basit bir mesajı genel işlem koşullu sözleşmeye çevirir; sorumluluk sınırı ve yetki şartı ziyaretçinin kabul ettiği koşullara dönüşür.
   - Seçenek: site kabul gerektiren bir hizmet sunuyorsa (üyelik, ücretli ya da kişiye özel araç, sipariş) zorunlu kabul kutusu (`form-onay.html` → KABUL_KUTUSU; `sunucu-dogrulama.mjs` → REQUIRE_TERMS).
-- Tüketicilere hitap eden sitede sorumluluk sınırı haksız şart denetimine tabi olabilir (6502 sayılı Kanun md. 5, doğrulanmadı): raporda risk. [Kanun]
+- Tüketicilere hitap eden sitede sorumluluk sınırı haksız şart denetimine tabi olabilir (6502 sayılı Kanun md. 5: müzakere edilmeden konan ve tüketici aleyhine dengesizlik yaratan şart haksızdır ve kesin olarak hükümsüzdür): raporda risk. [Kanun]
 
 ## K-Form kaydı — Üçüncü taraf form hizmetinde kanıt (Formspree vb.)
 

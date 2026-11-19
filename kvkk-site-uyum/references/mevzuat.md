@@ -31,7 +31,7 @@ resmî metinle karşılaştırılamamıştır. Sonraki değişiklikler için SKI
 | **11** | İlgili kişinin hakları (9 bent) | haklar listesi | [Kanun] |
 | 12 | Veri güvenliği; veri işleyenle müşterek sorumluluk (12/2) | güvenlik | [Kanun] |
 | 13 | Başvuru: en geç 30 gün, **ücretsiz**; ayrıca maliyet gerekirse Kurul tarifesi | başvuru | [Kanun] |
-| 16 | VERBİS; istisnayı Kurul objektif ölçütlerle belirler (16/2). Eşik bir Kurul kararındadır; künyesi bu dosyada doğrulanmadı | sitede anılmaz | [Kanun] + [Kurul kararı] |
+| 16 | VERBİS; istisnayı Kurul objektif ölçütlerle belirler (16/2). Eşik Kurul kararlarındadır; son değişiklik Kurul'un 04.09.2025 tarihli ve 2025/1572 sayılı kararı (RG 01.10.2025/33034; künye Resmî Gazete fihristinden doğrulandı, eşik değerleri bu pakette doğrulanmadı) | sitede anılmaz | [Kanun] + [Kurul kararı] |
 
 Sık karışan: **md. 6 ≠ yurt dışı aktarım**. Sayfa başlığındaki numara ile kanun
 maddesi aynı şey değil; konuşurken "sayfadaki §6 / KVKK md. 9" de.
@@ -44,7 +44,7 @@ maddesi aynı şey değil; konuşurken "sayfadaki §6 / KVKK md. 9" de.
 - Standart sözleşme, imzaların tamamlanmasından itibaren **5 iş günü** içinde Kurum'a bildirilir (md. 9/5; Yönetmelik md. 14). Metni değiştirilemez. [Kanun] + [Yönetmelik]
 - Arızi hâller (açık rıza, sözleşmenin ifası için zorunlu olma…) ancak ilk iki yol yoksa ve **arızi olmak kaydıyla** uygulanır. Arızi: düzenli olmayan, tek veya birkaç sefer gerçekleşen, süreklilik arz etmeyen ve olağan faaliyet akışı içinde bulunmayan aktarım (Yönetmelik md. 16/1). Açık rıza, muhtemel riskler hakkında bilgilendirme kaydıyla. [Kanun] + [Yönetmelik]
 - Sonuç: sürekli barındırma ve araç kullanımı arızi hâllere dayandırılmaz; çerez rızası aktarım rızası yerine geçmez. [skill yorumu]
-- Kurul'un ilan ettiği yeterlilik kararı yok (hazırlayan beyanı, 19.11.2026). Güncel kaynak aracı varsa kontrol et. [skill yorumu]
+- 19.11.2026 itibarıyla Kurul'un ilan ettiği bir yeterlilik kararı bulunmuyor (hazırlayanın bilgisi). Yeterlilik kararları Resmî Gazete'de yayımlandığından (KVKK md. 9/2) rapordan önce Resmî Gazete'den kontrol edilmesi önerilir; güncel kaynak aracı varsa onunla da bakılır. [Kanun] + [skill yorumu]
 
 ## İkincil düzenlemeler
 
