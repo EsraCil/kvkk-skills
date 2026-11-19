@@ -263,8 +263,8 @@ Not: Örnekte birinci taraf analitik çerez "zorunlu" grubunda gösterilmiş
   birey düzeyinde kayıt yok, sağlayıcı veriyi yalnız site sahibi adına işler
   [skill yorumu: Rehber 5.9'a benzetme]. Ayrıntı: `analitik.md` → Kural 2;
   karar: K-Ölçüm. Raporda bunun benzetme olduğu söylenir.
-- Rıza kaydının sunucuda tutulup tutulmayacağı: EK-1 "rıza kaydını uygun
-  süre saklıyoruz" der (rıza için, s. 45) [Rehber: tavsiye]; karar: K-Rıza kaydı.
+- Rıza kaydının sunucuda tutulup tutulmayacağı: EK-1'in 4. maddesi: "Herhangi bir çerez açık rıza kaydını uygun bir süre için saklamaktayız" (s. 45; liste örnek niteliğinde, dn. 15)
+  [Rehber: tavsiye]; karar: K-Rıza kaydı.
   Bilgi şeridi (rıza yok) için kayıt zorunluluğu yok; okudum beyanı alınmaz,
   tıklama sunucuya kaydedilmez; aydınlatmanın ispatı yöntemle (kod/sürüm
   geçmişi) yapılır [skill yorumu].

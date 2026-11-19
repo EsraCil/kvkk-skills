@@ -240,7 +240,7 @@ kaydedilmez** [skill yorumu]: rıza yok; aydınlatmanın ispat yükü veri
 sorumlusundadır (Tebliğ 5/1-e) [Tebliğ] ve ispat yöntemle (kod ve sürüm
 geçmişi, deploy geçmişi, tarihli kopya) yapılır; kaydetmek yeni kişisel veri
 işleme doğurur (md. 4 ölçülülük) [skill yorumu].
-Rıza panelinde ise EK-1 "rıza kaydını uygun süre sakla" der (s. 45)
+Rıza panelinde ise EK-1'in 4. maddesi: "Herhangi bir çerez açık rıza kaydını uygun bir süre için saklamaktayız" (s. 45; liste örnek niteliğinde, dn. 15)
 [Rehber: tavsiye]: tarayıcı kaydı + mümkünse sunucu kaydı, site sahibiyle
 karar ver (K-Rıza kaydı).
 

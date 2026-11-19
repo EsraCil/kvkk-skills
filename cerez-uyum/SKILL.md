@@ -537,8 +537,9 @@ Bu skill'in raporunda çıkabilecek kararlar:
   ömür md. 4 ilkelerine göre: s. 24 "tavsiye edilmektedir" [Rehber: tavsiye], s. 30 "…göz önünde bulundurulması gerekmektedir" [Rehber: gerekli]; EK-4 örneğindeki 365
   gün (s. 52) yalnız örnektir.
 - **K-Rıza kaydı** — rıza paneli varsa: A yalnız tarayıcı kaydı / B tarayıcı
-  + sunucu kaydı (kayıt alanları ve saklama süresiyle). EK-1 rıza kaydının
-  uygun süre saklanmasını sayar (s. 45) [Rehber: tavsiye]; öneri B, mümkünse.
+  + sunucu kaydı (kayıt alanları ve saklama süresiyle). EK-1'in 4. maddesi
+  "Herhangi bir çerez açık rıza kaydını uygun bir süre için saklamaktayız" (s. 45;
+  liste örnek niteliğinde, dn. 15) [Rehber: tavsiye]; öneri B, mümkünse.
 - **K-Yurt dışı** — yurt dışına giden sağlayıcı varsa (3. Sınıflama → Yurt
   dışı): sağlayıcı bazında standart sözleşme ve Kurum'a bildirim ya da aktarımı
   azaltma; metin her durumda genel cümle. Yol belirlenene kadar blokta
