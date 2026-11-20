@@ -33,17 +33,19 @@
     <li>Birinci taraf çerezler: adres çubuğunda görünen site tarafından yerleştirilir.</li>
     <li>Üçüncü taraf çerezler: ziyaret edilen siteden farklı bir alan adı tarafından yerleştirilir.</li>
   </ul>
-  <!-- GOMULU_CUMLESI yalnız gömülü içerik (video, harita) varsa ve K-Gömülü'de A ya da B seçildiyse yazılır; yoksa paragrafı sil.
+  <!-- GOMULU_TUR_CUMLESI yalnız gömülü içerik (video, harita) varsa ve K-Gömülü'de A ya da B seçildiyse yazılır; yoksa paragrafı sil.
        Gömülü içerik Rehber'in amaç türlerinden biri değildir; panelde ve tabloda ayrı kategoridir (K-Gömülü; reklamdan ayrı
        rıza, EK-5 Örnek-2 [Rehber: tavsiye]). Yalnız ölçülen türü yaz (video, harita ya da ikisi). -->
-  <p>{{GOMULU_CUMLESI — örn. "Sayfadaki videolar başka bir siteden (YouTube) yüklenen gömülü içeriktir; yüklendiğinde sağlayıcısı kendi çerezlerini kullanır. Bu çerezler 3. bölümdeki tabloda "Gömülü içerik" türüyle gösterilmiştir."}}</p>
+  <p>{{GOMULU_TUR_CUMLESI — örn. "Sayfadaki videolar başka bir siteden (YouTube) yüklenen gömülü içeriktir; yüklendiğinde sağlayıcısı kendi çerezlerini kullanır. Bu çerezler 3. bölümdeki tabloda "Gömülü içerik" türüyle gösterilmiştir."}}</p>
   <p>Bu sitede kullanılan teknolojilerin türü ve tarafı 3. bölümdeki tabloda gösterilmiştir.</p>
 
   <h2>3. Bu sitede kullanılan teknolojiler</h2>
   <!-- Tablo tablo.mjs'den gelir. Gömülü içerik sağlayıcısının (YouTube, Vimeo, Google Haritalar) kalemleri "Gömülü içerik"
        türüyle ayrı satırlarda durur; amaç hücresi sağlayıcının kendi amaçlarını (reklam dahil) söyler, panel kategorisiyle aynı
        ad kullanılır (K-Gömülü). Yeni kurulumda şerit ya da panelin kendi tercih kaydı satırı (KAYIT_ADI, YENIDEN_SORMA_GUN,
-       5/2-f; Rehber 5.8) tabloda yer alır. -->
+       5/2-f; Rehber 5.8) tabloda yer alır; tıklayınca yükle kutusu kullanılıyorsa onun kaydı da ayrı satırdır
+       (KAYIT_ADI-gomulu, GOMULU_KAYIT_AMACI). tablo.mjs HTML çıktısı yalnız satırları verir, yorum yazmaz; satırların
+       kaynağı ve DİKKAT notları --md çıktısındadır. -->
   <div class="tbl">
   <table>
     <thead><tr><th>Ad</th><th>Tür</th><th>Taraf</th><th>Amaç</th><th>Hukuki sebep</th><th>Süre</th></tr></thead>
@@ -52,12 +54,12 @@
     </tbody>
   </table>
   </div>
-  <!-- Tablodaki bir kalemle yurt dışına veri gidiyorsa (kvkk-yansima §6) YURTDISI yazılır: sağlayıcı adı vermeden,
+  <!-- Tablodaki bir kalemle yurt dışına veri gidiyorsa (kvkk-yansima §6) YURT_DISI_NOTU yazılır: sağlayıcı adı vermeden,
        "aktarılabilir" diye, KVKK aydınlatma metninin "Aktarım" bölümüne yönlendirir. Sağlayıcı adı yalnız site sahibi
        isterse ve KVKK metninde de liste varsa yazılır. Aktarım yolu (standart sözleşme ve Kurum'a bildirim) teyit
        edilmese de yazılır; raporda K-Yurt dışı altında "aktarımın dayanağı belirlenmedi" uyum engeli kalır
-       (SKILL.md → Sınıflama → Yurt dışı) [skill yorumu]. Aktarım yoksa YURTDISI yer tutucusunu sil. -->
-  <p>{{YURTDISI — örn. "Bu teknolojilerin bir kısmıyla işlenen kişisel verileriniz yurt dışında bulunan hizmet sağlayıcılarına aktarılabilir; ayrıntısı <a href="{{KVKK_URL}}">KVKK aydınlatma metninin</a> "Aktarım" bölümündedir."}} İleride çerez eklenirse bu tabloda listelenir; rıza gerektiren bir çerez yalnızca izniniz alındıktan sonra yüklenir.</p>
+       (SKILL.md → Sınıflama → Yurt dışı) [skill yorumu]. Aktarım yoksa YURT_DISI_NOTU yer tutucusunu sil. -->
+  <p>{{YURT_DISI_NOTU — örn. "Bu teknolojilerin bir kısmıyla işlenen kişisel verileriniz yurt dışında bulunan hizmet sağlayıcılarına aktarılabilir; ayrıntısı <a href="{{KVKK_URL}}">KVKK aydınlatma metninin</a> "Aktarım" bölümündedir."}} İleride çerez eklenirse bu tabloda listelenir; rıza gerektiren bir çerez yalnızca izniniz alındıktan sonra yüklenir.</p>
 
   <h2>4. Tercihlerinizi yönetme</h2>
   <!-- TERCIH_CUMLESI modele göre. Bilgi şeridinde kayıt bir tercih değil, şeridin kapatıldığının kaydıdır: tablodaki
@@ -75,7 +77,7 @@
   </ul>
 
   <h2>5. Kişisel veriler ve haklarınız</h2>
-  <p>Site ziyaretinizle ilgili işlenen veriler, <a href="{{KVKK_URL}}">KVKK aydınlatma metninde</a> açıklanan esaslara tabidir. KVKK madde 11 kapsamındaki haklarınızı kullanmak için aydınlatma metninin "Başvuru" bölümündeki yöntemi izleyebilirsiniz.</p>
+  <p>Site ziyaretinizle ilgili işlenen veriler, <a href="{{KVKK_URL}}">KVKK aydınlatma metninde</a> açıklanan esaslara tabidir. Bu veriler, siteyi ziyaret ettiğinizde tarayıcınıza yerleştirilen çerezler ve benzeri teknolojiler aracılığıyla otomatik yollarla toplanır. KVKK madde 11 kapsamındaki haklarınızı kullanmak için aydınlatma metninin "Başvuru" bölümündeki yöntemi izleyebilirsiniz.</p>
 
   <h2>6. Değişiklikler</h2>
   <!-- DEGISIKLIK_CUMLESI modele göre: bilgi şeridinde sorulmuş bir tercih yoktur, "yeniden sorulur" yazılmaz.

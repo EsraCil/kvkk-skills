@@ -4,9 +4,10 @@ Kaynak: Kişisel Verileri Koruma Kurumu, *Çerez Uygulamaları Hakkında Rehber*
 KVKK Yayınları No: 69, Temmuz 2025, Ankara. Resmî metin: www.kvkk.gov.tr
 (Yayınlar / Rehberler). Sayfa numaraları kitabın basılı numaralarıdır.
 
-Bu dosya kendi özetimizdir; Rehber'in metni aynen aktarılmaz (kitapta
-bireysel kullanım dışında çoğaltma yasağı var, s. 3). Kullanıcıya alıntı
-gerekiyorsa sayfa numarası ver, resmî PDF'e yönlendir.
+Bu dosya kendi özetimizdir. Rehber'in metni çoğaltılmaz; yalnız kural ya da
+örneği göstermek için gereken kısa alıntılar, sayfa numarasıyla verilir.
+(Kitapta bireysel kullanım dışında çoğaltma yasağı var, s. 3.) Kullanıcıya
+alıntı gerekiyorsa sayfa numarası ver, resmî PDF'e yönlendir.
 
 Rehber tavsiye niteliğindedir (s. 9). Bağlayıcı olan Kanun, yönetmelikler ve tebliğlerdir; Kurul kararları, Kurul'un uygulamasını gösterir.
 

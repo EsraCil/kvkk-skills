@@ -70,7 +70,7 @@ değiştirme (bağlantılar ve sitemap kırılmasın), yalnız başlık/etiket d
      panelinin başlığı bu durumda "Gizlilik tercihleri"dir (aşağıda, iki
      katmanlı panel) [skill yorumu].
 2. **Çerez türleri** — süre / amaç / taraf (Rehber 2.2). Gömülü içerik
-   varsa (K-Gömülü) türlerin altına bir cümle (GOMULU_CUMLESI): içerik başka
+   varsa (K-Gömülü) türlerin altına bir cümle (GOMULU_TUR_CUMLESI): içerik başka
    bir siteden yüklenir, yüklendiğinde sağlayıcısı kendi çerezlerini kullanır,
    tabloda "Gömülü içerik" türüyle gösterilir. Gömülü içerik Rehber'in amaç
    türlerine eklenmez; panelde ve tabloda ayrı kategoridir [skill yorumu]. Son
@@ -84,7 +84,8 @@ değiştirme (bağlantılar ve sitemap kırılmasın), yalnız başlık/etiket d
    [skill yorumu]. Gömülü içeriğin yerel depolama kaydı "birinci taraf"
    yazılmaz. Yeni kurulumda şerit ya da panelin kendi tercih kaydı da bir
    satırdır (KAYIT_ADI, YENIDEN_SORMA_GUN; 5/2-f, Rehber 5.8 s. 24)
-   [Rehber: tavsiye]. Altında: yurt dışı notu ve
+   [Rehber: tavsiye]; tıklayınca yükle kutusu varsa onun kaydı (`<KAYIT_ADI>-gomulu`)
+   da ayrı satırdır (`tablo.mjs` ekler). Altında: yurt dışı notu (YURT_DISI_NOTU) ve
    "ileride çerez eklenirse" cümlesi. Yurt dışı notu, tablodaki bir kalemle
    yurt dışına veri gidiyorsa yazılır: sağlayıcı adı vermeden "aktarılabilir"
    der ve KVKK metninin "Aktarım" bölümüne yönlendirir. Aktarım yolu teyit
@@ -94,7 +95,10 @@ değiştirme (bağlantılar ve sitemap kırılmasın), yalnız başlık/etiket d
    ile doğrula; bot koruması yüzünden doğrulanamayanı kullanıcıya söyle.
    Bilgi şeridinde değiştirilecek bir izin yoktur; şerit kaydı "tercih" diye
    anılmaz, şeridin kapatıldığını hatırlayan kayıttır (tablodaki amacı da öyle yazılır).
-5. **Kişisel veriler ve haklarınız** — KVKK metnine bağlantı, md. 11,
+5. **Kişisel veriler ve haklarınız** — KVKK metnine bağlantı; toplama yöntemi
+   cümlesi: "Bu veriler, siteyi ziyaret ettiğinizde tarayıcınıza yerleştirilen
+   çerezler ve benzeri teknolojiler aracılığıyla otomatik yollarla toplanır."
+   (Tebliğ 5/1-i) [Tebliğ]; md. 11 hakları KVKK metnine bağlantıyla verilir,
    "Başvuru" bölümü.
 6. **Değişiklikler** — güncelleme ve tarih. Sonrası modele göre: bilgi
    şeridinde şerit yeniden gösterilir; rıza panelinde tercih yeniden sorulur.
@@ -149,7 +153,9 @@ Gömülü içerik tıklayınca yükle kutusuyla açılıyorsa (`templates/tikla-
 K-Gömülü Seçenek B) "reklam ve takip amaçlı çerez kullanılmaz" kısmı yazılmaz ya
 da sitenin kendisiyle sınırlanır: içerik açıldığında sağlayıcının kendi
 çerezleri devreye girer; bunu kutunun metni söyler ("Bu video YouTube'dan
-yüklenir; yüklendiğinde YouTube çerez kullanır.") [skill yorumu]. Kutu yalnız
+yüklenir; yüklendiğinde YouTube, videoyu göstermek ve kendi amaçları (ör.
+reklam) için çerez kullanır."; amaç `references/tedarikciler.json`'daki
+sağlayıcı amacından türer) [skill yorumu]. Kutu yalnız
 tıklamayla yükler; tıklama açık rızadır ve yalnız o sağlayıcı için tarayıcıda kaydedilir, geri alma düğmesi (panelde "Çerezleri yönet") içeriğin altında durur; önizleme görseli sitenin kendi
 sunucusundan gelir, tıklamadan önce sağlayıcıya istek gitmez.
 

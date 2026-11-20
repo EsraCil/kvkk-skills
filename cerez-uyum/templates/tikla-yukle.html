@@ -14,10 +14,14 @@
      Kutu aspect-ratio ile yer ayırır (sayfa kayması olmaz); içerik aynı kutunun içine yüklenir. Varsayılan oran 16 / 9;
        başka oran için kutuya style="--tikla-yukle-oran: 4 / 3" verilir. Tıkla-yükle ilk açılışı genelde hızlandırır:
        sağlayıcının oynatıcısı sayfa açılışında yüklenmez (ölçülmedi).
-     Kutu metni sağlayıcıya göre (KUTU_METNI, DUGME_METNI, BAGLANTI_METNI): video için "Bu video YouTube'dan yüklenir;
-       yüklendiğinde YouTube çerez kullanır." + "Videoyu göster"; harita için "Bu harita Google Haritalar'dan yüklenir;
-       yüklendiğinde Google çerez kullanır." + "Haritayı göster". İçeriğin sağlayıcıdaki sayfasına bağlantı her zaman durur;
-       betik çalışmasa da içerik açılabilir (düğme yalnız betik çalışınca görünür).
+     Kutu metni sağlayıcıya göre (KUTU_METNI, DUGME_METNI, BAGLANTI_METNI) sağlayıcıyı, çerez kullanımını ve amacını söyler:
+       video için "Bu video YouTube'dan yüklenir; yüklendiğinde YouTube, videoyu göstermek ve kendi amaçları (ör. reklam)
+       için çerez kullanır." + "Videoyu göster"; harita için "Bu harita Google Haritalar'dan yüklenir; yüklendiğinde Google,
+       haritayı göstermek ve kendi amaçları (ör. reklam) için çerez kullanır." + "Haritayı göster". Amaç
+       references/tedarikciler.json'daki sağlayıcı amacından türer (YouTube çerezleri: "Video gömme, tercih ve reklam";
+       Google Haritalar ile gelen Google çerezleri: "Google hizmet tercihleri ve reklam"); başka sağlayıcıda aynı kalıp,
+       örnek amaç o sağlayıcının tedarikciler.json'daki amacından. İçeriğin sağlayıcıdaki sayfasına bağlantı her zaman
+       durur; betik çalışmasa da içerik açılabilir (düğme yalnız betik çalışınca görünür).
      DUGME_ETIKETI görünen düğme metniyle başlar (ör. "Videoyu göster: Atölye tanıtım videosu"); IFRAME_BASLIGI yüklenen
        çerçevenin title'ıdır. Düğme klavyeyle açılır; içerik yüklenince odak çerçeveye geçer.
      KAYIT, paneldeki (varsa) aynı KAYIT_ADI, TARIH ve YENIDEN_SORMA_GUN ile doldurulur; panel yoksa da doldurulur.
@@ -29,7 +33,7 @@
 <figure class="tikla-yukle" data-tikla-yukle data-consent-category="gomulu" data-src="{{GOMULU_ADRES — sağlayıcının gömme adresi, örn. https://www.youtube-nocookie.com/embed/VIDEO_KIMLIGI ya da https://www.google.com/maps/embed?pb=…}}" data-baslik="{{IFRAME_BASLIGI — içeriğin kısa adı, örn. Atölye tanıtım videosu}}">
   <img class="tikla-yukle__onizleme" src="{{ONIZLEME_GORSELI — sitenin kendi sunucusundaki görsel, örn. /img/tanitim-kapak.webp; görsel yoksa bu img satırını sil, kutu düz kalır}}" alt="{{ONIZLEME_ALT — görselin kısa açıklaması}}" width="{{ONIZLEME_GENISLIK}}" height="{{ONIZLEME_YUKSEKLIK}}" loading="lazy" decoding="async">
   <div class="tikla-yukle__bilgi">
-    <p>{{KUTU_METNI — video: "Bu video YouTube'dan yüklenir; yüklendiğinde YouTube çerez kullanır." · harita: "Bu harita Google Haritalar'dan yüklenir; yüklendiğinde Google çerez kullanır."}} <a href="{{CEREZ_URL}}">Ayrıntı: Çerez Aydınlatma Metni</a></p>
+    <p>{{KUTU_METNI — video: "Bu video YouTube'dan yüklenir; yüklendiğinde YouTube, videoyu göstermek ve kendi amaçları (ör. reklam) için çerez kullanır." · harita: "Bu harita Google Haritalar'dan yüklenir; yüklendiğinde Google, haritayı göstermek ve kendi amaçları (ör. reklam) için çerez kullanır."}} <a href="{{CEREZ_URL}}">Ayrıntı: Çerez Aydınlatma Metni</a></p>
     <button type="button" class="tikla-yukle__yonet" data-tikla-yonet hidden>Çerezleri yönet</button>
     <button type="button" class="tikla-yukle__dugme" aria-label="{{DUGME_ETIKETI — görünen metinle başlar, örn. Videoyu göster: Atölye tanıtım videosu}}" hidden>{{DUGME_METNI — Videoyu göster · Haritayı göster}}</button>
     <a class="tikla-yukle__baglanti" href="{{SAGLAYICI_SAYFASI — içeriğin sağlayıcıdaki sayfası, örn. https://www.youtube.com/watch?v=VIDEO_KIMLIGI}}" target="_blank" rel="noopener noreferrer">{{BAGLANTI_METNI — örn. YouTube'da aç · Google Haritalar'da aç}}</a>
@@ -122,7 +126,11 @@
       var dugme = kutu.querySelector('.tikla-yukle__dugme');
       if (!dugme) return;
       dugme.hidden = false;
-      dugme.addEventListener('click', function () { kaydet(host); yukle(kutu, true); });
+      dugme.addEventListener('click', function () {
+        kaydet(host); yukle(kutu, true);
+        // Panel varsa "gomulu" kutusu bu izni gösterir (riza-paneli.html → "consent:tiklama").
+        document.dispatchEvent(new CustomEvent('consent:tiklama', { detail: { kategori: 'gomulu', saglayici: host } }));
+      });
       var yonet = kutu.querySelector('[data-tikla-yonet]');
       if (yonet && PANEL) {
         yonet.hidden = false;

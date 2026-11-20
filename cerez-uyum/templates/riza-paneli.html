@@ -27,8 +27,12 @@
      Kategorileri siteye göre ayarla: kullanılmayan kategoriyi panelden SİL (olmayan şeye izin istenmez).
      Kategori açıklamaları (ZORUNLU_ACIKLAMA, ANALITIK_ACIKLAMA, PAZARLAMA_ACIKLAMA, GOMULU_ACIKLAMA) tarama bulgusundan yazılır:
         amaç, sağlayıcı, taraf, süre (tablo.mjs ile aynı). Bulunamayan bilgi panele yazılmaz, raporda [DOĞRULA] kalır.
-     ANALITIK_CEREZLERI ve PAZARLAMA_CEREZLERI: çerez tablosundaki birinci taraf çerez adları, boşlukla; * ile biten ad önektir
-        (_ga_*). Birinci taraf çerezi olmayan kategoride data-consent-cookies özniteliğini sil.
+        Kategori listesi tablo.mjs --md çıktısındaki "Rıza paneli kategorileri"nden alınır: tablodaki her rıza kalemi bir
+        kategoridedir ve o kategorinin açıklaması kategorideki bütün kalemleri anar (ör. reklam kategorisi yalnız _fbp'yi değil,
+        tablodaki üçüncü taraf reklam çerezlerini de söyler).
+     ANALITIK_CEREZLERI ve PAZARLAMA_CEREZLERI: çerez tablosundaki birinci taraf çerez adları, boşlukla (tablo.mjs --md listesi);
+        * ile biten ad önektir (_ga_*). Üçüncü taraf çerezi site silemez; bu öznitelikte yer almaz, açıklamada anılır. Birinci
+        taraf çerezi olmayan kategoride data-consent-cookies özniteliğini sil.
      ZORUNLU_CUMLESI yalnız zorunlu çerez varsa yazılır; tercih kaydı (KAYIT_ADI) yerel depolamadadır, çerez değildir.
      BIRINCI_KATMAN'daki taraf çerez tablosuyla aynı olur: _ga birinci taraf çerezdir, verisi Google'a gider.
      TARIH: metnin tarihi, panelin sürümüdür; çerez aydınlatma metninin "Son güncelleme" tarihiyle aynı. Değişince panel
@@ -37,7 +41,12 @@
         şeridindeki sayıyla ve çerez tablosundaki kayıt süresiyle aynı. Rehber gün vermez; hatırlatma çerez ömrüyle
         orantılı (s. 30), ömür md. 4 ilkelerine göre: s. 24 "tavsiye edilmektedir" [Rehber: tavsiye], s. 30 "…göz önünde bulundurulması gerekmektedir" [Rehber: gerekli].
      Panel her kararda document üzerinde "consent:change" olayı yayar (detail.granted: izin verilen kategoriler); tikla-yukle.html
-        bunu dinler. Rıza kaydı: tarayıcı kaydı; sunucu kaydı site sahibiyle kararlaştırılır (K-Rıza kaydı; EK-1 s. 45 [Rehber: tavsiye]).
+        bunu dinler. tikla-yukle.html'de kutuya tıklanınca "consent:tiklama" olayı gelir; panel "gomulu" kutusunu işaretler.
+        Panel her gösterildiğinde (ilk gösterim ve "Çerezleri yönet") kutudaki tıklamayla verilmiş gömülü içerik izni "gomulu"
+        kutusunda işaretli görünür; böylece "Ayarları Kaydet" bu izni sessizce geri almaz. Kutu yalnız bu tıklama izni
+        yüzünden işaretliyse "Ayarları Kaydet" kategori izni vermez: yalnız o sağlayıcının tıklama izni korunur. Gömülü içerik
+        kategorisinin tamamına izin, ziyaretçi kutuyu kendisi işaretlediğinde ya da "Hepsini Kabul Et" / "Hepsine İzin Ver"
+        ile verilir; kutunun işaretini kaldırmak tıklama iznini de geri alır. Rıza kaydı: tarayıcı kaydı; sunucu kaydı site sahibiyle kararlaştırılır (K-Rıza kaydı; EK-1 s. 45 [Rehber: tavsiye]).
      Uygulamadan sonra: cerez-tespit.mjs → "ilk" ve "reddet"te riza:true kalem ve gömülü içerik isteği OLMAMALI. -->
 <div class="consent" data-consent hidden role="dialog" aria-modal="false" aria-labelledby="consent-title" aria-describedby="consent-desc">
   <div class="consent__inner">
@@ -124,10 +133,12 @@ iframe[data-consent-category][data-src] { display: block; width: 100%; height: a
   }
   // tikla-yukle.html'deki tıklamayla verilen gömülü içerik izni (ayrı anahtar). Panelde "gomulu" kapatılırsa silinir.
   function clickRecord() { try { var c = JSON.parse(localStorage.getItem(KEY + '-gomulu') || 'null'); return c && c.version === VERSION && Date.now() - c.at < MAX_MS ? c : null; } catch (e) { return null; } }
-  function decide(granted) {
+  // tiklamaIzniKalir: "Ayarları Kaydet"te "gomulu" kutusu yalnız sağlayıcıya özgü tıklama izni yüzünden işaretliyse true.
+  // O zaman kategori izni yazılmaz; tıklama izni (yalnız o sağlayıcı) silinmez ve geri alınmış sayılmaz.
+  function decide(granted, tiklamaIzniKalir) {
     var prev = read(), before = prev && prev.granted ? prev.granted.slice() : [];
-    if (clickRecord() && before.indexOf('gomulu') < 0) before.push('gomulu');
-    if (granted.indexOf('gomulu') < 0) { try { localStorage.removeItem(KEY + '-gomulu'); } catch (e) {} }
+    if (clickRecord() && before.indexOf('gomulu') < 0 && !tiklamaIzniKalir) before.push('gomulu');
+    if (granted.indexOf('gomulu') < 0 && !tiklamaIzniKalir) { try { localStorage.removeItem(KEY + '-gomulu'); } catch (e) {} }
     var withdrawn = before.filter(function (c) { return granted.indexOf(c) < 0; });
     write(granted); el.hidden = true;
     if (!withdrawn.length) { load(granted); return; }
@@ -139,26 +150,41 @@ iframe[data-consent-category][data-src] { display: block; width: 100%; height: a
     });
     location.reload();
   }
+  // "gomulu" kutusu yalnız tıklama izni yüzünden mi işaretli? sync() ve "consent:tiklama" true yapar; ziyaretçi kutuyu
+  // kendisi değiştirince (change olayı) false olur: ziyaretçinin kendi işaretlemesi kategori iznidir.
+  var gomuluKutu = el.querySelector('[data-consent-cat="gomulu"]'), gomuluYalnizTiklama = false;
+  if (gomuluKutu) gomuluKutu.addEventListener('change', function () { gomuluYalnizTiklama = false; });
   el.querySelectorAll('[data-consent-accept]').forEach(function (b) { b.addEventListener('click', function () { decide(cats); }); });
   el.querySelectorAll('[data-consent-reject]').forEach(function (b) { b.addEventListener('click', function () { decide([]); }); });
   el.querySelector('[data-consent-save]').addEventListener('click', function () {
-    decide([].filter.call(el.querySelectorAll('[data-consent-cat]'), function (c) { return c.checked; }).map(function (c) { return c.getAttribute('data-consent-cat'); }));
+    var secilen = [].filter.call(el.querySelectorAll('[data-consent-cat]'), function (c) { return c.checked; }).map(function (c) { return c.getAttribute('data-consent-cat'); });
+    if (gomuluYalnizTiklama && secilen.indexOf('gomulu') >= 0) decide(secilen.filter(function (k) { return k !== 'gomulu'; }), true);
+    else decide(secilen);
   });
   var prefs = el.querySelector('#consent-prefs'), prefsBtn = el.querySelector('[data-consent-prefs]');
   prefsBtn.addEventListener('click', function () { prefs.hidden = !prefs.hidden; prefsBtn.setAttribute('aria-expanded', String(!prefs.hidden)); });
+  // Kutuların durumu: geçerli panel kaydındaki izinler; "gomulu" kutudaki tıklamayla verilmiş izin varsa da işaretli.
+  // Böylece "Ayarları Kaydet" tıklamayla verilen gömülü içerik iznini sessizce geri almaz.
+  function sync(c) {
+    var gomuluTiklama = !!clickRecord();
+    el.querySelectorAll('[data-consent-cat]').forEach(function (x) {
+      var cat = x.getAttribute('data-consent-cat'), panelde = !!(c && c.granted && c.granted.indexOf(cat) >= 0);
+      x.checked = panelde || (cat === 'gomulu' && gomuluTiklama);
+      if (cat === 'gomulu') gomuluYalnizTiklama = !panelde && gomuluTiklama;
+    });
+  }
   // Rızayı geri alma / değiştirme: panel mevcut seçimle açılır; geri alınan izin decide() içinde temizlenir (yukarıda).
   function open() {
-    var c = read(), gomuluTiklama = !!clickRecord();
-    el.querySelectorAll('[data-consent-cat]').forEach(function (x) {
-      var cat = x.getAttribute('data-consent-cat');
-      x.checked = !!(c && c.granted.indexOf(cat) >= 0) || (cat === 'gomulu' && gomuluTiklama);
-    });
-    prefs.hidden = false; el.hidden = false;
+    sync(read());
+    prefs.hidden = false; prefsBtn.setAttribute('aria-expanded', 'true'); el.hidden = false;
   }
   document.querySelectorAll('[data-consent-open]').forEach(function (b) { b.addEventListener('click', open); });
   // tikla-yukle.html'deki "Çerezleri yönet" düğmesi paneli bu olayla açar.
   document.addEventListener('consent:open', open);
+  // tikla-yukle.html'de kutuya tıklanınca verilen izin, açık duran panelin "gomulu" kutusunda da görünür.
+  document.addEventListener('consent:tiklama', function () { if (gomuluKutu && !gomuluKutu.checked) { gomuluKutu.checked = true; gomuluYalnizTiklama = true; } });
   var c = read();
-  if (c && c.version === VERSION && Date.now() - c.at < MAX_MS) load(c.granted); else el.hidden = false;
+  // İlk gösterimde eski sürümün kategorileri işaretli gelmez (varsayılan kapalı); yalnız tıklamayla verilen izin yansır.
+  if (c && c.version === VERSION && Date.now() - c.at < MAX_MS) load(c.granted); else { sync(null); el.hidden = false; }
 })();
 </script>

@@ -8,7 +8,8 @@ Bağlayıcı olan Kanun, yönetmelikler ve tebliğlerdir; Kurul kararları, Kuru
 uygulamasını gösterir.
 
 Bu dosya 11.11.2026 ve 19.11.2026 tarihlerinde resmî metinlerden (mevzuat.gov.tr,
-Resmî Gazete, kvkk.gov.tr) denetlenmiştir; "(doğrulanmadı)" işaretli ifadeler
+Resmî Gazete, kvkk.gov.tr) denetlenmiştir; 5651 md. 3/1 satırı 20.11.2026'da
+mevzuat.gov.tr'den okunarak eklenmiştir. "(doğrulanmadı)" işaretli ifadeler
 resmî metinle karşılaştırılamamıştır. Sonraki değişiklikler için SKILL.md → Güncel kaynak.
 
 ## 6698 sayılı KVKK
@@ -54,7 +55,7 @@ RG 10.03.2018/30356; RG 28.04.2019/30758 ile değişik. Md. 5/1:
 
 - (e) Aydınlatmanın ispatı veri sorumlusundadır → form kaydına "okundu · sürüm" yazılması bunun bir uygulamasıdır. [Tebliğ] + [skill yorumu]
 - (f) Aydınlatma ile açık rıza **ayrı ayrı** yapılır. [Tebliğ]
-- (g) Amaç belirli, açık ve meşru; genel ve muğlak ifade yok; muhtemel başka amaçlar için işlenebileceği izlenimi verilmez. [Tebliğ] Buradan çıkan yazım kuralı: kesin olan işleme kesin kiple ("işlenir", "aktarılır"), yalnız gerçekten koşullu olan "-bilir" ya da koşuluyla. [skill yorumu] (Not: Kanun md. 10/1‑c ve Tebliğ md. 4 "aktarılabileceği" kipini kullanır.)
+- (g) Amaç belirli, açık ve meşru; genel ve muğlak ifade yok; muhtemel başka amaçlar için işlenebileceği izlenimi verilmez. [Tebliğ] Buradan çıkan yazım kuralı: kesin olan işleme kesin kiple ("işlenir", "aktarılır"), yalnız gerçekten koşullu olan "-bilir" ya da koşuluyla. [skill yorumu] (Not: Kanun md. 10/1‑c ve Tebliğ md. 4 "aktarılabileceği" kipini kullanır.) §6 girişi istisnadır, Kanun md. 10/1-c ve Tebliğ'in dilini izler.
 - (ğ) Sade ve anlaşılır dil. [Tebliğ]
 - (h) Hukuki sebebin hangisi olduğu açıkça belirtilir. Amaç ya da veri bazında yazmak bunu güçlendirir. [Tebliğ] + [skill yorumu]
 - (ı) Aktarımda **aktarım amacı** ve **alıcı grupları** belirtilir; marka adı şart değil. [Tebliğ]
@@ -90,8 +91,8 @@ Rehberi'ndeki özetinden (s. 37-40) doğrulanmıştır. [Kurul kararı]
 - Ticari elektronik ileti tanımı geniştir: ticari amaçla elektronik ortamda gönderilen ileti (Kanun md. 2/1‑c). [Kanun]
 - Kural: ileti ancak önceden onay alınarak gönderilir (Kanun md. 6/1). [Kanun]
 - Onay aranmayan dar istisna (Yönetmelik md. 6/1): alıcıyla kurulmuş bir sözleşme kapsamında **temin edilen** mal ya da hizmetin değişikliği, kullanımı ve bakımına yönelik iletiler. Sözleşme öncesi teklif bu istisnaya girmez. [Yönetmelik]
-- Tacir ve esnafa onaysız gönderim (Kanun md. 6/2; Yönetmelik md. 6/3); alıcı ret hakkını kullanırsa gönderim durur. Bu istisnayla göndermeden önce tacir ya da esnaf alıcının elektronik iletişim adresi İYS'ye kaydedilir ve ret hakkını kullanıp kullanmadığı İYS üzerinden kontrol edilir (Yönetmelik md. 6/6).
-- Devam eden abonelik, tahsilat, satın alma, teslimat ve benzeri durumlara ilişkin bildirimler onaysız gönderilebilir; bunlarda mal ya da hizmet tanıtımı yapılamaz (Yönetmelik md. 6/2). [Yönetmelik] [Kanun] + [Yönetmelik]
+- Tacir ve esnafa onaysız gönderim (Kanun md. 6/2; Yönetmelik md. 6/3); alıcı ret hakkını kullanırsa gönderim durur. Bu istisnayla göndermeden önce tacir ya da esnaf alıcının elektronik iletişim adresi İYS'ye kaydedilir ve ret hakkını kullanıp kullanmadığı İYS üzerinden kontrol edilir (Yönetmelik md. 6/6). [Kanun] + [Yönetmelik]
+- Devam eden abonelik, tahsilat, satın alma, teslimat ve benzeri durumlara ilişkin bildirimler onaysız gönderilebilir; bunlarda mal ya da hizmet tanıtımı yapılamaz (Yönetmelik md. 6/2). [Yönetmelik]
 - Onayın biçimi (Yönetmelik md. 7): önceden seçili olamaz, hizmetin ön şartı yapılamaz; onayda olumlu irade beyanı, alıcının adı ve soyadı ile elektronik iletişim adresi bulunur (7/1); elektronik ortamda alınan onayın bilgisi, reddetme imkânı da tanınarak 24 saat içinde alıcıya iletilir (7/3; İYS üzerinden alınan onayda uygulanmaz); 3 iş günü içinde İYS'ye kaydedilir, kaydedilmeyen onay geçersizdir (7/11-12). [Yönetmelik]
 - Onay kayıtları onayın sona ermesinden itibaren **3 yıl** saklanır (Yönetmelik md. 13/2). [Yönetmelik]
 - Her iletide gönderenin kimliği ve kolay ret yolu (Kanun md. 7/2, 8/2). [Kanun]
@@ -99,6 +100,7 @@ Rehberi'ndeki özetinden (s. 37-40) doğrulanmıştır. [Kurul kararı]
 
 ## 5651 sayılı Kanun
 
+- Md. 3/1 (metin mevzuat.gov.tr'den 20.11.2026'da okundu): "İçerik, yer ve erişim sağlayıcıları, yönetmelikle belirlenen esas ve usûller çerçevesinde tanıtıcı bilgilerini kendilerine ait internet ortamında kullanıcıların ulaşabileceği şekilde ve güncel olarak bulundurmakla yükümlüdür." [Kanun] Tanıtıcı bilgilerin kapsamı (hangi bilgilerin bulundurulacağı) yönetmelikte düzenlenir (doğrulanmadı). Skill tanıtıcı bilgi metni yazmaz; site sahibine sorar, soru raporun "Sizden beklenenler" listesine girer (SKILL.md → 3. Kullanıcıya sorulacaklar). [skill yorumu]
 - Yer sağlayıcı, trafik bilgisini (IP dahil) **en az bir, en çok iki yıl** saklamakla yükümlüdür (md. 5/3). [Kanun]
 - Sonuç: 5651, sunucu kayıtlarının "kısa süreli" tutulmasının dayanağı değildir; tersine bir saklama yükümlülüğüdür. Yükümlülük yer sağlayıcıya aittir: site sahibi sunucuyu kendisi işletiyorsa 5/2‑ç ve 1–2 yıl; barındırma hizmeti kullanıyorsa yükümlülük genelde barındırıcıdadır, site sahibinin kaydı için 5/2‑f ve gerçek süre. [skill yorumu]
 - 5651'in yurt dışındaki barındırıcılara uygulanması bu dosyada doğrulanmadı.

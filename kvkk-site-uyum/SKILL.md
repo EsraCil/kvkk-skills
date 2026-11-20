@@ -74,11 +74,16 @@ ve push için ayrıca onay iste.
 
 ### 1. Denetim
 
-`scripts/denetim.sh` kaynakta şunları arar: izleyici imzaları (GTM, GA4, Meta,
-Hotjar, Clarity, Yandex, LinkedIn, TikTok, HubSpot, Intercom, Tawk, Crisp),
-gömülü içerik (YouTube, Vimeo, Google Maps), reCAPTCHA/Turnstile, Google Fonts,
+`scripts/denetim.sh` kaynak taramasını `cerez-uyum`'un `scripts/tarama.sh`
+betiğini çağırarak yapar: imza listesi tek kaynaktır, iki skill aynı imzaları
+arar. Aranan: izleyici imzaları (GTM, GA4, Meta, Hotjar, Clarity, Yandex,
+LinkedIn, TikTok, HubSpot, Intercom, Tawk, Crisp, Vercel Analytics, Matomo),
+rıza yönetimi (rıza yönetim platformu, Google Consent Mode, rızaya bağlı
+bekletilen betikler, sitenin kendi şeridi), gömülü içerik (YouTube, Vimeo,
+Google Maps), reCAPTCHA/Turnstile, Google Fonts,
 `document.cookie` / `localStorage` / `sessionStorage` / `indexedDB` yazımları,
-form `action` ve `fetch` hedefleri, `mailto:`, dış alan adları.
+form `action` ve `fetch` hedefleri, `mailto:`, WhatsApp bağlantısı (`wa.me`),
+dış alan adları, CSP ve güvenlik başlıkları.
 
 Çalışma zamanı denetimi `cerez-uyum` skill'inin `scripts/cerez-tespit.mjs`
 aracıyla yapılır (şerit öncesi / Reddet / Kabul senaryoları, formlar ve onay
@@ -98,10 +103,17 @@ ve süre kararları: `references/karar-agaci.md`. Madde ve şartlar:
 ### 3. Kullanıcıya sorulacaklar (tahmin etme; "bilmiyorum" geçerli cevap)
 
 - Veri sorumlusu kimliği: tüzel kişi mi (ticaret unvanı), şahıs işletmesi mi
-  (veri sorumlusu gerçek kişidir: adı soyadı, varsa işletme adıyla)? Adres
-  yazılacak mı? e‑posta? (Tebliğ veri sorumlusunun kimliğini ister [Tebliğ];
+  (veri sorumlusu gerçek kişidir: adı soyadı, varsa işletme adıyla)? Sitenin ya
+  da işletmenin adı ne (MARKA: kullanım koşullarında "… adı ve logosu", bülten
+  onay kutusunda gönderen)? Adres yazılacak mı? e‑posta? (Tebliğ veri sorumlusunun kimliğini ister [Tebliğ];
   yazılı başvuru yolu için bir posta adresi yine gerekir. Tercihi söyle, kararı
   ona bırak.)
+- **Tanıtıcı bilgiler (5651 md. 3/1):** içerik, yer ve erişim sağlayıcıları
+  tanıtıcı bilgilerini sitede kullanıcıların ulaşabileceği şekilde ve güncel
+  olarak bulundurmakla yükümlüdür [Kanun]. Site sahibine sitede tanıtıcı
+  bilgilerinin bulunup bulunmadığını sor; hangi bilgilerin sayılacağı
+  yönetmelikte düzenlenir (`references/mevzuat.md`, doğrulanmadı). Skill bu
+  metni yazmaz; soru raporun "Sizden beklenenler" listesine girer.
 - **Form ne için?** Teklif ya da hizmet talebi mi, genel soru ve şikâyet mi?
   Formu kişiler kendi adına mı, şirket adına mı dolduruyor? (K-Form)
 - **Site kime hizmet veriyor?** Yalnız işletmelere (tacir, esnaf) mi,
@@ -115,13 +127,25 @@ ve süre kararları: `references/karar-agaci.md`. Madde ve şartlar:
   cerez-uyum → K-Gömülü.
   Kendi fonksiyonu bir e‑posta gönderim servisi (Resend, SendGrid, SES…)
   kullanıyor mu (kaynak kodundan da bak)? Hangi sağlayıcılar yurt dışında
-  (Vercel, Google, Cloudflare, Formspree…)?
+  (Vercel, Google, Cloudflare, Formspree…)? Kurumsal e‑posta hangi sağlayıcıda
+  (fatura ya da alan adının MX kaydı)? Yurt dışındaysa `kvkk-yansima`
+  `--eposta <ad>` ile yeniden çalıştırılır; yurt dışı teknik cümlesinin
+  amacına "e‑posta yazışmalarının yürütülmesi" girer (K-Yurt dışı).
 - **Yurt dışı aktarım:** raporda her sağlayıcıyı ve kullanılabilecek yolları
   anlat; her biri için standart sözleşme imzalandı mı, Kurum'a 5 iş günü içinde
   bildirildi mi diye sor. Metin varsayılan olarak genel cümledir; sağlayıcı
   listesini metne isteyip istemediğini sor. (K-Yurt dışı)
 - **Sağlayıcıların rolü:** veriyi yalnız site sahibi adına mı işliyorlar
-  (sağlayıcının koşullarından teyit)? Teyit yoksa TEDARIKCI_ROL cümlesi yazılmaz.
+  (sağlayıcının koşullarından teyit)? Grup bazında sor (barındırma, form
+  hizmeti, e‑posta…; `kvkk-yansima` §6 grupları verir). TEDARIKCI_ROL yalnız
+  teyit edilen grup için, marka adı olmadan yazılır ("Barındırma hizmeti
+  sağlayıcısı verileri … adına ve talimatları doğrultusunda işler."); teyit
+  edilmeyen grup "Sizden beklenenler"de kalır.
+- **Güvenlik önlemleri:** kişisel verileri korumak için hangi önlemler alınıyor
+  (ör. iki adımlı doğrulama, yetkili kişiyle sınırlı erişim)? Site sahibi
+  bildirirse §10'a beyana dayalı genel cümle (GUVENLIK_CUMLESI) [site sahibi
+  beyanı]; bildirmezse ve HTTPS ölçülmediyse §10 silinir, sonraki başlık
+  numaraları kayar. Form iletimi §10'da tekrar edilmez (§5 anlatır).
 - **Sunucu:** site sahibi sunucuyu kendisi mi işletiyor (5651 anlamında yer
   sağlayıcı), barındırma hizmeti mi? Sunucu kayıtları ne kadar tutuluyor? (K-Sunucu)
 - **Veri geldikten sonra ne oluyor** (yalnız formun teknik yolu değil, iş akışı):
@@ -133,8 +157,13 @@ ve süre kararları: `references/karar-agaci.md`. Madde ve şartlar:
   Varsayılan sayı önerme; ölçütleri ver (gereklilik, ispat ihtiyacı, md. 4
   ölçülülük). Bilmiyorsa iddiasız cümle. (K-Saklama)
 - Bülten/kampanya e‑postası gönderilecek mi? Hayırsa ticari ileti kutusu YOK.
-  Evetse KVKK sebebi, kutu biçimi ve bilgilendirme biçimi (kilit ya da
-  katmanlı). (K-Bülten)
+  Evetse KVKK sebebi açık rızadır (tek onaylı 5/2‑c yolu elendi; K-Bülten);
+  sorulanlar: kutu biçimi (iki kutu ya da iki cümleli tek kutu), bilgilendirme
+  biçimi (kilit ya da katmanlı), bülten hangi araçla (gönderim hizmeti)
+  gönderilecek, onaylar İYS'ye kim ve nasıl kaydedecek, abone verisi (ad soyad,
+  e‑posta) ne kadar saklanacak (BULTEN_VERI_SURESI; bilinmiyorsa varsayılan
+  öneri "abonelikten çıkana kadar", Sizden beklenenler). Bülten formunda ad
+  soyad alanı bulunmalı (Yönetmelik md. 7/1). (K-Bülten)
 - Site kabul gerektiren bir hizmet sunuyor mu (üyelik, ücretli ya da kişiye özel
   araç, sipariş)? Sunmuyorsa formda kabul kutusu yok. (K-Koşullar)
 - Kullanım koşullarında yetki şartı istiyor mu? (Yalnız işletmelere hizmette;
@@ -152,7 +181,8 @@ ve süre kararları: `references/karar-agaci.md`. Madde ve şartlar:
 **sitenin mevcut doküman sayfası düzenine** uyarla (kendi `<head>`, stil
 sınıfları, footer bağlantısı). Yeni bir sayfa şablonu icat etme.
 
-- `kvkk-aydinlatma.html` — 12 başlık. ÖLÇÜM/RIZA/FORM/ALICI yer tutucuları
+- `kvkk-aydinlatma.html` — 12 başlık (§10 koşullu; yazılmazsa 11 başlık).
+  ÖLÇÜM/RIZA/FORM/ALICI yer tutucuları
   `kvkk-yansima.mjs` çıktısıyla doldurulur; şablondaki [Örnek] cümleleri
   yalnız o durumda (çerezsiz ölçüm, kendi form fonksiyonu, rıza yok) doğrudur.
   - §2: form gönderim kaydı (zaman, IP, metin sürümü) yalnız kendi sunucu
@@ -161,18 +191,32 @@ sınıfları, footer bağlantısı). Yeni bir sayfa şablonu icat etme.
     "barındırma sağlayıcısının belirlediği süre boyunca" yazılır; "kısa süreli"
     yazılmaz.
   - §3 ile §4'teki form amacı aynı olmalı (teklif/hizmet/sipariş, genel iletişim
-    ya da şirket adına teklif). Rızaya dayanan ölçümde "bireysel ziyaretçiyle
-    ilişkilendirilmeden" yazılmaz.
+    ya da şirket adına teklif). Rızasız ölçümün amacı "Site kullanımının
+    toplu istatistikler hâlinde ölçülmesi"dir; yöntemin şartları amaç
+    cümlesine yazılmaz, K-Ölçüm'de ve raporda kalır. Rızaya dayanan ölçümde bu
+    amaç ve "bireysel ziyaretçiyi izlemeyen" ifadesi yazılmaz.
   - §4: her amaç kendi hukuki sebebine, şartıyla bağlanır (K-Form, K-Sunucu);
     rızasız ölçüm güvenlikten ayrı satırdır. §4 ile §3 aynı şeyi söylemeli:
     rıza gerekmiyorsa "açık rızaya dayanan işleme yok" de; koşullu "ileride…rıza"
     cümlesi koyma.
   - §5: yöntem kanal bazında (Tebliğ 5/1‑i) [Tebliğ].
   - §6: her alıcı grubunun yanında aktarım amacı; yurt dışı varsayılan genel
-    cümleyle (K-Yurt dışı). Rızaya dayanan ölçüm/reklam ortakları teknik
-    sağlayıcılardan ayrı cümlede.
+    cümleyle (K-Yurt dışı): amaç yurt dışında görülen hizmetlerden kurulur,
+    aktarım yolu teyitliyse "KVKK'nın 9. maddesine uygun olarak", değilse
+    "KVKK'nın 9. maddesi kapsamında aktarılabilir". Rızaya dayanan ölçüm/reklam
+    ortakları teknik sağlayıcılardan ayrı cümlede. Bülten varsa gönderim
+    hizmeti ve İYS ayrı alıcı satırı (BULTEN_ALICI).
+  - §7: bülten varsa abone verisinin süresi (BULTEN_VERI_SURESI) site sahibinin
+    beyanıdır; bilinmiyorsa varsayılan öneri "Bülten aboneliğine ilişkin ad
+    soyadınız ve e‑posta adresiniz, abonelikten çıkana kadar saklanır."
+    (`references/karar-agaci.md` → K-Bülten).
   - §9: Başvuru Tebliği'ndeki yolların hepsi; e‑posta yolu yalnız kayıtlı
-    adresten (md. 5/1) [Tebliğ].
+    adresten (md. 5/1) [Tebliğ]. KEP adresi yoksa satır KEP'i anmaz:
+    "Güvenli elektronik imza veya mobil imza kullanarak <e‑posta> adresimize"
+    (KEP_SATIRI).
+  - §10: yalnız HTTPS ölçüldüyse (HTTPS_CUMLESI) ya da site sahibi güvenlik
+    önlemi bildirdiyse (GUVENLIK_CUMLESI) yazılır; ikisi de yoksa başlık
+    silinir ve sonraki numaralar kayar.
 - Çerez Aydınlatma Metni ve şerit/panel → `cerez-uyum/templates/`. Buradaki
   metinlerde çerez sayfasına "çerez aydınlatma metni" adıyla atıf yap
   (`{{CEREZ_URL}}`).
@@ -184,7 +228,10 @@ sınıfları, footer bağlantısı). Yeni bir sayfa şablonu icat etme.
 - `form-onay.html` — varsayılan tek zorunlu kutu: "aydınlatma metnini
   **okudum**" (kabul değil; aydınlatma kabul edilmez). "Kullanım koşullarını
   okudum ve **kabul ediyorum**" kutusu yalnız kabul gerektiren hizmette
-  (K-Koşullar). Bülten varsa isteğe bağlı, işaretsiz ayrı beyanlar (K-Bülten).
+  (K-Koşullar). Bülten varsa isteğe bağlı, işaretsiz ayrı beyanlar (K-Bülten);
+  iki kutulu biçimde yalnız biri işaretliyse bülten kaydı yapılmaz, form
+  gönderilir ve ziyaretçiye "Bülten için iki kutunun da işaretlenmesi
+  gerekir." notu gösterilir.
   Formun altındaki ticari ileti cümlesi K-Ticari ileti kitlesine bağlıdır.
   Sunucu tarafı da doğrular ve kayda `metin sürümü <tarih>` yazar
   (`sunucu-dogrulama.mjs`, `LEGAL_VERSION`). Kanıt istemcide değil sunucuda
@@ -216,7 +263,7 @@ doğrulaması: `cerez-uyum` → `templates/riza-paneli.html` ve iş akışı ad�
 ## Güncel kaynak (isteğe bağlı)
 
 `references/` dosyaları hazırlandıkları tarihin bilgisidir (Çerez Rehberi
-Temmuz 2025; mevzuat 11.11.2026). Ortamda Türk mevzuatı ya da KVKK Kurul
+Temmuz 2025; mevzuat 19.11.2026, 5651 md. 3/1 20.11.2026). Ortamda Türk mevzuatı ya da KVKK Kurul
 kararı getiren bir MCP aracı varsa (ör. `kurum_karari_ara` /
 `kurum_karari_getir`, `mevzuat_ara` / `mevzuat_getir` adlı araçlar) şu üç
 yerde kullan. Araç yoksa statik dosyalarla devam et; skill araçsız da tam çalışır.
@@ -275,31 +322,51 @@ Bu rapor hukuki görüş değildir; yayından önce metinler site sahibi tarafı
 ## Sizden beklenenler
 [seçim bekleyen kararlar; "bilmiyorum" denen her soru: neyi, nereden öğreneceğiniz, öğrenince metnin nasıl değişeceği]
 ## Görev
-## Değişiklik      [dosya dosya]
+## Değişiklik      [dosya dosya; her dosyada "Yer tutucular:" satırı — doldurulan yer tutucuların adları, virgülle]
 ## Kararlar        [her karar ### K-<Konu> biçiminde — references/karar-agaci.md]
-## Dayanak         [tablo: site metnindeki her olgu ya da hukuk cümlesi → kaynak etiketi, dayanak, bulgu/beyan]
+## Dayanak         [tablo: her yer tutucu ve her karar bir satır → kaynak etiketi, dayanak, bulgu/beyan]
 ## Kanıt           [denetim çıktısı, metin-kontrol çıktısı, build, validate testi, ekran görüntüsü]
 ## Riskler         [uyum engelleri (ör. yurt dışı aktarımın dayanağı belirlenmedi), yayında test edilecekler]
 ## Çerez           [cerez-uyum raporunun bölümleri: Kapsam, Bulgular, Şerit, Ölçüm, Öneri, EK-1; çerez kararları da ## Kararlar altına]
 ## Kaynaklar       [güncel kaynak kontrolü: tarih, araç, bulunan kararlar. Araç yoksa: "skill içi dosyalar
-                    (Rehber Temmuz 2025, mevzuat 11.11.2026); sonraki değişiklikler kontrol edilmedi"]
+                    (Rehber Temmuz 2025, mevzuat 19.11.2026; 5651 md. 3/1 20.11.2026); sonraki değişiklikler kontrol edilmedi"]
 ```
 
 Site sahibi hukukçu olmayabilir: özet ve "Sizden beklenenler" düz dille yazılır.
 
-Dayanak tablosu biçimi (`metin-kontrol.mjs rapor` denetler):
+Değişiklik ve Dayanak biçimi (`metin-kontrol.mjs rapor` denetler):
 
 ```
+## Değişiklik
+- kvkk-aydinlatma.html — §2, §4, §7 güncellendi. Yer tutucular: LOG_SURESI, SUNUCU_SEBEP, TALEP_SURESI
+
 ## Dayanak
-| # | Site metnindeki cümle (kısa) | Kaynak | Dayanak | Bulgu / beyan |
-|---|---|---|---|---|
-| 1 | "Sunucu erişim kayıtlarında 30 gün…" | [site sahibi beyanı] | — | Site sahibi, 19.11.2026 |
-| 2 | "…meşru menfaatleri bakımından… (5/2‑f)" | [Kanun] | KVKK md. 5/2‑f | Kararlar → K-Sunucu |
-| 3 | "…barındırma sağlayıcısının belirlediği süre boyunca…" | [site sahibi beyanı: bilinmiyor] | — | Sizden beklenenler → log süresi |
+| # | Yer tutucu / karar | Site metnindeki cümle (kısa) | Kaynak | Dayanak | Bulgu / beyan |
+|---|---|---|---|---|---|
+| 1 | LOG_SURESI | "…barındırma sağlayıcısının belirlediği süre boyunca…" | [site sahibi beyanı: bilinmiyor] | — | Site sahibi, 19.11.2026: bilmiyorum (Sizden beklenenler → log süresi) |
+| 2 | SUNUCU_SEBEP, K-Sunucu | "…meşru menfaatleri bakımından… (5/2‑f)" | [Kanun] | KVKK md. 5/2‑f | Kararlar → K-Sunucu |
+| 3 | TALEP_SURESI | "…talebin sonuçlanmasından itibaren 2 yıl…" | [site sahibi beyanı] | — | Site sahibi, 19.11.2026 |
 ```
 
-"Kaynak" sütunu yalnız sekiz etiketten biri (`[etiket: açıklama]` biçimi dahil)
-ya da `[DOĞRULA]` olur; "Bulgu / beyan" sütunu boş bırakılmaz.
+Her yer tutucu ve her karar bir satırdır: Değişiklik'teki "Yer tutucular:"
+satırlarında adı geçen her yer tutucu ve Kararlar'daki her `### K-` kararı
+"Yer tutucu / karar" sütununda en az bir satırda geçer (bir hücrede virgülle
+birden çok ad olabilir). `metin-kontrol.mjs rapor` eksik olanı hata sayar;
+"Yer tutucular:" satırı yoksa yalnız kararları eşleştirir ve uyarı verir.
+Şablonun yer tutucusuz sabit cümleleri için satır zorunlu değildir.
+
+**Kaynak** sütunu yalnız sekiz etiketten biri ya da `[DOĞRULA]` olur; etiketin
+yanına kısa bir açıklama eklenebilir (`[site sahibi beyanı: bilinmiyor]`,
+`[Rehber: tavsiye — örnek]`), birden çok etiket `+` ile bağlanır
+(`[Kanun] + [skill yorumu]`); madde, fıkra ya da Rehber sayfası Dayanak
+sütununa yazılır. "Bulgu / beyan" sütunu boş bırakılmaz, "—"
+yazılmaz.
+
+Site sahibi "bilmiyorum" dediyse Kaynak `[site sahibi beyanı: bilinmiyor]`,
+Bulgu / beyan "Site sahibi, <tarih>: bilmiyorum (Sizden beklenenler → <soru>)"
+olur ("Bilmiyorum" cevabı). Örnek satır:
+
+`| 1 | LOG_SURESI | "…barındırma sağlayıcısının belirlediği süre boyunca…" | [site sahibi beyanı: bilinmiyor] | — | Site sahibi, 19.11.2026: bilmiyorum (Sizden beklenenler → log süresi) |`
 
 ### Rapor dosyası
 

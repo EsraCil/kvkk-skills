@@ -292,6 +292,7 @@ for (const [s, r] of Object.entries(result.senaryolar)) {
   const when = s === 'ilk' ? 'RIZA ÖNCESİ' : s === 'reddet' ? 'RET SONRASI' : null;
   if (!when) continue;
   for (const c of r.cerezler.filter((c) => c.riza === true)) warn(`${when}: rıza gerektiren çerez yerleşmiş — ${c.name} (${c.saglayici})`);
+  for (const d of [...r.yerelDepolama, ...r.oturumDepolama].filter((d) => d.riza === true)) warn(`${when}: rıza gerektiren depolama kaydı — ${d.key} (${d.saglayici}, ${d.tur})`);
   for (const h of r.ucuncuTaraf.filter((h) => h.riza === true)) warn(`${when}: rıza gerektiren sağlayıcıya istek — ${h.host} (${h.saglayici}, ${h.istek} istek)`);
   for (const c of r.cerezler.filter((c) => c.riza === null)) warn(`${s}: tanınmayan çerez — ${c.name} (${c.domain}); amacını site sahibine sor`, 'c:' + c.name);
   for (const d of [...r.yerelDepolama, ...r.oturumDepolama].filter((d) => d.riza === null)) warn(`${s}: tanınmayan depolama anahtarı — ${d.key} (${d.tur})`, 'd:' + d.key);

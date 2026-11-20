@@ -5,15 +5,18 @@
 // ve EK-4 metninden (s. 50–51) eklendi [Tebliğ]. Hücreler site metnine girer: etiket yazılmaz.
 //
 // Kullanım: node tablo.mjs sonuc.json [--md]
-//   varsayılan çıktı: templates/cerez-aydinlatma.html içindeki <tbody>'ye konacak <tr> satırları
-//   --md            : sohbette göstermek için Markdown tablo
+//   varsayılan çıktı: templates/cerez-aydinlatma.html içindeki <tbody>'ye konacak <tr> satırları; yalnız satırlar,
+//                     HTML yorumu yok (yayımlanan sayfanın kaynak koduna denetim notu girmesin). Notlar --md'dedir.
+//   --md            : sohbette göstermek için Markdown tablo, her satırın kaynağı (görüldüğü senaryo, DİKKAT notları)
+//                     ve rıza panelinin kategori listesi (riza-paneli.html: kategori açıklamaları ve data-consent-cookies)
 //
 // Bu bir TASLAKTIR. [DOĞRULA] işaretli her hücre site sahibine sorulmadan ya da
 // tedarikçi dokümanından doğrulanmadan yayına gitmez. Süreler ölçülen gerçek
 // sürelerdir (tedarikçi beyanı değil); rıza sonrası senaryo varsa oradan alınır.
 //
 // Ölçümde şerit ya da panelin tercih kaydı (Rehber 5.8) yoksa yeni kurulum sayılır: şablonun kuracağı kaydın
-// satırı {{KAYIT_ADI}} ve {{YENIDEN_SORMA_GUN}} yer tutucularıyla en başa eklenir. Birinci taraf ölçüm yolları
+// satırı {{KAYIT_ADI}} ve {{YENIDEN_SORMA_GUN}} yer tutucularıyla en başa eklenir. Gömülü içerik varsa tıklayınca yükle
+// kutusunun kaydı ({{KAYIT_ADI}}-gomulu; templates/tikla-yukle.html) da yeni kurulum satırı olarak eklenir. Birinci taraf ölçüm yolları
 // (ör. /_vercel/insights) references/tedarikciler.json → "yollar" ile sınıflanır. Gömülü içerik sağlayıcısının
 // (YouTube, Vimeo, Google Haritalar) kalemleri "Gömülü içerik" türüyle ayrı kategoride durur (K-Gömülü; rıza
 // panelindeki "Gömülü içerik" kategorisiyle aynı). Yerel depolama kalemi ölçülen bir iframe'in sağlayıcısına
@@ -31,7 +34,7 @@ const S = res.senaryolar;
 const db = JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), '..', 'references', 'tedarikciler.json'), 'utf8'));
 const eslestir = (liste, deger) => (liste || []).find((e) => new RegExp(e.desen, 'i').test(deger)) || null;
 
-const TUR = { zorunlu: 'Kesinlikle gerekli', analitik: 'Performans ve analitik', reklam: 'Reklam ve pazarlama', 'reklam/tercih': 'Reklam ve pazarlama', işlevsel: 'İşlevsel', 'analitik/pazarlama': 'Performans ve analitik / pazarlama', güvenlik: 'Kesinlikle gerekli (güvenlik)', 'çerezsiz ölçüm': 'Analitik ölçüm (çerezsiz)', 'gömülü içerik': 'Gömülü içerik', 'etiket yöneticisi': 'Etiket yöneticisi' };
+const TUR = { zorunlu: 'Kesinlikle gerekli', analitik: 'Performans ve analitik', reklam: 'Reklam ve pazarlama', 'reklam/tercih': 'Reklam ve pazarlama', işlevsel: 'İşlevsel', 'analitik/pazarlama': 'Performans ve analitik / pazarlama', güvenlik: 'Kesinlikle gerekli (güvenlik)', 'çerezsiz ölçüm': 'Analitik ölçüm (çerezsiz)', 'gömülü içerik': 'Gömülü içerik', 'etiket yöneticisi': 'Site araçlarını yükleyen hizmet' };
 // Hukuki sebep taslağı. Rıza gerektiren → açık rıza (md. 5/1). Rıza dışı kalemde kesin varsayılan yok: işlem bir
 // sözleşmeyi gerektiriyorsa (sepet, giriş: kriter 5.1 / 5.2) 5/2-c, değilse 5/2-f; ikisi de [DOĞRULA] ile
 // (Rehber s. 17–18; EK-4 s. 50–51 "c veya f"). Koşullu ölçüm kaleminde sebep K-Ölçüm seçimine bağlıdır (rızasız
@@ -98,6 +101,19 @@ if (!tumKayitlar.some((x) => /5\.8/.test(x.kriter || ''))) rows.set('yeni:kayit'
   sure: '{{YENIDEN_SORMA_GUN}} gün',
   riza: false, yeni: true, gorulen: new Set(),
 });
+// Tıklayınca yükle kutusunun kaydı: gömülü içerik ölçüldüyse ve kayıt henüz ölçülmediyse yeni kurulum satırı. Kutu yalnız
+// tıklamayla verilen izni sağlayıcı bazında tutar (sürüm, zaman, sağlayıcı alan adları); ömrü YENIDEN_SORMA_GUN ile aynı.
+const gomuluVar = order.some((k) => [...S[k].cerezler, ...S[k].yerelDepolama, ...S[k].oturumDepolama, ...S[k].ucuncuTaraf].some(gomulu))
+  || [...iframeSaglayici].some((v) => GOMULU_AD.test(v));
+if (gomuluVar && !tumKayitlar.some((x) => /-gomulu$/.test(x.key || x.name || ''))) rows.set('yeni:gomulu', {
+  ad: '{{KAYIT_ADI}}-gomulu',
+  tur: 'Kesinlikle gerekli (yerel depolama, çerez değil)',
+  taraf: 'Birinci taraf',
+  amac: '{{GOMULU_KAYIT_AMACI — tıklayınca yükle kutusunda verdiğiniz izni yalnız o sağlayıcı için hatırlamak; örn. "Gömülü içeriği açma izninizi, yalnız izin verdiğiniz sağlayıcı için hatırlamak"}}',
+  sebep: 'Meşru menfaat (KVKK md. 5/2-f)',
+  sure: '{{YENIDEN_SORMA_GUN}} gün',
+  riza: false, yeni: 'gomulu', gorulen: new Set(),
+});
 // Birinci taraf ölçüm yolu sınıflandıysa (tedarikciler.json → yollar) "cihazda saklanmaz" tarama bulgusudur; yalnız
 // sağlayıcısı bilinmeyen bir çerez ya da depolama kalemi varsa [DOĞRULA] kalır.
 const bilinmeyenKayit = tumKayitlar.some((x) => !x.saglayici);
@@ -112,7 +128,7 @@ for (const scen of order) {
       amac: c.amac || '[DOĞRULA: amaç — site sahibine sor]',
       sebep: SEBEP(c),
       sure: c.sure === 'oturum' ? 'Oturum süresince' : c.sure,
-      riza: c.riza, gomulu: gomulu(c),
+      riza: c.riza, gomulu: gomulu(c), sinif: c.sinif, birinciCerez: c.party === 'birinci',
     }, scen);
   }
   for (const d of [...r.yerelDepolama, ...r.oturumDepolama]) {
@@ -128,7 +144,7 @@ for (const scen of order) {
         : /5\.8/.test(d.kriter || '') ? '[DOĞRULA: tercih kaydının ömrü — şerit/panel kodundaki YENIDEN_SORMA_GUN ile aynı gün sayısı]'
         : taraf.startsWith('Üçüncü') ? '[DOĞRULA: sağlayıcının belirlediği süre]'
         : '[DOĞRULA: site kodundaki süre; yoksa "silinene kadar"]',
-      riza: d.riza, gomulu: gomulu(d),
+      riza: d.riza, gomulu: gomulu(d), sinif: d.sinif,
     }, scen);
   }
   for (const m of r.birinciTarafOlcum || []) {
@@ -141,7 +157,7 @@ for (const scen of order) {
       amac: v.amac || '[DOĞRULA: amaç]',
       sebep: SEBEP(v),
       sure: bilinmeyenKayit ? 'Cihazda saklanmaz [DOĞRULA]' : 'Cihazda saklanmaz',
-      riza: v.riza, yollar: new Set(),
+      riza: v.riza, yollar: new Set(), sinif: v.sinif,
     }, scen);
     satir.yollar.add(m.yol);
   }
@@ -159,7 +175,7 @@ for (const scen of order) {
       amac: '[DOĞRULA: amaç]',
       sebep: SEBEP(h),
       sure: 'Cihazda saklanmaz [DOĞRULA]',
-      riza: h.riza, gomulu: gomulu(h),
+      riza: h.riza, gomulu: gomulu(h), sinif: h.sinif,
     }, scen);
   }
 }
@@ -167,22 +183,52 @@ for (const scen of order) {
 const list = [...rows.values()];
 const infra = [...new Set(order.flatMap((k) => S[k].ucuncuTaraf.filter((h) => h.sinif === 'üçüncü taraf kaynak').map((h) => `${h.host} (${h.saglayici})`)))];
 const infraNote = infra.length ? `Tabloya girmeyen altyapı kaynakları (IP bu sunuculara gider; KVKK metninde "Aktarım" / altyapı sağlayıcıları altında anlat, self-host öner): ${infra.join(', ')}` : '';
-if (!list.length) { console.log(md ? `_Tabloya girecek çerez, depolama veya ölçüm kalemi yok._${infraNote ? '\n\n' + infraNote : ''}` : `<!-- tabloya girecek kalem yok${infraNote ? ' — ' + infraNote : ''} -->`); process.exit(0); }
+// HTML çıktısı yalnız <tr> satırlarıdır; not ve uyarılar standart hataya yazılır, sayfanın kaynak koduna girmez.
+if (!list.length) {
+  if (md) console.log(`_Tabloya girecek çerez, depolama veya ölçüm kalemi yok._${infraNote ? '\n\n' + infraNote : ''}`);
+  else console.error(`Tabloya girecek kalem yok.${infraNote ? ` ${infraNote}` : ''}`);
+  process.exit(0);
+}
 // Gömülü içerik ilk açılışta görülüyorsa RIZA ÖNCESİ bulgusudur (SKILL.md → Ölçüm, K-Gömülü).
 const dikkat = (r) => (!r.gorulen.has('ilk') ? '' : r.gomulu ? ' — DİKKAT: gömülü içerik ilk açılışta, izin ya da tıklama olmadan yükleniyor (RIZA ÖNCESİ, K-Gömülü)' : r.riza === true ? ' — DİKKAT: rıza gerektiriyor ama ilk açılışta var' : '');
-const note = (r) => (r.yeni
-  ? 'yeni kurulum: şerit ya da panelin kendi tercih kaydı (Rehber 5.8); ad, amaç ve süre şablondaki değerlerle aynı yazılır; şerit ya da panel kurulmayacaksa satırı sil'
-  : `görüldüğü senaryo: ${[...r.gorulen].join(', ')}${r.yollar?.size ? ` (yol: ${[...r.yollar].join(', ')})` : ''}${dikkat(r)}`);
+const note = (r) => (r.yeni === 'gomulu'
+  ? 'yeni kurulum: tıklayınca yükle kutusunun izin kaydı (templates/tikla-yukle.html; sürüm, zaman, sağlayıcı alan adları); ad ve süre şablondaki değerlerle aynı yazılır; tıklayınca yükle kutusu kullanılmayacaksa (K-Gömülü C) satırı sil'
+  : r.yeni
+    ? 'yeni kurulum: şerit ya da panelin kendi tercih kaydı (Rehber 5.8); ad, amaç ve süre şablondaki değerlerle aynı yazılır; şerit ya da panel kurulmayacaksa satırı sil'
+    : `görüldüğü senaryo: ${[...r.gorulen].join(', ')}${r.yollar?.size ? ` (yol: ${[...r.yollar].join(', ')})` : ''}${dikkat(r)}`);
+
+// Rıza paneli kategorileri (riza-paneli.html): tablodaki her rıza kalemi bir kategoride yer alır. Kategori açıklaması
+// (ANALITIK_ACIKLAMA, PAZARLAMA_ACIKLAMA, GOMULU_ACIKLAMA) kategorideki bütün kalemleri anar; data-consent-cookies yalnız
+// birinci taraf çerez adlarını taşır (üçüncü taraf çerezi site silemez). Böylece panel ile tablo ayrışmaz.
+const KATEGORI = [
+  ['analitik', 'Analitik', (r) => !r.gomulu && /^(analitik|çerezsiz ölçüm)$/.test(r.sinif || '')],
+  ['pazarlama', 'Reklam ve pazarlama', (r) => !r.gomulu && /reklam|pazarlama/.test(r.sinif || '')],
+  ['gomulu', 'Gömülü içerik', (r) => r.gomulu],
+];
+const panelKategorileri = () => {
+  const satirlar = [];
+  for (const [kod, baslik, uyar] of KATEGORI) {
+    const kalemler = list.filter((r) => !r.yeni && r.riza !== false && uyar(r));
+    if (!kalemler.length) continue;
+    const birinci = kalemler.filter((r) => r.birinciCerez).map((r) => r.ad);
+    satirlar.push(`- ${baslik} (data-consent-cat="${kod}"): ${kalemler.map((r) => `${r.ad} — ${r.taraf.charAt(0).toLocaleLowerCase('tr-TR')}${r.taraf.slice(1)}`).join('; ')} — ${birinci.length ? `data-consent-cookies="${birinci.join(' ')}"` : 'birinci taraf çerez yok, data-consent-cookies özniteliği silinir'}`);
+  }
+  const yonetici = list.filter((r) => !r.yeni && r.sinif === 'etiket yöneticisi').map((r) => r.ad);
+  if (yonetici.length) satirlar.push(`- ${yonetici.join(', ')}: kendi kategorisi yoktur; yüklediği etiketin kategorisinde bekler (örn. Google Analytics etiketi → Analitik)`);
+  const kararli = list.filter((r) => !r.yeni && r.riza === 'kosullu' && !KATEGORI.some(([, , uyar]) => uyar(r)) && r.sinif !== 'etiket yöneticisi').map((r) => r.ad);
+  if (kararli.length) satirlar.push(`- Kategorisi karara bağlı (K-Sohbet, K-Tercih, K-Form güvenliği; cerez-uyum SKILL.md → Kararlar): ${kararli.join(', ')}`);
+  return satirlar;
+};
 
 if (md) {
   console.log('| Ad | Tür | Taraf | Amaç | Hukuki sebep | Süre |');
   console.log('|---|---|---|---|---|---|');
   for (const r of list) console.log(`| ${r.ad} | ${r.tur} | ${r.taraf} | ${r.amac} | ${r.sebep} | ${r.sure} |`);
   console.log('\nKaynak: ' + list.map((r) => `${r.ad} (${note(r)})`).join('; '));
+  const panel = panelKategorileri();
+  if (panel.length) console.log(`\nRıza paneli kategorileri (riza-paneli.html; kategori açıklaması kategorideki bütün kalemleri anar, data-consent-cookies yalnız birinci taraf çerezleri taşır):\n${panel.join('\n')}`);
   if (infraNote) console.log('\n' + infraNote);
 } else {
-  for (const r of list) {
-    console.log(`      <!-- ${esc(note(r))} -->`);
-    console.log(`      <tr><td>${esc(r.ad)}</td><td>${esc(r.tur)}</td><td>${esc(r.taraf)}</td><td>${esc(r.amac)}</td><td>${esc(r.sebep)}</td><td>${esc(r.sure)}</td></tr>`);
-  }
+  for (const r of list) console.log(`      <tr><td>${esc(r.ad)}</td><td>${esc(r.tur)}</td><td>${esc(r.taraf)}</td><td>${esc(r.amac)}</td><td>${esc(r.sebep)}</td><td>${esc(r.sure)}</td></tr>`);
+  console.error(`Not: satırların kaynağı (görüldüğü senaryo, DİKKAT notları) ve rıza paneli kategorileri yalnız --md çıktısında.${infraNote ? ` ${infraNote}` : ''}`);
 }

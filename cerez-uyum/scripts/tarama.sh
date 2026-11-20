@@ -63,6 +63,7 @@ hit "<form action>"              '<form[^>]*action='
 hit "Formspree / Netlify / Getform / Basin" 'formspree\.io|data-netlify|getform\.io|usebasin\.com'
 hit "fetch/XHR"                  'fetch\(|XMLHttpRequest|axios\.'
 hit "mailto:"                    'mailto:'
+hit "WhatsApp bağlantısı"        'wa\.me/|api\.whatsapp\.com/'
 hit "Onay kutusu (kvkk/terms)"   'name="(kvkk|terms|consent|onay)"'
 
 say "Yasal sayfalar mevcut mu"
@@ -76,7 +77,13 @@ grep -rIhoE "${EX[@]}" "${INC[@]}" -- 'https?://[a-zA-Z0-9.-]+\.[a-z]{2,}' . 2>/
   | sed -E 's#https?://##' | sort | uniq -c | sort -rn | head -25 | sed 's/^/  /'
 
 say "CSP / güvenlik başlıkları"
+# Bulunan başlık satırları yazılır; "(CSP yok)" ayrıca Content-Security-Policy satırına bakılarak yazılır
+# (Referrer-Policy ya da X-Frame satırı CSP varmış gibi okunmasın).
 for f in vercel.json netlify.toml _headers nginx.conf .htaccess; do
-  [ -f "$f" ] && { printf '  %s:\n' "$f"; grep -nE 'Content-Security-Policy|X-Frame|Referrer-Policy' "$f" | cut -c1-200 | sed 's/^/    /' || printf '    (CSP yok)\n'; }
+  if [ -f "$f" ]; then
+    printf '  %s:\n' "$f"
+    grep -nE 'Content-Security-Policy|X-Frame|Referrer-Policy' "$f" | cut -c1-200 | sed 's/^/    /'
+    grep -qE 'Content-Security-Policy' "$f" || printf '    (CSP yok)\n'
+  fi
 done
 printf '\nBitti. Bu rapor karar vermez: references/rehber-2025.md ile sınıfla, cerez-tespit.mjs ile gerçek davranışı doğrula.\n'

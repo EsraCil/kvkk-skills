@@ -167,7 +167,7 @@
       "amac": "Canlı destek sohbeti (Crisp)"
     },
     {
-      "desen": "^(VISITOR_INFO1_LIVE|YSC|VISITOR_PRIVACY_METADATA|__Secure-YEC|LOGIN_INFO|PREF)$",
+      "desen": "^(VISITOR_INFO1_LIVE|YSC|VISITOR_PRIVACY_METADATA|__Secure-YEC|__Secure-YNID|__Secure-ROLLOUT_TOKEN|LOGIN_INFO|PREF)$",
       "saglayici": "YouTube",
       "sinif": "reklam",
       "taraf": "üçüncü",

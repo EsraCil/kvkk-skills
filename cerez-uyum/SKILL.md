@@ -88,11 +88,11 @@ HTTPS, barındırma sağlayıcısı, formun hedefi.
 |---|---|
 | `scripts/tarama.sh <kök>` | Kaynak kod varsa, ilk adım |
 | `scripts/cerez-tespit.mjs <url>` | Her zaman; asıl ölçüm |
-| `scripts/tablo.mjs sonuc.json [--md]` | Metin tablosu taslağı |
-| `scripts/kvkk-yansima.mjs sonuc.json [--kok <dizin>] [--barindirma <ad>]` | Sizden beklenenler, bulguların KVKK aydınlatma metnine (§2–§7, §10) yansıması ve Kararlar; kvkk-site-uyum bunu kullanır |
-| `scripts/metin-kontrol.mjs site <html…>` | Siteye yazmadan önce: kalan `{{`, `[DOĞRULA]`, etiket sızıntısı, yasak kalıp |
-| `scripts/metin-kontrol.mjs rapor <rapor.md>` | Raporu kaydetmeden önce: Dayanak ve Kararlar biçimi |
-| `scripts/metin-kontrol-test.mjs` | Betik değişince regresyon testi; bulgu çıkmaması metnin hukuken doğru olduğu anlamına gelmez |
+| `scripts/tablo.mjs sonuc.json [--md]` | Metin tablosu taslağı; HTML çıktısı yalnız `<tr>` satırlarıdır (yorum yok), satırların kaynağı, DİKKAT notları ve rıza paneli kategorileri `--md` çıktısında |
+| `scripts/kvkk-yansima.mjs sonuc.json [--kok <dizin>] [--barindirma <ad>] [--eposta <ad>]` | Sizden beklenenler, bulguların KVKK aydınlatma metnine (§2–§7, §10) yansıması ve Kararlar; kvkk-site-uyum bunu kullanır. `--eposta`: yurt dışındaki kurumsal e‑posta sağlayıcısı |
+| `scripts/metin-kontrol.mjs site <html…>` | Siteye yazmadan önce: kalan `{{`, `[DOĞRULA]`, etiket sızıntısı, yasak kalıp, boş paragraf/madde/bölüm, çıplak yer tutucu adı, iç terim (K-…, "Seçenek X", §n); HTML yorumu ve betik/stil içi not uyarı |
+| `scripts/metin-kontrol.mjs rapor <rapor.md>` | Raporu kaydetmeden önce: Dayanak ve Kararlar biçimi; her yer tutucu ve her kararın Dayanak satırı |
+| `scripts/metin-kontrol-test.mjs` | Betik değişince regresyon testi (her durum tetiklenen kuralı kimliğiyle doğrular); bulgu çıkmaması metnin hukuken doğru olduğu anlamına gelmez |
 | `references/rehber-2025.md` | Sınıflama ve her hüküm için; sayfa numarası ver |
 | `references/analitik.md` | Ölçüm aracı varsa (GA4, Clarity, Cloudflare, Plausible…) |
 | `references/metin-kurallari.md` | Metin/şerit yazmadan önce mutlaka |
@@ -137,6 +137,8 @@ Belirle ve kullanıcıya bir satırla söyle:
 - **Kaynak:** Yayındaki sürümün kaynağı çalışma dalından farklı olabilir.
   Yayındaki dalı (ör. `master`) dosyalara dokunmadan taramak için:
   `git -C <repo> archive master | tar -x -C /tmp/yayin && bash scripts/tarama.sh /tmp/yayin`.
+- **Kullanım sınırı:** Ölçüm aracını yalnız kendi sitenizde ya da ölçme yetkiniz olan sitelerde kullanmanız önerilir.
+  Kullanıcı başka bir sitenin ölçülmesini isterse bu notu ona ilet.
 - **Rehber kapsamı:** Rehber yalnız kişisel veri işleyen **çerezleri** kapsar;
   localStorage, beacon, piksel, parmak izi kapsam dışıdır (s. 9). Bunları yine
   ölç ve metinde göster, ama sınıflamada "benzetme" olarak, `[skill yorumu]`
@@ -191,6 +193,9 @@ EK-4 "c veya f" der (s. 50–51) [Rehber: tavsiye]. Kesin varsayılan yazılmaz:
 
 `riza: "kosullu"` kalemleri (sohbet, reCAPTCHA, çerezsiz ölçüm, dil tercihi)
 tek tek düşün: nasıl yükleniyor, kullanıcı açıkça istedi mi, veri kime gidiyor.
+Her birinin kararı var (8. Rapor → Kararlar): reCAPTCHA → K-Form güvenliği,
+canlı destek aracı → K-Sohbet, sitenin dil ya da tema tercihi kaydı → K-Tercih,
+çerezsiz ölçüm → K-Ölçüm; `kvkk-yansima` koşullu kalemi bu kararlara yönlendirir.
 Birinci taraf ölçüm yolları (`/_vercel/insights`, `/_vercel/speed-insights`)
 `tedarikciler.json` → `yollar` ile tanınır (Vercel Web Analytics / Speed
 Insights, çerezsiz ölçüm; K-Ölçüm).
@@ -217,17 +222,41 @@ kaydı "birinci taraf" yazılmaz; kaynağı bilinmeyen depolama kaleminde taraf
    aracı kaldırmak; (b) sağlayıcıyla standart sözleşme imzalamak ve imzadan
    sonra 5 iş günü içinde Kurum'a bildirmek (md. 9/5) [Kanun]. Önce azaltmayı öner.
 3. Metin varsayılan olarak genel cümledir (KVKK şablonunda YURT_DISI) [skill yorumu].
-   Teknik sağlayıcılar için birebir: "Kişisel verileriniz, sitenin barındırılması
-   ve çalıştırılması amacıyla yurt dışında bulunan bulut hizmeti ve yazılım
-   sağlayıcılarına, KVKK'nın 9. maddesine uygun olarak aktarılabilir." Rızaya
-   dayanan ölçüm ya da reklam ortağı varsa ayrıca birebir: "İzin vermeniz
-   hâlinde, ziyaret istatistikleri ve reklam amacıyla yurt dışında bulunan
-   ölçüm ve reklam ortaklarına da aktarılabilir." Amaç taramaya göre daralır:
-   yalnız ölçüm varsa "ziyaret istatistikleri amacıyla … ölçüm ortaklarına",
-   yalnız reklam varsa "reklam amacıyla … reklam ortaklarına". Sağlayıcı adlı
-   liste metne yalnız site sahibi isterse girer [site sahibi beyanı].
-4. Yol teyit edilmezse metin yine genel cümleyle yazılır; raporda K-Yurt dışı
-   altında "aktarımın dayanağı belirlenmedi" **uyum engeli** kalır. Engel
+   Teknik sağlayıcılar için birebir kalıp: "Kişisel verileriniz, <amaçlar>
+   amacıyla yurt dışında bulunan bulut hizmeti ve yazılım sağlayıcılarına,
+   KVKK'nın 9. maddesi kapsamında aktarılabilir." Amaçlar taramada yurt dışında
+   görülen hizmetlerden kurulur, sağlayıcı adı geçmez: "sitenin barındırılması"
+   yalnız barındırma yurt dışındaysa; "sitenin güvenli ve hızlı sunulması"
+   (Cloudflare: vekil sunucu, CDN, güvenlik duvarı); "form gönderimlerinin
+   iletilmesi" (form hizmeti ya da form işlevinin e‑posta gönderim servisi;
+   iletişim ve bülten formları); "formun kötüye kullanıma karşı korunması" (reCAPTCHA, Cloudflare Turnstile); "yazı
+   tiplerinin sunulması"; "site bileşenlerinin sunulması" (açık CDN); "e‑posta
+   yazışmalarının yürütülmesi" (kurumsal e‑posta sağlayıcısı yurt dışındaysa,
+   `--eposta`); "canlı destek hizmetinin sunulması"; "çerez tercihlerinizin
+   yönetilmesi" (rıza yönetim platformu); "ziyaretlerin ölçülmesi" (rızasız
+   ölçüm yurt dışındaysa). `kvkk-yansima` §6 cümleyi hazır verir; onaylı amaç
+   ifadesi olmayan hizmette (ör. etiket yöneticisi) `[DOĞRULA: amaç]` bırakır. Aktarım yolu site
+   sahibince teyit edildiyse (cümlenin kapsadığı her sağlayıcı için imzalı ve
+   Kurum'a bildirilmiş standart sözleşme) "KVKK'nın 9. maddesine uygun olarak
+   aktarılabilir" yazılır [site sahibi beyanı]. Rızaya dayanan ölçüm ya da reklam
+   ortağı varsa ayrıca birebir: "İzin vermeniz hâlinde, ziyaret istatistikleri
+   ve reklam amacıyla yurt dışında bulunan ölçüm ve reklam ortaklarına da
+   aktarılabilir." Amaç taramaya göre daralır: yalnız ölçüm varsa "ziyaret
+   istatistikleri amacıyla … ölçüm ortaklarına", yalnız reklam varsa "reklam
+   amacıyla … reklam ortaklarına"; gömülü içerik de varsa amaçlar ayrı yazılır
+   ("…ziyaret istatistikleri ve reklam amacıyla, ayrıca video gibi gömülü
+   içeriklerin gösterilmesi için…"). Rızaya bağlanan reCAPTCHA (K-Form
+   güvenliği B) ve canlı destek aracı (K-Sohbet A ya da B) teknik cümleden
+   çıkar, ikinci cümleye kendi amacıyla ("formun kötüye kullanıma karşı
+   korunması", "canlı destek hizmetinin sunulması") ve ortak türüyle ("güvenlik
+   hizmeti", "destek hizmeti") girer; ör. "İzin vermeniz hâlinde, ziyaret
+   istatistikleri ve canlı destek hizmetinin sunulması amacıyla yurt dışında
+   bulunan ölçüm ve destek hizmeti ortaklarına da aktarılabilir." `kvkk-yansima`
+   bu bileşimlerin cümlelerini hazır verir. Sağlayıcı adlı liste metne yalnız
+   site sahibi isterse girer [site sahibi beyanı].
+4. Yol teyit edilmezse metin yine genel cümleyle ("kapsamında" biçimi) yazılır;
+   raporda K-Yurt dışı altında "aktarımın dayanağı belirlenmedi" **uyum engeli**
+   kalır. Engel
    metnin yayımlanmasını değil, aktarımın kendisini ilgilendirir. Dayanak
    satırı: Kaynak `[Kanun]` (md. 9, 10/1-c); Bulgu / beyan: tarama bulgusu
    (sağlayıcılar) ve yolun durumu. Karar: K-Yurt dışı.
@@ -242,7 +271,7 @@ karşılanır. Diğer üçüncü taraf kaynaklarda (CDN) aynı kalıp, sağlayı
 Seçim bilinmiyorsa metin bugünkü durumu yazar ("Bilmiyorum" cevabı, tür 3).
 Raporda risk notu: Almanya'da LG München I'in 20.01.2022 tarihli, 3 O 17493/20 sayılı kararı Google Fonts'un
 rızasız yüklenmesini GDPR'a aykırı buldu (künye Bavyera'nın resmî karar portalında, gesetze-bayern.de; Türk hukukunda
-bağlayıcı değil) [skill yorumu].
+bağlayıcı değil) [skill yorumu]. Kendi sunucudan sunmak mümkün olduğundan 5/2-f'deki 'zorunluluk' şartı tartışmalıdır. [skill yorumu]
 
 Kurallar:
 
@@ -286,9 +315,14 @@ olduğunu söyle.
   (opt-in, s. 37–38) [Kurul kararı].
 - Gömülü içerik (video, harita) çerezi, depolama kaydı ya da isteği `ilk`
   senaryoda görülürse RIZA ÖNCESİ bulgusu sayılır: içerik izne ya da tıklamaya
-  bağlanmamış (K-Gömülü) [skill yorumu]. `tablo.mjs` bu kalemleri "DİKKAT"
-  notuyla işaretler. Tıklayınca yükle kutusunda yükleme `--tikla
+  bağlanmamış (K-Gömülü) [skill yorumu]. `tablo.mjs --md` bu kalemleri "DİKKAT"
+  notuyla işaretler (HTML çıktısına not yazılmaz). Tıklayınca yükle kutusunda yükleme `--tikla
   ".tikla-yukle__dugme"` ile ayrıca ölçülür.
+- YouTube gömmesinin oynatma sonrası çerezleri ölçülmedi: oynatmasız gömmede
+  (20.11.2026, yerel deneme sayfası) DoubleClick/IDE görülmedi, ama betik başka
+  kökenli iframe içinde oynatma düğmesine basamaz. Yayından sonraki ölçümde
+  videoyu oynatıp DoubleClick çerezlerine (IDE vb.) bakılması önerilir (gerekirse
+  tarayıcıda elle: DevTools → Application → Cookies) [skill yorumu].
 - Reddet ile Kabul aynı küme → seçim etkisiz.
 - Reddet sonrası şerit geri geliyor → tercih kaydedilmiyor.
 - Eşitlik: Rehber s. 30 yalnız renk, büyüklük ve punto sayar ve bunu "iyi
@@ -351,14 +385,18 @@ site sahibine sun (ölçüm aracıysa K-Ölçüm).
   içerik tek başına rıza paneli gerektirmez; site bilgi şeridiyle kalabilir,
   izin içeriğin yanında tıklamayla alınır. Kutudaki tıklama md. 5/1 anlamında
   açık rızadır: belirli konuya ilişkin (yalnız o içerik), bilgilendirmeye dayalı
-  (kutu metni sağlayıcıyı ve çerez kullanımını söyler, "Ayrıntı: Çerez Aydınlatma
-  Metni" bağlantısı verir) ve özgür iradeyle (içerik sağlayıcıdaki sayfada da
-  açılabilir) [Kanun] + [skill yorumu]. Kutu metninden sağlayıcı adı, çerez cümlesi ya da
-  Ayrıntı bağlantısı çıkarılırsa tıklama rıza sayılmaz. Tıklama yalnız o sağlayıcı için tarayıcıda
-  kaydedilir (`<KAYIT_ADI>-gomulu`: sürüm, zaman, sağlayıcı alan adları); sonraki ziyarette aynı
+  (kutu metni sağlayıcıyı, amacını ve çerez kullanımını söyler: "…YouTube, videoyu
+  göstermek ve kendi amaçları (ör. reklam) için çerez kullanır."; amaç
+  `references/tedarikciler.json`'daki sağlayıcı amacından türer; "Ayrıntı: Çerez
+  Aydınlatma Metni" bağlantısı verir) ve özgür iradeyle (içerik sağlayıcıdaki
+  sayfada da açılabilir) [Kanun] + [skill yorumu]. Kutu metninden sağlayıcı adı,
+  amaç, çerez cümlesi ya da Ayrıntı bağlantısı çıkarılırsa tıklama rıza sayılmaz. Tıklama yalnız o sağlayıcı için tarayıcıda
+  kaydedilir (`<KAYIT_ADI>-gomulu`: sürüm, zaman, sağlayıcı alan adları; `tablo.mjs` bu kaydı çerez tablosuna yeni kurulum satırı olarak ekler); sonraki ziyarette aynı
   sağlayıcının içeriği yeniden sorulmadan açılır. Geri alma: panelli sitede "Çerezleri yönet" (panel
   Gömülü içerik kategorisinde açılır, kapatılınca kayıt silinir), panelsiz sitede içeriğin altındaki
-  "Bu içerik için verdiğim izni geri al" düğmesi. Aydınlatma metninde gömülü içerik rızası ayrı
+  "Bu içerik için verdiğim izni geri al" düğmesi. Panelde "Gömülü içerik" kutusu yalnız bu tıklama izni yüzünden
+  işaretliyse "Ayarları Kaydet" kategori izni vermez, yalnız o sağlayıcının izni kalır; kategori izni ziyaretçinin
+  kendi işaretlemesiyle (ya da "Hepsini Kabul Et" / "Hepsine İzin Ver" ile) verilir. Aydınlatma metninde gömülü içerik rızası ayrı
   satırdır (GOMULU_SATIRI) [skill yorumu].
 - **Yeniden sorma süresi:** şerit ve panelde tek yer tutucu
   (`{{YENIDEN_SORMA_GUN}}`), tercih kaydının ömrüyle aynı; site sahibiyle
@@ -375,7 +413,11 @@ Birden çok meşru yol olan seçimler raporun Kararlar bölümüne girer (8. Rap
 Önce `references/metin-kurallari.md`'yi oku. Sonra:
 
 1. `node scripts/tablo.mjs /tmp/cerez.json --md` ile tablo taslağı; `[DOĞRULA]`
-   hücrelerini site sahibine sor ya da doğrula, tahmin yazma.
+   hücrelerini site sahibine sor ya da doğrula, tahmin yazma. Rıza paneli
+   kurulacaksa kategori açıklamaları ve `data-consent-cookies` aynı çıktıdaki
+   "Rıza paneli kategorileri" listesinden yazılır: tablodaki her rıza kalemi bir
+   kategoride yer alır (panel ile tablo ayrışmaz). Sayfaya `tablo.mjs`'in HTML
+   çıktısı konur (yorum içermez).
 2. `templates/cerez-aydinlatma.html` yapısıyla metni kur; giriş cümlesindeki
    veri sorumlusu site sahibinin beyanıdır: tüzel kişide ticaret unvanı,
    şahıs işletmesinde gerçek kişinin adı soyadı (varsa işletme adıyla;
@@ -388,12 +430,14 @@ Birden çok meşru yol olan seçimler raporun Kararlar bölümüne girer (8. Rap
    bağlanır (LOG_SURESI, FONT_CUMLESI, OLCUM_CUMLESI, OLCUM_AMACI,
    FORM_KAYIT_CUMLESI, FORM_KAYIT_SEBEP, FORM_SEBEP_C / FORM_SEBEP_F /
    FORM_SEBEP_F_SIRKET, SUNUCU_SEBEP, FONT_SEBEP, OLCUM_SEBEP, RIZA_SATIRI,
-   RIZA_CUMLESI, CEREZ_KANALI, YAZISMA_KANALLARI, FORM_ILETIM_CUMLESI,
-   TEDARIKCI_ROL, YURT_DISI, TALEP_SURESI, FORM_GUVENLIK_CUMLESI;
-   HTTPS_CUMLESI ölçüme bağlıdır, kvkk-site-uyum yazar); KALIR / ÇIKAR / EKLE
+   GOMULU_VERI_CUMLESI, GOMULU_SATIRI, RIZA_CUMLESI, CEREZ_KANALI,
+   YAZISMA_KANALLARI, FORM_ILETIM_CUMLESI, TEDARIKCI_ROL, YURT_DISI,
+   TALEP_SURESI; HTTPS_CUMLESI ölçüme, GUVENLIK_CUMLESI site sahibinin
+   beyanına bağlıdır, kvkk-site-uyum yazar); KALIR / ÇIKAR / EKLE
    önerileri, kaynak kodundaki çelişen beyanlar ("üçüncü taraflarla
    paylaşılmaz" gibi) ve `## Kararlar` (K-Ölçüm, K-Gömülü, K-Sunucu, K-Form,
-   K-Form iletimi, K-Yurt dışı) verir. Üçüncü taraf form hizmetinde
+   K-Form iletimi, K-Yurt dışı) verir; koşullu kalemleri K-Form güvenliği,
+   K-Sohbet ve K-Tercih kararlarına yönlendirir. Üçüncü taraf form hizmetinde
    (Formspree vb.) FORM_KAYIT_CUMLESI formdaki gizli `metin_surumu` alanıyla
    yazılır ("Formu gönderdiğinizde gönderim zamanı ve okuduğunuz metnin sürümü
    talebinizle birlikte form hizmetinde kaydedilir."; IP yalnız hizmetin
@@ -433,40 +477,57 @@ başlık ve bağlantı etiketlerini değiştir.
 ### 8. Rapor
 
 ```
-Sizden beklenenler: site sahibinden beklenen bilgi ve seçimler, "bilmiyorum" denenler dahil —
-           neyi, nereden öğrenir, öğrenince metin nasıl değişir (raporun en başında)
+## Sizden beklenenler   [site sahibinden beklenen bilgi ve seçimler, "bilmiyorum" denenler dahil —
+                         neyi, nereden öğrenir, öğrenince metin nasıl değişir (raporun en başında)]
 Kapsam:    adres, ortam (yerel/önizleme/yayın), sayfalar, senaryolar, sınırlar
 Bulgular:  tablo — kalem | tür | taraf | süre | senaryo | sınıf (Rehber §) | rıza?
 Şerit:     metin, düğmeler, eşitlik, davranış bulguları
 Ölçüm:     analitik değerlendirmesi (Kural 1 / Kural 2) ve seçenekler
 Öneri:     model + metin/şerit önerisi (onaya sunulan tam metin)
 EK-1:      Rehber kontrol listesi — her madde ✔ / ✖ / ?
-Dayanak:   site metnindeki her cümlenin kaynağı (biçim aşağıda)
-Kararlar:  site sahibinin seçimleri, K- biçiminde (biçim aşağıda)
+## Değişiklik           [dosya dosya; her dosyada "Yer tutucular:" satırı (doldurulan yer tutucuların adları)]
+## Dayanak              [her yer tutucu, her karar ve her tablo satırının kaynağı (biçim aşağıda)]
+## Kararlar             [site sahibinin seçimleri, K- biçiminde (biçim aşağıda)]
 Kapsam dışı: çerez dışı ama önemli bulgular (form metni, onay kutusu, yasal sayfa eksikliği) → kvkk-site-uyum
 Kanıt:     çalıştırılan komutlar ve çıktı özetleri
 Kaynaklar: güncel kaynak kontrolü: tarih, araç, bulunan kararlar. Araç yoksa:
-           "skill içi dosyalar (Rehber Temmuz 2025); sonraki değişiklikler kontrol edilmedi"
+           "skill içi dosyalar (Rehber Temmuz 2025, mevzuat 19.11.2026; 5651 md. 3/1 20.11.2026); sonraki değişiklikler kontrol edilmedi"
 Not:       yayından önce hukuki gözden geçirme önerilir
 ```
 
-Rapor dosyasında Dayanak ve Kararlar tam şu başlık ve biçimle yer alır;
-`metin-kontrol.mjs rapor` bu biçimi denetler.
+Rapor dosyasında Sizden beklenenler, Değişiklik, Dayanak ve Kararlar tam şu
+başlıkla (`## <ad>`) ve biçimle yer alır; diğer bölümlerin biçimi serbesttir.
+`metin-kontrol.mjs rapor` bu biçimi denetler: "bilinmiyor" ya da varsayılan
+öneri geçen raporda `## Sizden beklenenler` başlığı zorunludur.
 
-**Dayanak** — site metnindeki (çerez metni, tablo, şerit, panel) her cümle
-ya da tablo satırı bir satırdır:
+**Dayanak** — site metnindeki (çerez metni, tablo, şerit, panel) her yer
+tutucu ve her karar bir satırdır; çerez tablosunun her satırı (TABLO_SATIRLARI)
+da ayrı bir satırdır. "Yer tutucu / karar" sütunu satırın hangi yer tutucuya ya
+da karara ait olduğunu söyler; `## Değişiklik` bölümündeki "Yer tutucular:"
+satırlarında adı geçen her yer tutucu ve `## Kararlar`'daki her `### K-` kararı
+bu sütunda en az bir kez geçer (bir hücrede virgülle birden çok ad olabilir).
+`metin-kontrol.mjs rapor` eksik olanı hata sayar; "Yer tutucular:" satırı yoksa
+yalnız kararları eşleştirir ve uyarı verir. Şablonun yer tutucusuz sabit
+cümleleri için satır zorunlu değildir.
 
 ```
+## Değişiklik
+- cerez-aydinlatma.html — Yer tutucular: TARIH, VERI_SORUMLUSU, TABLO_SATIRLARI
+
 ## Dayanak
-| # | Site metnindeki cümle (kısa) | Kaynak | Dayanak | Bulgu / beyan |
-|---|---|---|---|---|
-| 1 | "KVKK madde 11 kapsamındaki haklarınızı kullanmak için…" | [Kanun] | KVKK md. 11 | mevzuat sabiti |
-| 2 | Tablo: _ga — açık rıza, 13 ay | [Kanun] | KVKK md. 5/1 | cerez-tespit, kabul: _ga, ölçülen süre 13 ay |
+| # | Yer tutucu / karar | Site metnindeki cümle (kısa) | Kaynak | Dayanak | Bulgu / beyan |
+|---|---|---|---|---|---|
+| 1 | TARIH | "Son güncelleme: 19.11.2026" | [site sahibi beyanı] | — | Site sahibi, 19.11.2026 |
+| 2 | VERI_SORUMLUSU | "…veri sorumlusu sıfatıyla Örnek Atölye…" | [Kanun] | KVKK md. 10/1-a | Site sahibi, 19.11.2026 |
+| 3 | TABLO_SATIRLARI, K-Ölçüm | Tablo: _ga — açık rıza, 13 ay | [Kanun] | KVKK md. 5/1 | cerez-tespit, kabul: _ga, ölçülen süre 13 ay |
 ```
 
-- **Kaynak:** yalnız sekiz etiketten biri ya da `[DOĞRULA]`. Bu sütunda
-  etiketin yalın biçimi kullanılır (`[skill yorumu]`); açıklaması Dayanak
-  sütununa yazılır.
+**Kaynak** sütunu yalnız sekiz etiketten biri ya da `[DOĞRULA]` olur; etiketin
+yanına kısa bir açıklama eklenebilir (`[site sahibi beyanı: bilinmiyor]`,
+`[Rehber: tavsiye — örnek]`), birden çok etiket `+` ile bağlanır
+(`[Kanun] + [skill yorumu]`); madde, fıkra ya da Rehber sayfası Dayanak
+sütununa yazılır.
+
 - **Dayanak:** madde, fıkra, bent ya da Rehber sayfası.
 - **Bulgu / beyan:** cümleyi doğru kılan tarama bulgusu (senaryo ve kalem,
   `tarama.sh` satırı) ya da site sahibinin beyanı (tarih); mevzuat sabitinde
@@ -475,8 +536,12 @@ ya da tablo satırı bir satırdır:
   bir etiket değildir, bu sütuna yazılır.
 - Olgu söyleyen cümlenin Bulgu / beyan sütunu boşsa Kaynak `[DOĞRULA]` olur;
   Kaynak `[DOĞRULA]` olan cümle siteye yazılmaz.
-- Site sahibi "bilmiyorum" dediyse Kaynak `[site sahibi beyanı: bilinmiyor]`,
-  Bulgu / beyan "Site sahibi, <tarih>: bilmiyorum" olur ("Bilmiyorum" cevabı).
+
+Site sahibi "bilmiyorum" dediyse Kaynak `[site sahibi beyanı: bilinmiyor]`,
+Bulgu / beyan "Site sahibi, <tarih>: bilmiyorum (Sizden beklenenler → <soru>)"
+olur ("Bilmiyorum" cevabı). Örnek satır:
+
+`| 1 | LOG_SURESI | "…barındırma sağlayıcısının belirlediği süre boyunca…" | [site sahibi beyanı: bilinmiyor] | — | Site sahibi, 19.11.2026: bilmiyorum (Sizden beklenenler → log süresi) |`
 
 **Kararlar** — birden çok meşru yol olan hukuki seçimlerde skill imkânsız
 seçenekleri gerekçesi ve dayanağıyla eler; tek yol kalırsa seçim sunmaz,
@@ -544,8 +609,39 @@ Bu skill'in raporunda çıkabilecek kararlar:
   liste örnek niteliğinde, dn. 15) [Rehber: tavsiye]; öneri B, mümkünse.
 - **K-Yurt dışı** — yurt dışına giden sağlayıcı varsa (3. Sınıflama → Yurt
   dışı): sağlayıcı bazında standart sözleşme ve Kurum'a bildirim ya da aktarımı
-  azaltma; metin her durumda genel cümle. Yol belirlenene kadar blokta
-  `- Uyum engeli: aktarımın dayanağı belirlenmedi` satırı kalır.
+  azaltma; metin her durumda genel cümle ("KVKK'nın 9. maddesi kapsamında";
+  yol teyit edilince "KVKK'nın 9. maddesine uygun olarak"). Yol belirlenene
+  kadar blokta `- Uyum engeli: aktarımın dayanağı belirlenmedi` satırı kalır.
+- **K-Form güvenliği** — formda reCAPTCHA (ya da benzeri üçüncü taraf bot
+  koruması) varsa. Öneriler skill'in varsayılan önerisidir, karar değildir:
+
+  ```
+  ### K-Form güvenliği — Formun bot koruması (<sağlayıcı>)
+  - Seçenek A: honeypot (görünmeyen tuzak alan) ve sunucu tarafı denetim — şart: üçüncü taraf hizmet yok — sitede gerektirdiği: reCAPTCHA betiği kaldırılır; formda tuzak alan, sunucuda denetim; tablo ve metinlerden reCAPTCHA çıkar — risk: gelişmiş botlara karşı daha zayıf kalabilir — kaynak: KVKK md. 4/2-ç, ölçülü işleme [Kanun] + [skill yorumu]
+  - Seçenek B: reCAPTCHA'yı rızaya bağlamak — şart: betik izin verilene kadar yüklenmez (rıza paneli) — sitede gerektirdiği: riza-paneli.html'de kategori; izin vermeyen ziyaretçide formun korunması ayrıca çözülür — risk: izin vermeyen ziyaretçi formu gönderemeyebilir — kaynak: KVKK md. 5/1 [Kanun]
+  - Seçenek C: rızasız sürdürmek — şart: md. 5/2-f denge testi; veri Google'a gider ve Google başka amaçla da işleyebilir (tedarikçi beyanı) [DOĞRULA]; yurt dışı aktarım için md. 9 yolu ayrıca (K-Yurt dışı) — sitede gerektirdiği: KVKK metninde güvenlik amacı ve 5/2-f satırı, §6'da sağlayıcı; tabloda hukuki sebep [DOĞRULA] — risk: güvenlik çerezlerine yakın (Rehber 5.10, s. 26) [Rehber: tavsiye] ama veri üçüncü tarafa gider; denge testi tartışmalı — kaynak: KVKK md. 5/2-f, md. 9 [Kanun] + [skill yorumu]
+  - Öneri: A, çünkü veri üçüncü tarafa gitmez; rıza ve yurt dışı aktarım sorusu doğmaz [skill yorumu]
+  - Seçim: [DOĞRULA]
+  ```
+- **K-Sohbet** — canlı destek aracı (Intercom, Tawk.to, Crisp…) varsa:
+
+  ```
+  ### K-Sohbet — Canlı destek aracı (<sağlayıcı>)
+  - Seçenek A: tıklayınca yükle — araç ziyaretçi sohbet düğmesine basınca yüklenir; tıklama açık rızadır (yalnız o araç için, bilgilendirmeye dayalı) — şart: tıklamadan önce sağlayıcıya istek yok; düğmenin yanında sağlayıcı, amaç ve çerez kullanımı yazılır — sitede gerektirdiği: sohbet betiği sayfa açılışında yüklenmez (kod değişikliği) — risk: sohbet için bir tıklama gerekir — kaynak: KVKK md. 5/1 [Kanun] + [skill yorumu]
+  - Seçenek B: rıza panelinde ayrı "Canlı destek" kategorisi — şart: rıza paneli var; kategori varsayılan kapalı; her amaç için ayrı rıza (Kurul 2020/173, Rehber'deki özetinden, s. 40) [Kurul kararı] — sitede gerektirdiği: riza-paneli.html'de kategori; betik data-consent-category ile bekler — risk: izin vermeyen ziyaretçi sohbeti göremez — kaynak: KVKK md. 5/1 [Kanun]
+  - Seçenek C: aracı kaldırıp e‑posta ya da WhatsApp bağlantısı koymak — şart: yok — sitede gerektirdiği: betik kaldırılır; iletişim bağlantısı konur; tablo ve metinlerden araç çıkar — risk: anlık sohbet olmaz — kaynak: KVKK md. 4/2-ç, ölçülü işleme [Kanun]
+  - Öneri: A, çünkü araç yalnız isteyen ziyaretçi için yüklenir; panel gerekmez [skill yorumu]
+  - Seçim: [DOĞRULA]
+  ```
+- **K-Tercih** — sitenin dil ya da tema tercihi kaydı (`riza: "kosullu"`) varsa:
+
+  ```
+  ### K-Tercih — Dil ya da tema tercihi kaydı (<kalem>)
+  - Seçenek A: kayıt yalnız ziyaretçi tercihi seçince yazılır; rıza istenmez — şart: kayıt sayfa açılışında kendiliğinden konmaz ve yalnız seçilen tercihi tutar (kullanıcının açıkça istediği işlev, Rehber 5.6, s. 22–23) [Rehber: tavsiye] — sitede gerektirdiği: gerekirse kod değişikliği; tabloda rıza dışı kalem, hukuki sebep [DOĞRULA] (5/2-c ya da 5/2-f) — risk: düşük — kaynak: Rehber 5.6, s. 22–23 [Rehber: tavsiye] + [skill yorumu]
+  - Seçenek B: kayıt otomatik konur (ör. tarayıcı diline göre) ve açık rızaya bağlanır — şart: rıza paneli; kayıt izinden önce konmaz — sitede gerektirdiği: riza-paneli.html'de kategori — risk: izin vermeyen ziyaretçinin tercihi hatırlanmaz — kaynak: KVKK md. 5/1 [Kanun]
+  - Öneri: A, çünkü tercih ziyaretçinin kendi seçimiyle kaydedilir ve rıza paneli gerekmez [skill yorumu]
+  - Seçim: [DOĞRULA]
+  ```
 - **K-Sunucu, K-Form, K-Form iletimi** — `kvkk-yansima` çıktısından; KVKK
   metnini etkiler, kvkk-site-uyum ile birlikte karara bağlanır.
 - Çerez duvarı varsa ya da istenirse: risk notu (5. Karar).
