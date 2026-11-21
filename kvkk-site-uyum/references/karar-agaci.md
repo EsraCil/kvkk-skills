@@ -77,7 +77,8 @@ Formu kişiler kendi adına mı, bir şirket adına mı dolduruyor?
 - Seçenek B: md. 5/2‑f (FORM_SEBEP_F) — genel iletişim (soru, öneri, şikâyet). Gerekçe yazılır: mesaja cevap verebilmek için gerekli, kişinin kendi gönderdiği bilgiyle sınırlı. [Kanun] + [skill yorumu]
 - Seçenek C: md. 5/2‑f (FORM_SEBEP_F_SIRKET) — formu şirket adına dolduran çalışan (sözleşmenin tarafı şirkettir, kişi değil; 5/2‑c zayıflar). Gerekçe B'deki gibi yazılır. [Kanun] + [skill yorumu]
 - Elenen: açık rıza — başka hukuki sebep varken rıza istemek dürüstlük kuralına aykırılık şeklinde yorumlanır (Çerez Rehberi s. 38, Kurul 2020/173 özeti) [Kurul kararı]; Çerez Rehberi'nin kendi metni de aynı yönde (s. 16–17, s. 54) [Rehber: gerekli]. Ayrıca rıza geri alınırsa talep cevaplanamaz [skill yorumu].
-- Öneri: kişinin kendi adına doldurduğu teklif formunda A, genel iletişimde B, şirket adına doldurulan formda C. İki amaç varsa iki satır.
+- Seçenek D (yalnız formda verilen internet sitesi ya da profil inceleniyorsa): md. 5/2‑d — incelenen herkese açık sayfadaki kişisel veriler. Şart: veri ilgili kişinin kendisi tarafından alenileştirilmiş ve işleme alenileştirme amacıyla bağdaşıyor. Risk: alenileştirme amaçla sınırlı yorumlanır; şirket sitesindeki kişi bilgisini teşhis ya da teklif için işlemek o amaca girmeyebilir. Varsayılan değildir: aynı inceleme form satırının sebebiyle (çoğunlukla 5/2‑f) karşılanır; §2'de incelemenin sınırı yazılır (yalnız herkese açık sayfalar). [Kanun] + [skill yorumu]
+- Öneri: kişinin kendi adına doldurduğu teklif formunda A, genel iletişimde B, şirket adına doldurulan formda C. İki amaç varsa iki satır. D yalnız site sahibi seçerse.
 - Bilmiyorum: site sahibi formun amacını bilmiyorsa varsayılan öneri B (FORM_SEBEP_F); §3'te "Talebinizin değerlendirilmesi ve cevaplandırılması". 5/2-c'nin şartları amaç bilinmeden doğrulanamaz. "Sizden beklenenler"e not: form ağırlıklı teklif ya da sipariş içinse 5/2-c daha güçlü dayanaktır. [skill yorumu]
 
 ## K-Sunucu — Sunucu erişim kayıtları
@@ -159,6 +160,16 @@ Yalnız bülten varsa. Yoksa kutu konmaz.
   - Varsayılan: iletişim formunda yalnız aydınlatma "okudum" kutusu; kullanım koşulları footer bağlantısıyla durur. Kabul kutusu basit bir mesajı genel işlem koşullu sözleşmeye çevirir; sorumluluk sınırı ve yetki şartı ziyaretçinin kabul ettiği koşullara dönüşür.
   - Seçenek: site kabul gerektiren bir hizmet sunuyorsa (üyelik, ücretli ya da kişiye özel araç, sipariş) zorunlu kabul kutusu (`form-onay.html` → KABUL_KUTUSU; `sunucu-dogrulama.mjs` → REQUIRE_TERMS).
 - Tüketicilere hitap eden sitede sorumluluk sınırı haksız şart denetimine tabi olabilir (6502 sayılı Kanun md. 5: müzakere edilmeden konan ve tüketici aleyhine dengesizlik yaratan şart haksızdır ve kesin olarak hükümsüzdür): raporda risk. [Kanun]
+
+## K-Özel nitelikli — Serbest metin alanındaki özel nitelikli veri
+
+Önce sor: formdaki serbest metin alanına özel nitelikli kişisel veri (md. 6/1) yazılması bekleniyor mu; site sağlık, hukuk, dernek ya da sendika alanında mı?
+
+- Seçenek A: uyarı ve bilgilendirme — form altına OZEL_UYARI ("Mesajınızda sağlık, ceza mahkûmiyeti gibi özel nitelikli kişisel verilere yer vermeyiniz."), KVKK metni §2'ye OZEL_NITELIKLI_CUMLESI ("Formlar aracılığıyla özel nitelikli kişisel veri (ör. sağlık, ceza mahkûmiyeti, dernek veya sendika üyeliği bilgisi) işlenmesi amaçlanmamaktadır; mesajınızda bu tür bilgilere yer vermemenizi rica ederiz."). Risk: ziyaretçi yine de yazabilir; gelen bu tür veri talebin gerektirdiği ölçüde işlenir, süre sonunda silinir. [Kanun] + [skill yorumu]
+- Seçenek B: md. 6/3 şartlarıyla işleme — site sağlık, hukuk, dernek ya da sendika alanında ve özel nitelikli veri talebin konusuysa. Ayrı iş: skill şartları ve Kurul'un yeterli önlemlerini yazmaz, söyler ve durur. Md. 6/3 7499 sayılı Kanunla değişti; resmî metinden doğrulanmadı. [Kanun]
+- Seçenek C: ekleme yapılmaz — metin serbest alana yazılan özel nitelikli veri karşısında sessiz kalır. [skill yorumu]
+- Öneri: A; site sağlık, hukuk, dernek ya da sendika alanındaysa B ayrı iş olarak.
+- Bilmiyorum: varsayılan öneri A. Serbest metin alanı yoksa karar sunulmaz, cümle ve uyarı yazılmaz.
 
 ## K-Form kaydı — Üçüncü taraf form hizmetinde kanıt (Formspree vb.)
 

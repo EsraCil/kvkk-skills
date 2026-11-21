@@ -117,6 +117,11 @@ ve süre kararları: `references/karar-agaci.md`. Madde ve şartlar:
   metni yazmaz; soru raporun "Sizden beklenenler" listesine girer.
 - **Form ne için?** Teklif ya da hizmet talebi mi, genel soru ve şikâyet mi?
   Formu kişiler kendi adına mı, şirket adına mı dolduruyor? (K-Form)
+- **Serbest metin alanı var mı?** Formdaki mesaj alanına özel nitelikli veri (sağlık, ceza
+  mahkûmiyeti, dernek ya da sendika üyeliği…; KVKK md. 6/1) yazılması bekleniyor mu, site sağlık,
+  hukuk, dernek ya da sendika alanında mı? (K-Özel nitelikli)
+- **Formda verilen internet sitesi ya da profil inceleniyor mu?** İnceleniyorsa §2'de sınırı
+  yazılır; hukuki sebep form satırınınki kalır, 5/2‑d yalnız site sahibi seçerse (K-Form, Seçenek D).
 - **Site kime hizmet veriyor?** Yalnız işletmelere (tacir, esnaf) mi,
   tüketicilere de mi? (K-Ticari ileti, K-Koşullar)
 - Form verisi nereye düşüyor (Formspree/Netlify/kendi fonksiyonu/e‑posta)?
@@ -198,6 +203,8 @@ sınıfları, footer bağlantısı). Yeni bir sayfa şablonu icat etme.
     sitesinde yazılmaz. Sunucu erişim kayıtları gerçek süresiyle ya da
     "barındırma sağlayıcısının belirlediği süre boyunca" yazılır; "kısa süreli"
     yazılmaz.
+  - §2: formda serbest metin alanı varsa OZEL_NITELIKLI_CUMLESI, form altında OZEL_UYARI
+    (K-Özel nitelikli, A); serbest metin yoksa ikisi de yazılmaz.
   - §3 ile §4'teki form amacı aynı olmalı (teklif/hizmet/sipariş, genel iletişim
     ya da şirket adına teklif). Rızasız ölçümün amacı "Site kullanımının
     toplu istatistikler hâlinde ölçülmesi"dir; yöntemin şartları amaç

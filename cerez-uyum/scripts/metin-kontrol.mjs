@@ -116,7 +116,11 @@ export function siteKontrolMetin(html, dosya = 'metin', yazdir = console.log) {
   for (const m of yorumsuz.matchAll(ETIKET_RE)) yaz('HATA', 'etiket', satirNo(yorumsuz, m.index), 'kaynak etiketi siteye girmiş (yalnız raporda durur)', m[0]);
   for (const m of yorumsuz.matchAll(/<li\b[^>]*>\s*[,.;]?\s*<\/li>/gi)) yaz('HATA', 'bos-madde', satirNo(yorumsuz, m.index), 'boş liste maddesi (silinmesi gereken satır kalmış)', m[0]);
   for (const m of yorumsuz.matchAll(/<p\b[^>]*>(?:\s|&nbsp;|&#160;)*[,.;]?(?:\s|&nbsp;|&#160;)*<\/p>/gi)) yaz('HATA', 'bos-paragraf', satirNo(yorumsuz, m.index), 'boş paragraf (silinen cümlelerin paragrafı kalmış)', m[0]);
-  for (const m of yorumsuz.matchAll(/<(ul|ol)\b[^>]*>\s*<\/\1\s*>/gi)) yaz('HATA', 'bos-liste', satirNo(yorumsuz, m.index), 'boş liste (bütün maddeleri silinmiş)', m[0]);
+  // hidden ya da data-* özniteliği taşıyan boş liste çoğunlukla betiğin sonradan doldurduğu bir kaptır: hata değil uyarı.
+  for (const m of yorumsuz.matchAll(/<(ul|ol)\b([^>]*)>\s*<\/\1\s*>/gi)) {
+    if (/\shidden\b|\sdata-[\w-]+/i.test(m[2])) yaz('UYARI', 'bos-liste-betik', satirNo(yorumsuz, m.index), 'boş liste; hidden ya da data-* özniteliği var, betikle dolduruluyor olabilir (yasal metindeyse silinen maddeleri kontrol et)', m[0]);
+    else yaz('HATA', 'bos-liste', satirNo(yorumsuz, m.index), 'boş liste (bütün maddeleri silinmiş)', m[0]);
+  }
   for (const m of yorumsuz.matchAll(/(?<![>\s]),\s*<\/li>\s*<\/(?:ul|ol)\s*>/gi)) yaz('HATA', 'liste-sonu-virgul', satirNo(yorumsuz, m.index), 'listenin son maddesi virgülle bitiyor (silinen maddeden sonra virgül noktaya çevrilir)', yorumsuz.slice(Math.max(0, m.index - 40), m.index + 1));
   // Boş bölüm: başlıktan sonra, aynı ya da üst düzeydeki bir sonraki başlığa (ya da metnin sonuna) kadar görünür içerik yok.
   const basliklar = [...betiksiz.matchAll(/<h([1-6])\b[^>]*>[\s\S]*?<\/h\1\s*>/gi)].map((m) => ({ duzey: Number(m[1]), bas: m.index, son: m.index + m[0].length, metin: m[0] }));

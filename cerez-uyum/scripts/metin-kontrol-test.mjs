@@ -91,6 +91,7 @@ durum('boş paragraf ve boş bölüm', site('<h2>10. Veri güvenliği</h2>\n<p> 
 durum('boş bölüm (paragraf silinmiş)', site('<h2>10. Veri güvenliği</h2>\n<h2>11. Üçüncü taraf siteler</h2><p>Metin.</p>'), H('bos-bolum'));
 durum('boş bölüm (sayfanın sonunda)', site('<h2>11. Üçüncü taraf siteler</h2><p>Metin.</p><h2>12. Güncelleme</h2>'), H('bos-bolum'));
 durum('boş liste', site('<p>Haklarınız:</p><ul>\n</ul>'), H('bos-liste'));
+durum('boş liste: betikle doldurulan gizli kap (yanlış alarm, gerçek site denemesi 21.11.2026)', site('<ul class="liste" data-maddeler hidden></ul>'), U('bos-liste-betik'));
 durum('çıplak yer tutucu adı', site('<p>Sunucu erişim kayıtları LOG_SURESI tutulur.</p>'), H('ciplak-ad'));
 durum('çıplak ad (Türkçe harfli)', site('<p>Metin: BÜYÜK_HARF_ALT_ÇİZGİ.</p>'), H('ciplak-ad'));
 durum('çıplak ad öznitelikte', site('<input type="checkbox" data-consent-cookies="ANALITIK_CEREZLERI">'), H('ciplak-ad'));

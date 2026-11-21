@@ -146,7 +146,7 @@ const MAIL_SERVIS = [
   [/node-mailjet|api\.mailjet\.com/i, 'Mailjet'],
   [/["'`]nodemailer["'`]/i, 'nodemailer'],
 ];
-const src = { formServices: new Set(), formMailto: false, ownEndpoints: new Set(), fonts: false, surumAlani: false, formSubmitClaims: [], mail: new Set(), kanallar: new Set(), barindirma: new Map(), atlanan: [] };
+const src = { formServices: new Set(), formMailto: false, ownEndpoints: new Set(), fonts: false, surumAlani: false, formSubmitClaims: [], mail: new Set(), kanallar: new Set(), barindirma: new Map(), atlanan: [], sunucuDogrulama: [], sunucuIp: false, serbestMetin: new Set(), adresAlani: new Set() };
 if (kok) {
   const KOD = ['.html', '.htm', '.js', '.mjs', '.cjs', '.ts', '.mts', '.jsx', '.tsx', '.vue', '.svelte', '.astro', '.php'];
   // Kırık sembolik bağ ya da okunamayan dosya taramayı durdurmaz: atlanır ve çıktının başında listelenir.
@@ -169,6 +169,15 @@ if (kok) {
     for (const m of t.matchAll(/(?:action=["']|fetch\(\s*["'`])((?:\.\.?\/|\/|\{\{root\}\})*(?:api|\.netlify\/functions)\/[\w-]+)/gi)) src.ownEndpoints.add(m[1]);
     if (/fonts\.googleapis\.com|fonts\.gstatic\.com/.test(t)) src.fonts = true;
     if (/\bname=["']metin_surumu["']/i.test(t)) src.surumAlani = true; // form-onay.html → FORM_SURUM_ALANI (K-Form kaydı)
+    // Kendi sunucu işlevinde doğrulama: sunucu-dogrulama.mjs ya da eşdeğeri. İşlev klasöründe (api/, netlify/functions/)
+    // metin sürümü (LEGAL_VERSION) ve 400 yanıtı birlikte görülürse sayılır; IP okunuyorsa kayda IP de girer.
+    const goreli = p.replace(kok, '').replace(/^[\\/]/, '');
+    if (/(?:^|[\\/])(?:api|netlify[\\/]functions)[\\/]/.test(goreli) && /LEGAL_VERSION|metin[ _-]?s[üu]r[üu]m/i.test(t) && /\b400\b/.test(t)) {
+      src.sunucuDogrulama.push(goreli);
+      if (/x-forwarded-for|x-real-ip|req\.ip\b|remoteAddress|cf-connecting-ip/i.test(t)) src.sunucuIp = true;
+    }
+    if (/<textarea\b/i.test(t)) src.serbestMetin.add(goreli); // K-Özel nitelikli
+    if (/<input\b[^>]*\btype=["']url["']/i.test(t)) src.adresAlani.add(goreli); // K-Form → 5/2-d sorusu
     for (const [re, s] of MAIL_SERVIS) if (re.test(t)) src.mail.add(s);
     if (/href=["']mailto:/i.test(t)) src.kanallar.add('e‑posta');
     if (/href=["']tel:/i.test(t)) src.kanallar.add('telefon');
@@ -364,6 +373,9 @@ if (!barindirma.size) sor('Site hangi barındırma sağlayıcısında; sağlayı
 if (YD.length) sor("Yurt dışındaki her sağlayıcıyla standart sözleşme imzalandı mı, imzadan sonra 5 iş günü içinde Kurum'a bildirildi mi?", 'K-Yurt dışı; tür 1', "sağlayıcının sözleşme belgeleri ve Kurum'a yaptığınız bildirim", `metin genel cümleyle, "${DAYANAK_TEYITSIZ} aktarılabilir" biçimiyle yazılır; raporda "aktarımın dayanağı belirlenmedi" uyum engeli kalır`, `cümlenin kapsadığı her sağlayıcı için yol teyit edilince teknik cümlede "${DAYANAK_TEYITLI} aktarılabilir" yazılır ve uyum engeli kalkar`);
 if (fontVar || cdnlar.length) sor(`${fontVar ? 'Yazı tiplerini' : 'Sayfa dosyalarını'}${fontVar && cdnlar.length ? ' ve CDN dosyalarını' : ''} kendi sunucunuzdan sunacak mısınız?`, 'FONT_CUMLESI, FONT_SEBEP, K-Yurt dışı; tür 3', 'sitenin kodu: dosyalar indirilip sitenin kendi sunucusundan sunulur (geliştirici işi)', `metin bugünkü durumu yazar: FONT_CUMLESI ve FONT_SEBEP eklenir, ${list([...(fontVar ? ['Google Fonts'] : []), ...cdnlar])} yurt dışı listesinde kalır; öneri raporda durur`, 'kendi sunucunuza alınırsa FONT_CUMLESI ve FONT_SEBEP silinir, sağlayıcı yurt dışı listesinden düşer');
 if (hasForm) sor('Form ne için ve kimin adına gönderiliyor?', 'K-Form; seçim', 'formu siz tasarladınız; gelen taleplere bakın', 'varsayılan öneri: md. 5/2-f (FORM_SEBEP_F), §3 FORM_AMACI "Talebinizin değerlendirilmesi ve cevaplandırılması"; form ağırlıklı teklif ya da sipariş içinse 5/2-c daha güçlü dayanaktır', 'FORM_SEBEP_C, FORM_SEBEP_F ya da FORM_SEBEP_F_SIRKET satırı seçilir');
+// K-Özel nitelikli (md. 6) ve 5/2-d (incelenen adres ya da profil): kaynakta textarea / url alanı görülürse sorulur.
+if (src.serbestMetin.size) sor('Formdaki serbest metin alanına özel nitelikli kişisel veri (sağlık, ceza mahkûmiyeti, dernek ya da sendika üyeliği vb.) yazılması bekleniyor mu; siteniz sağlık, hukuk, dernek ya da sendika alanında mı?', 'K-Özel nitelikli; seçim', 'formun konusu ve gelen talepler', 'varsayılan öneri A: form altına OZEL_UYARI, §2\'ye OZEL_NITELIKLI_CUMLESI', 'beklenmiyorsa A; bekleniyorsa B (md. 6/3 şartları ayrı iş, bu skill yazmaz)');
+if (src.adresAlani.size) sor('Formda verilen internet sitesi adresi ya da profil inceleniyor mu?', 'K-Form, md. 5/2-d; seçim', 'kendi iş akışınız', 'incelenen sayfadaki veriler form satırının hukuki sebebiyle kalır (5/2-f); 5/2-d kullanılmaz', 'inceleniyorsa §2\'de incelemenin sınırı yazılır (yalnız herkese açık sayfalar); 5/2-d yalnız site sahibi seçerse, risk notuyla (K-Form, Seçenek D)');
 if (formThirdParty.length) sor('Form hizmeti gönderimle birlikte IP adresini de kaydediyor mu?', 'FORM_KAYIT_CUMLESI ve FORM_KAYIT_SEBEP, IP kısmı; tür 2', 'hizmetin belgeleri ve panelindeki gönderim kayıtları', 'IP yazılmaz; cümle gönderim zamanı ve metin sürümüyle kalır (formda gizli metin_surumu alanı varsa)', 'IP de yazılır');
 if (formThirdParty.length) sor('Form hizmeti veriyi hangi ülkede işliyor?', 'FORM_ILETIM_CUMLESI; tür 2', 'hizmetin koşulları', 'konum cümlede yazılmaz', 'konum yazılır');
 if (formOwn.length && !formThirdParty.length) {
@@ -386,12 +398,17 @@ const surumDurumu = src.surumAlani ? 'formda gizli metin_surumu alanı var (kayn
 const hizmetKaydi = `${list(formThirdParty)} üzerinden giden form için form hizmeti biçimi (K-Form kaydı): EKLE ${HIZMET_KAYIT} — ${surumDurumu}. IP adresi yalnız hizmetin kaydettiği teyit edilirse cümleye girer ("…gönderim zamanı, IP adresiniz ve okuduğunuz metnin sürümü…"; Sizden beklenenler, tür 2)`;
 const kayitSebebi = (ip) => `"Form gönderim kaydı (gönderim zamanı, ${ip ? 'IP adresi, ' : ''}metin sürümü): bir hakkın tesisi, kullanılması veya korunması için veri işlemenin zorunlu olması (madde 5/2‑e)"`;
 const hizmetSebebi = `form hizmeti biçiminde ${kayitSebebi(false)}; IP teyit edilirse ${kayitSebebi(true)}`;
+// Kendi işlevde doğrulama kaynakta görüldüyse [DOĞRULA] kalkar; IP satırı yalnız işlev IP'yi okuyorsa kalır.
+const sunucuDurumu = src.sunucuDogrulama.length
+  ? `(sunucu doğrulaması kaynakta görüldü: ${list(src.sunucuDogrulama)}; metin sürümü ve 400 yanıtı var${src.sunucuIp ? ', IP okunuyor: cümledeki IP kalır' : '; IP okunmuyor: cümleden "IP adresiniz" çıkar'})`
+  : kok ? '[DOĞRULA: sunucu-dogrulama.mjs ya da eşdeğeri kurulu mu — işlev klasöründe metin sürümü ve 400 yanıtı görülmedi]'
+  : '[DOĞRULA: sunucu-dogrulama.mjs kurulu mu (--kok verilmedi)]';
 let formKayit, formKayitSebep;
 if (!hasForm) { formKayit = `ÇIKAR — form ${kok ? 'görülmedi' : 'tespitte görülmedi (--kok verilmedi; kaynakta form varsa yeniden çalıştırın)'}.`; formKayitSebep = 'ÇIKAR'; }
 else if (formThirdParty.length && !formOwn.length) { formKayit = `${hizmetKaydi}.${formMailto ? ' mailto: ile giden form kayıt tutmaz; cümle yalnız form hizmetinden giden formu anar.' : ''}`; formKayitSebep = `FORM_KAYIT_CUMLESI ile aynı koşulla KALIR: ${hizmetSebebi}`; }
 else if (formMailto && !formOwn.length) { formKayit = 'ÇIKAR — form mailto: ile ziyaretçinin e‑posta programından gider; gönderim kaydı tutulmaz.'; formKayitSebep = 'ÇIKAR'; }
-else if (formOwn.length && !formYolu.length) { formKayit = `KALIR [DOĞRULA: sunucu-dogrulama.mjs kurulu mu] — form kendi işlevinizle gidiyor (${list(formOwn)}); kayıt sunucu doğrulamasında tutulur. Kurulu değilse ÇIKAR.`; formKayitSebep = 'kayıt kalırsa KALIR'; }
-else if (formOwn.length) { formKayit = `kendi işlevli form (${list(formOwn)}) için KALIR [DOĞRULA: sunucu-dogrulama.mjs kurulu mu]; ${formThirdParty.length ? `${hizmetKaydi}; ` : ''}${formMailto ? 'mailto: ile giden form kayıt tutmaz; ' : ''}iki form farklı yoldan gidiyorsa her form kendi cümlesiyle anılır.`; formKayitSebep = `kendi işlevli form için kayıt kalırsa KALIR${formThirdParty.length ? `; ${hizmetSebebi}` : ''}`; }
+else if (formOwn.length && !formYolu.length) { formKayit = `KALIR ${sunucuDurumu} — form kendi işlevinizle gidiyor (${list(formOwn)}); kayıt sunucu doğrulamasında tutulur. Kurulu değilse ÇIKAR.`; formKayitSebep = 'kayıt kalırsa KALIR'; }
+else if (formOwn.length) { formKayit = `kendi işlevli form (${list(formOwn)}) için KALIR ${sunucuDurumu}; ${formThirdParty.length ? `${hizmetKaydi}; ` : ''}${formMailto ? 'mailto: ile giden form kayıt tutmaz; ' : ''}iki form farklı yoldan gidiyorsa her form kendi cümlesiyle anılır.`; formKayitSebep = `kendi işlevli form için kayıt kalırsa KALIR${formThirdParty.length ? `; ${hizmetSebebi}` : ''}`; }
 else { formKayit = `form hedefi belirlenemedi${kok ? '' : ' (--kok verilmedi)'} [DOĞRULA: formun nereye gönderildiği] — kendi işleviyse sunucu kaydı cümlesi KALIR, form hizmetiyse form hizmeti biçimi (${HIZMET_KAYIT}, gizli metin_surumu alanıyla), mailto: ise ÇIKAR.`; formKayitSebep = '[DOĞRULA: formun nereye gönderildiği]'; }
 
 L('## §2 Hangi kişisel veriler işlenir');
@@ -412,6 +429,8 @@ if (essentialStore.length) L(`- Tarayıcıda tutulan zorunlu kayıtlar (${list(e
 if (embeds.length) L(`- **Gömülü içerik** (${list(embeds)}): GOMULU_VERI_CUMLESI — içerik yüklendiğinde sağlayıcıya giden veri (IP adresi, tarayıcı bilgisi, etkileşim) belirtilmeli; yalnız görülen tür (${gomuluTur ? gomuluTur.replace(' gibi ', '') : 'tür ölçülemedi [DOĞRULA: video mu, harita mı]'}); yükleme izne ya da tıklamaya bağlanır (K-Gömülü).`);
 if (chat.length) L(`- Canlı destek aracı (${list(chat)}): kullanıldığında sağlayıcıya giden veri (IP, etkileşim) belirtilmeli; nasıl yükleneceği ve hukuki sebebi K-Sohbet kararına bağlı (cerez-uyum SKILL.md → Kararlar).`);
 L('- BULTEN_VERISI: bülten bu taramanın konusu değil (kvkk-site-uyum, K-Bülten).');
+if (src.serbestMetin.size) L(`- OZEL_NITELIKLI_CUMLESI: formda serbest metin alanı var (${list([...src.serbestMetin])}) → EKLE "Formlar aracılığıyla özel nitelikli kişisel veri (ör. sağlık, ceza mahkûmiyeti, dernek veya sendika üyeliği bilgisi) işlenmesi amaçlanmamaktadır; mesajınızda bu tür bilgilere yer vermemenizi rica ederiz." ve form altına OZEL_UYARI "Mesajınızda sağlık, ceza mahkûmiyeti gibi özel nitelikli kişisel verilere yer vermeyiniz." — K-Özel nitelikli'de A seçilirse (varsayılan) [Kanun] + [skill yorumu].`);
+else L('- OZEL_NITELIKLI_CUMLESI: formda serbest metin alanı görülmedi → SİL (form seçmeli alanlardan oluşuyorsa).');
 L('');
 
 L('## §3 İşleme amaçları');
@@ -517,7 +536,8 @@ if (infra.length) groups.push(`Barındırma, yazı tipi ve içerik dağıtım (C
 if (formThirdParty.length) groups.push(`Form hizmeti sağlayıcısı (${list(formThirdParty)}): form gönderimlerinin iletilmesi amacıyla`);
 if (groups.length) { L('- Şablondaki TEKNIK_GRUP satırı (ör. "Barındırma ve yazılım hizmeti sağlayıcıları") bunların bir kısmını kapsar; kapsamadığı grubu amacıyla EKLE:'); for (const g of groups) L(`  - ${g}`); }
 if (formThirdParty.length) L(`- TEKNIK_GRUP satırının amacından "ve form gönderimlerinin iletilmesi" ÇIKAR: form ${list(formThirdParty)} üzerinden gidiyor ve bu amaç "Form hizmeti sağlayıcısı" satırında yazılıdır; satır "…: sitenin yayınlanması ve güvenliğinin sağlanması amacıyla" olur.`);
-else L('- Tespitte sitenin dışına veri giden sağlayıcı görülmedi; şablondaki genel gruplar iş akışına göre kırpılır (kvkk-site-uyum → Sorular).');
+// Grup listesi boşsa söylenir; form hizmeti olmaması tek başına "sağlayıcı yok" demek değildir (gerçek site denemesi, 21.11.2026).
+if (!groups.length) L('- Tespitte şablondaki TEKNIK_GRUP satırının dışında kalan bir sağlayıcı grubu görülmedi; şablondaki genel gruplar iş akışına göre kırpılır (kvkk-site-uyum → Sorular).');
 L('- İş ortakları, sözleşme sonrası ödeme kuruluşları, danışmanlar (IS_ORTAKLARI, SOZLESME_GRUBU, DANISMAN_GRUBU): tespit göremez; iş akışına göre (kvkk-site-uyum).');
 const ownPurpose = uniq([...ads, ...embeds, ...measureConsent]);
 L(`- TEDARIKCI_ROL — grup bazında, marka adı olmadan: yalnız site sahibinin, sağlayıcının koşullarından teyit ettiği her alıcı grubu için bir cümle [site sahibi beyanı]; teyit edilmeyen grup için cümle yazılmaz ve Sizden beklenenler'de kalır (tür 2) [site sahibi beyanı: bilinmiyor]. Gruplar ve teyit edilirse yazılacak cümle:`);
@@ -632,7 +652,16 @@ if (hasForm) K('K-Form', 'Form verisinin hukuki sebebi', [
   "Seçenek B: md. 5/2-f (FORM_SEBEP_F) — şart: genel soru, öneri ya da şikâyet; temel hak ve özgürlüklere zarar vermemek kaydıyla, talebi cevaplamak için meşru menfaat bakımından zorunlu — sitede gerektirdiği: §4'te FORM_SEBEP_F satırı — risk: denge testi belgelenmezse dayanak zayıflar (Rehber s. 17) — kaynak: KVKK md. 5/2-f [Kanun]",
   "Seçenek C: md. 5/2-f (FORM_SEBEP_F_SIRKET) — şart: teklif talebi bir şirket adına iletilir; sözleşmenin tarafı şirkettir, formu gönderen kişi değildir — sitede gerektirdiği: §4'te FORM_SEBEP_F_SIRKET satırı, §3'te aynı amaç — risk: denge testi belgelenmezse dayanak zayıflar (Rehber s. 17) — kaynak: KVKK md. 5/2-f [Kanun] + [skill yorumu]",
   'Öneri: formun amacına göre — kişi kendi adına teklif, hizmet ya da sipariş talebinde A; şirket adına teklif talebinde C; genel soru, öneri ve şikâyette B, çünkü 5/2-c yalnız sözleşmenin tarafına ait ve sözleşmenin kurulmasıyla doğrudan ilgili veride güçlüdür. Form birden çok amaca hizmet ediyorsa her amaç için ayrı satır.',
+  ...(src.adresAlani.size ? ["Seçenek D: md. 5/2-d (incelenen herkese açık sayfa ya da profil) — şart: veri ilgili kişinin kendisi tarafından alenileştirilmiş ve işleme alenileştirme amacıyla bağdaşıyor — sitede gerektirdiği: §4'te ayrı satır, §2'de incelemenin sınırı — risk: alenileştirme amaçla sınırlı yorumlanır; şirket sitesindeki kişi bilgisini teşhis ya da teklif için işlemek o amaca girmeyebilir; varsayılan 5/2-f aynı işi görür — kaynak: KVKK md. 5/2-d [Kanun] + [skill yorumu]"] : []),
   'Bilmiyorum: site sahibi formun amacını bilmiyorsa varsayılan öneri B (md. 5/2-f, FORM_SEBEP_F) ve §3\'te "Talebinizin değerlendirilmesi ve cevaplandırılması"; 5/2-c\'nin şartları amaç bilinmeden doğrulanamaz [skill yorumu]. Seçim satırı: "varsayılan öneri B — site sahibi bilmiyor, <GG.AA.YYYY>"',
+  'Seçim: [DOĞRULA]',
+]);
+if (src.serbestMetin.size) K('K-Özel nitelikli', 'Serbest metin alanındaki özel nitelikli veri', [
+  "Seçenek A: uyarı ve bilgilendirme — şart: sitede özel nitelikli veri işlenmesi amaçlanmıyor — sitede gerektirdiği: form altına OZEL_UYARI, §2'ye OZEL_NITELIKLI_CUMLESI — risk: ziyaretçi yine de yazabilir; gelen bu tür veri talebin gerektirdiği ölçüde işlenir, süre sonunda silinir — kaynak: KVKK md. 4/2-ç, 6 [Kanun] + [skill yorumu]",
+  "Seçenek B: md. 6/3 şartlarıyla işleme — şart: site sağlık, hukuk, dernek ya da sendika alanında ve özel nitelikli veri talebin konusu — sitede gerektirdiği: ayrı karar ve metin; bu skill yazmaz, söyler ve durur — risk: md. 6'daki şartlar ve Kurul'un özel nitelikli veriler için belirlediği yeterli önlemler ayrıca uygulanır — kaynak: KVKK md. 6/3 (7499 sayılı Kanunla değişik; resmî metinden doğrulanmadı) [Kanun]",
+  "Seçenek C: ekleme yapılmaz — şart: yok — sitede gerektirdiği: yok — risk: serbest alana yazılan özel nitelikli veri karşısında metin sessiz kalır — kaynak: KVKK md. 10 [Kanun] + [skill yorumu]",
+  'Öneri: A, çünkü serbest metin alanı özel nitelikli veri taşıyabilir ve uyarı bunu işleme amacının dışında tutar; site sağlık, hukuk, dernek ya da sendika alanındaysa B ayrı iş olarak.',
+  'Bilmiyorum: site sahibi bilmiyorsa varsayılan öneri A.',
   'Seçim: [DOĞRULA]',
 ]);
 if (formThirdParty.length) K('K-Form iletimi', 'Form gönderimlerinin yolu', [

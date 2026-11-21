@@ -442,11 +442,11 @@ Birden çok meşru yol olan seçimler raporun Kararlar bölümüne girer (8. Rap
    FORM_SEBEP_F_SIRKET, SUNUCU_SEBEP, FONT_SEBEP, OLCUM_SEBEP, RIZA_SATIRI,
    GOMULU_VERI_CUMLESI, GOMULU_SATIRI, RIZA_CUMLESI, CEREZ_KANALI,
    YAZISMA_KANALLARI, FORM_ILETIM_CUMLESI, TEDARIKCI_ROL, YURT_DISI,
-   TALEP_SURESI; HTTPS_CUMLESI ölçüme, GUVENLIK_CUMLESI site sahibinin
+   TALEP_SURESI, OZEL_NITELIKLI_CUMLESI; HTTPS_CUMLESI ölçüme, GUVENLIK_CUMLESI site sahibinin
    beyanına bağlıdır, kvkk-site-uyum yazar); KALIR / ÇIKAR / EKLE
    önerileri, kaynak kodundaki çelişen beyanlar ("üçüncü taraflarla
    paylaşılmaz" gibi) ve `## Kararlar` (K-Ölçüm, K-Gömülü, K-Sunucu, K-Form,
-   K-Form iletimi, K-Yurt dışı) verir; koşullu kalemleri K-Form güvenliği,
+   K-Form iletimi, K-Özel nitelikli, K-Yurt dışı) verir; koşullu kalemleri K-Form güvenliği,
    K-Sohbet ve K-Tercih kararlarına yönlendirir. Üçüncü taraf form hizmetinde
    (Formspree vb.) FORM_KAYIT_CUMLESI formdaki gizli `metin_surumu` alanıyla
    yazılır ("Formu gönderdiğinizde gönderim zamanı ve okuduğunuz metnin sürümü
