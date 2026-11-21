@@ -61,9 +61,10 @@ ve push için ayrıca onay iste.
 ```
 1. DENETİM     scripts/denetim.sh <site-kök>          → kaynak taraması (form, fetch, dış alanlar)
                cerez-uyum: cerez-tespit.mjs <url>      → gerçek çerez/istek/depolama/form
+               cerez-uyum: barindirma-tespit.mjs <url> → barındırma ve önündeki CDN; "Önerilen" satırı bayrakları verir
 2. SINIFLAMA   cerez-uyum iş akışı 3–5               → çerez/ölçüm sınıfı, şerit modeli
                references/karar-agaci.md              → form, sunucu kaydı, yurt dışı, ticari ileti, bülten, koşullar, süreler
-3. YANSIMA     cerez-uyum: kvkk-yansima.mjs sonuc.json --kok <kök> → §2–§7 KALIR/ÇIKAR/EKLE
+3. YANSIMA     cerez-uyum: kvkk-yansima.mjs sonuc.json --kok <kök> [--barindirma <ad>] [--onunde <ad>]… → §2–§7 KALIR/ÇIKAR/EKLE
    SORULAR     eksikleri kullanıcıya sor (aşağıda)     → tahmin etme
    KARARLAR    seçenekleri ve öneriyi sun, seçimi al   → raporun Kararlar bölümü
 4. YAZIM       templates/*                            → site diline uyarla, kullanıcı onayı
@@ -174,6 +175,13 @@ ve süre kararları: `references/karar-agaci.md`. Madde ve şartlar:
 
 Ölçülebilen olguyu sorma, ölç: HTTPS için `curl -sI http://<alan-adı>` →
 `https://` adresine 301/308 yönlendirmesi varsa HTTPS_CUMLESI yazılır.
+Barındırma sağlayıcısı için `cerez-uyum` skill'inin
+`scripts/barindirma-tespit.mjs <adres>` aracı yanıt başlıklarından öneri verir;
+`Önerilen` satırındaki bayrakları (`--barindirma <ad>`, `--onunde <ad>`)
+`kvkk-yansima`'ya ver. Önündeki CDN asıl barındırıcıyı gizleyebilir ve
+`--onunde` ile yurt dışı listesine girer; başlıklardan ülke çıkarılmaz.
+Barındırma tanınmazsa site sahibine sor (Sizden beklenenler); teyit edilene
+kadar raporda `[DOĞRULA: barındırma]` kalır.
 
 ### 4. Yazım
 

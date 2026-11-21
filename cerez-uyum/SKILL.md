@@ -88,8 +88,9 @@ HTTPS, barındırma sağlayıcısı, formun hedefi.
 |---|---|
 | `scripts/tarama.sh <kök>` | Kaynak kod varsa, ilk adım |
 | `scripts/cerez-tespit.mjs <url>` | Her zaman; asıl ölçüm |
+| `scripts/barindirma-tespit.mjs <url> [--json]` | Barındırma sağlayıcısı ve önündeki edge/CDN önerisi, yanıt başlıklarından (yalnız verilen adrese istek): `Önerilen` satırındaki bayrakları (`--barindirma <ad>`, `--onunde <ad>`) `kvkk-yansima`'ya ver; sunucu yazılımı ayrı satırda; barındırma tanınmazsa site sahibine sor. Test: `scripts/barindirma-tespit-test.mjs` |
 | `scripts/tablo.mjs sonuc.json [--md]` | Metin tablosu taslağı; HTML çıktısı yalnız `<tr>` satırlarıdır (yorum yok), satırların kaynağı, DİKKAT notları ve rıza paneli kategorileri `--md` çıktısında |
-| `scripts/kvkk-yansima.mjs sonuc.json [--kok <dizin>] [--barindirma <ad>] [--eposta <ad>]` | Sizden beklenenler, bulguların KVKK aydınlatma metnine (§2–§7, §10) yansıması ve Kararlar; kvkk-site-uyum bunu kullanır. `--eposta`: yurt dışındaki kurumsal e‑posta sağlayıcısı |
+| `scripts/kvkk-yansima.mjs sonuc.json [--kok <dizin>] [--barindirma <ad>] [--onunde <ad>]… [--eposta <ad>]` | Sizden beklenenler, bulguların KVKK aydınlatma metnine (§2–§7, §10) yansıması ve Kararlar; kvkk-site-uyum bunu kullanır. `--onunde`: sitenin önündeki edge/CDN, tekrarlanabilir (`barindirma-tespit`). `--eposta`: yurt dışındaki kurumsal e‑posta sağlayıcısı |
 | `scripts/metin-kontrol.mjs site <html…>` | Siteye yazmadan önce: kalan `{{`, `[DOĞRULA]`, etiket sızıntısı, yasak kalıp, boş paragraf/madde/bölüm, çıplak yer tutucu adı, iç terim (K-…, "Seçenek X", §n); HTML yorumu ve betik/stil içi not uyarı |
 | `scripts/metin-kontrol.mjs rapor <rapor.md>` | Raporu kaydetmeden önce: Dayanak ve Kararlar biçimi; her yer tutucu ve her kararın Dayanak satırı |
 | `scripts/metin-kontrol-test.mjs` | Betik değişince regresyon testi (her durum tetiklenen kuralı kimliğiyle doğrular); bulgu çıkmaması metnin hukuken doğru olduğu anlamına gelmez |
@@ -214,9 +215,18 @@ kaydı "birinci taraf" yazılmaz; kaynağı bilinmeyen depolama kaleminde taraf
 1. Yurt dışındaki her sağlayıcıyı ad, ülke ve amaçla listele (`kvkk-yansima`
    §6). Barındırma sağlayıcısı da listeye girer: ölçümden (`/_vercel/insights`
    gibi yollar), kaynak kökünden (`vercel.json`, `netlify.toml`) ya da sunucu
-   başlıklarından tanınır. Betik başlığı göremez: `curl -sI <adres>` ile bak
-   (`server: Vercel`, `x-vercel-id`, `server: Netlify`, `x-nf-request-id`),
-   bulduğunu `--barindirma <ad>` ile ver.
+   başlıklarından tanınır. `kvkk-yansima` başlığı göremez:
+   `node scripts/barindirma-tespit.mjs <adres>` çalıştır; `Önerilen:` satırı
+   varsa bayraklarını (`--barindirma <ad>`, `--onunde <ad>`) `kvkk-yansima`'ya
+   aynen ver. "Önünde" satırındaki CDN asıl barındırıcıyı gizleyebilir ve
+   ziyaretçi verisini kendisi de işler: `--onunde` ile yurt dışı listesine ve
+   teknik cümleye "sitenin güvenli ve hızlı sunulması" amacıyla girer
+   (çerezden tanınan Cloudflare ile tek kayıt). Ülke `kvkk-yansima`'nın
+   listesinden, orada yoksa `tedarikciler.json` → `barindirma`'daki konumdan
+   gelir; edge kodlarından (ör. `cf-ray` son eki) ülke çıkarılmaz. Sunucu
+   yazılımı (nginx, LiteSpeed…) sağlayıcı ve ülke göstermez. Barındırma
+   tanınmazsa site sahibine sorulur (Sizden beklenenler); teyit edilene kadar
+   raporda `[DOĞRULA: barındırma]` kalır.
 2. Her sağlayıcı için yolları site sahibine düz dille anlat: (a) aktarımı
    azaltmak — fontu ve CDN kaynaklarını kendi sunucudan sunmak, gereksiz
    aracı kaldırmak; (b) sağlayıcıyla standart sözleşme imzalamak ve imzadan
@@ -227,7 +237,7 @@ kaydı "birinci taraf" yazılmaz; kaynağı bilinmeyen depolama kaleminde taraf
    KVKK'nın 9. maddesi kapsamında aktarılabilir." Amaçlar taramada yurt dışında
    görülen hizmetlerden kurulur, sağlayıcı adı geçmez: "sitenin barındırılması"
    yalnız barındırma yurt dışındaysa; "sitenin güvenli ve hızlı sunulması"
-   (Cloudflare: vekil sunucu, CDN, güvenlik duvarı); "form gönderimlerinin
+   (Cloudflare ya da `--onunde` ile verilen edge/CDN: vekil sunucu, CDN, güvenlik duvarı); "form gönderimlerinin
    iletilmesi" (form hizmeti ya da form işlevinin e‑posta gönderim servisi;
    iletişim ve bülten formları); "formun kötüye kullanıma karşı korunması" (reCAPTCHA, Cloudflare Turnstile); "yazı
    tiplerinin sunulması"; "site bileşenlerinin sunulması" (açık CDN); "e‑posta
@@ -424,7 +434,7 @@ Birden çok meşru yol olan seçimler raporun Kararlar bölümüne girer (8. Rap
    kvkk-site-uyum ile aynı kural). §1 durum cümlesini modele
    göre seç — şerit, §1, §2 ve tablo aynı gerçeği söylemeli.
 3. Şerit metni için 2–3 seçenek (A önerilen) ve gerekçe ver.
-4. **KVKK aydınlatma metnine yansıma:** `node scripts/kvkk-yansima.mjs /tmp/cerez.json --kok <site-kök> [--barindirma <ad>]`.
+4. **KVKK aydınlatma metnine yansıma:** `node scripts/kvkk-yansima.mjs /tmp/cerez.json --kok <site-kök> [--barindirma <ad>] [--onunde <ad>]…`.
    Çıktı başta "Sizden beklenenler"i (site sahibine sorulacak olgular, her biri
    "bilmiyorum" hâliyle) verir. Sonra KVKK şablonunun yer tutucularına adıyla
    bağlanır (LOG_SURESI, FONT_CUMLESI, OLCUM_CUMLESI, OLCUM_AMACI,

@@ -1,5 +1,5 @@
 {
-  "_aciklama": "cerez-tespit.mjs ve tablo.mjs bu dosyayı okur. 'desen' JavaScript RegExp (büyük/küçük harf duyarsız). 'riza': true = açık rıza gerekir, false = rıza gerekmez (Kriter A/B), 'kosullu' = yapılandırmaya göre değişir, notu oku. Süreler tedarikçi beyanıdır, değişebilir; metne yazmadan önce canlı tespitteki gerçek süreyi kullan. Kaynak: tedarikçi dokümanları + Kurum Çerez Rehberi (Temmuz 2025).",
+  "_aciklama": "cerez-tespit.mjs ve tablo.mjs bu dosyayı okur. 'desen' JavaScript RegExp (büyük/küçük harf duyarsız). 'riza': true = açık rıza gerekir, false = rıza gerekmez (Kriter A/B), 'kosullu' = yapılandırmaya göre değişir, notu oku. Süreler tedarikçi beyanıdır, değişebilir; metne yazmadan önce canlı tespitteki gerçek süreyi kullan. Kaynak: tedarikçi dokümanları + Kurum Çerez Rehberi (Temmuz 2025). 'barindirma' bölümünü barindirma-tespit.mjs okur: 'basliklar' yanıt başlığının adı ve değerinde (tamamında ya da virgülle ayrılan bir parçasında) aranan desendir, 'eslesme' hepsi = bütün başlıklar, biri = biri yeter; 'tur' origin = barındırıcı, edge = önündeki CDN ya da vekil sunucu (asıl barındırıcıyı gizleyebilir), yazilim = sunucu yazılımı (sağlayıcı ve ülke göstermez); 'oncelik' a > b origin önerisinin sırasıdır, c edge, d yazılımdır; edge kodları (cf-ray son eki, x-amz-cf-pop, BunnyCDN-TR) veri konumu değildir.",
   "cerezler": [
     {
       "desen": "^_ga$",
@@ -615,6 +615,496 @@
       "yurtdisi": true,
       "amac": "Sayfa yükleme performansının ölçülmesi (Vercel Speed Insights)",
       "not": "Sitenin kendi alan adındaki yol (birinciTarafOlcum); istek sitenin alan adına gider, hizmeti Vercel işletir. Tedarikçi beyanı: çerez yok. Karar: K-Ölçüm (analitik.md → Kural 2). tablo.mjs ve kvkk-yansima.mjs okur"
+    }
+  ],
+  "barindirma": [
+    {
+      "saglayici": "Vercel",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^Vercel$"
+        },
+        {
+          "ad": "x-vercel-id",
+          "desen": "^([a-z]{3}\\d::)+[a-z0-9]+-\\d+-[0-9a-f]+$"
+        },
+        {
+          "ad": "x-vercel-cache",
+          "desen": "^(HIT|MISS|STALE|PRERENDER|REVALIDATED|BYPASS)$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "https://vercel.com/docs/headers/response-headers"
+    },
+    {
+      "saglayici": "Netlify",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^Netlify$"
+        },
+        {
+          "ad": "x-nf-request-id",
+          "desen": ".*"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "Cloudflare",
+      "tur": "edge",
+      "oncelik": "c",
+      "basliklar": [
+        {
+          "ad": "cf-ray",
+          "desen": "^[0-9a-f]{16}-[A-Z]{3}$"
+        },
+        {
+          "ad": "server",
+          "desen": "^cloudflare$"
+        },
+        {
+          "ad": "cf-cache-status",
+          "desen": ".*"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "https://developers.cloudflare.com/fundamentals/reference/http-headers/"
+    },
+    {
+      "saglayici": "Amazon CloudFront",
+      "tur": "edge",
+      "oncelik": "c",
+      "basliklar": [
+        {
+          "ad": "via",
+          "desen": "^\\d\\.\\d [0-9a-f]+\\.cloudfront\\.net \\(CloudFront\\)$"
+        },
+        {
+          "ad": "x-amz-cf-id",
+          "desen": ".*"
+        },
+        {
+          "ad": "x-amz-cf-pop",
+          "desen": "^[A-Z]{3}\\d+-[A-Z0-9]+$"
+        },
+        {
+          "ad": "x-cache",
+          "desen": "^(Hit|Miss|RefreshHit|Error) from cloudfront$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/RequestAndResponseBehaviorCustomOrigin.html"
+    },
+    {
+      "saglayici": "Amazon S3",
+      "tur": "origin",
+      "oncelik": "b",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^AmazonS3$"
+        },
+        {
+          "ad": "x-amz-request-id",
+          "desen": ".*"
+        },
+        {
+          "ad": "x-amz-id-2",
+          "desen": ".*"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "GitHub Pages",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^GitHub\\.com$"
+        },
+        {
+          "ad": "x-github-request-id",
+          "desen": "^[0-9A-F]+(:[0-9A-F]+){4}$"
+        }
+      ],
+      "eslesme": "hepsi",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "Google Cloud",
+      "tur": "origin",
+      "oncelik": "b",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^Google Frontend$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "https://docs.cloud.google.com/appengine/docs/standard/reference/request-headers"
+    },
+    {
+      "saglayici": "Azure Front Door",
+      "tur": "edge",
+      "oncelik": "c",
+      "basliklar": [
+        {
+          "ad": "x-azure-ref",
+          "desen": ".*"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "https://learn.microsoft.com/en-us/azure/frontdoor/front-door-http-headers-protocol"
+    },
+    {
+      "saglayici": "Azure App Service",
+      "tur": "origin",
+      "oncelik": "b",
+      "basliklar": [
+        {
+          "ad": "set-cookie",
+          "desen": "^ARRAffinity="
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "https://azure.github.io/AppService/"
+    },
+    {
+      "saglayici": "Render",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "rndr-id",
+          "desen": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}$"
+        },
+        {
+          "ad": "x-render-origin-server",
+          "desen": "^Render$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "Fly.io",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^Fly/"
+        },
+        {
+          "ad": "via",
+          "desen": ".*fly\\.io"
+        },
+        {
+          "ad": "fly-request-id",
+          "desen": "^[0-9A-Z]{26}-[a-z]{3}$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "Heroku",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "via",
+          "desen": "^(1\\.1|2\\.0) heroku-router$"
+        },
+        {
+          "ad": "server",
+          "desen": "^Heroku$"
+        },
+        {
+          "ad": "via",
+          "desen": "^1\\.1 vegur$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "https://www.heroku.com/blog/tips-tricks-router-2dot0-migration"
+    },
+    {
+      "saglayici": "Fastly",
+      "tur": "edge",
+      "oncelik": "c",
+      "basliklar": [
+        {
+          "ad": "x-served-by",
+          "desen": "^cache-[a-z0-9-]+-[A-Z]{3}$"
+        },
+        {
+          "ad": "x-timer",
+          "desen": "^S\\d+\\.\\d+,VS\\d+,VE\\d+$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "https://www.fastly.com/documentation/reference/http/http-headers/X-Served-By/"
+    },
+    {
+      "saglayici": "Akamai",
+      "tur": "edge",
+      "oncelik": "c",
+      "basliklar": [
+        {
+          "ad": "akamai-grn",
+          "desen": "^\\d+\\.[0-9a-f]+\\.\\d+\\.[0-9a-f]+$"
+        },
+        {
+          "ad": "akamai-cache-status",
+          "desen": "from child$"
+        },
+        {
+          "ad": "server-timing",
+          "desen": "^ak_p\\b"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "https://techdocs.akamai.com/property-mgr/docs/global-req-number"
+    },
+    {
+      "saglayici": "Bunny CDN",
+      "tur": "edge",
+      "oncelik": "c",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^BunnyCDN-[A-Z]{2}\\d*-\\d+$"
+        },
+        {
+          "ad": "cdn-pullzone",
+          "desen": ".*"
+        },
+        {
+          "ad": "cdn-cache",
+          "desen": ".*"
+        },
+        {
+          "ad": "cdn-requestid",
+          "desen": ".*"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "yüksek",
+      "kaynak": "https://bunny.net/docs/cdn/troubleshooting/run-traceroute"
+    },
+    {
+      "saglayici": "Wix",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "x-wix-request-id",
+          "desen": ".*"
+        },
+        {
+          "ad": "server",
+          "desen": "^Pepyaka$"
+        },
+        {
+          "ad": "x-meta-site-is-wix-site",
+          "desen": "^1$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "Squarespace",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^Squarespace$"
+        },
+        {
+          "ad": "x-contextid",
+          "desen": ".*"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "Shopify",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "powered-by",
+          "desen": "^Shopify"
+        },
+        {
+          "ad": "x-dc",
+          "desen": "^gcp-"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "WordPress.com",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "x-ac",
+          "desen": "^\\d+\\.[a-z]{3} _[a-z]+ [A-Z]+$"
+        },
+        {
+          "ad": "server-timing",
+          "desen": "a8c-cdn"
+        },
+        {
+          "ad": "x-hacker",
+          "desen": "join\\.a8c\\.com"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "Webflow",
+      "tur": "origin",
+      "oncelik": "a",
+      "basliklar": [
+        {
+          "ad": "x-wf-page-id",
+          "desen": ".*"
+        },
+        {
+          "ad": "x-wf-region",
+          "desen": ".*"
+        },
+        {
+          "ad": "x-lambda-id",
+          "desen": ".*"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "yurt dışı",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "LiteSpeed",
+      "tur": "yazilim",
+      "oncelik": "d",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^LiteSpeed$"
+        },
+        {
+          "ad": "x-litespeed-cache",
+          "desen": "^(hit|miss)"
+        },
+        {
+          "ad": "x-turbo-charged-by",
+          "desen": "LiteSpeed"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "bilinmiyor",
+      "guven": "yüksek",
+      "kaynak": "https://docs.litespeedtech.com/lscache/noplugin/installation/"
+    },
+    {
+      "saglayici": "Plesk",
+      "tur": "yazilim",
+      "oncelik": "d",
+      "basliklar": [
+        {
+          "ad": "x-powered-by",
+          "desen": "^PleskLin$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "bilinmiyor",
+      "guven": "orta",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "nginx",
+      "tur": "yazilim",
+      "oncelik": "d",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^nginx(/[\\d.]+)?$"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "bilinmiyor",
+      "guven": "yüksek",
+      "kaynak": "canlı başlık, 2026-11-21"
+    },
+    {
+      "saglayici": "Apache",
+      "tur": "yazilim",
+      "oncelik": "d",
+      "basliklar": [
+        {
+          "ad": "server",
+          "desen": "^Apache"
+        }
+      ],
+      "eslesme": "biri",
+      "konum": "bilinmiyor",
+      "guven": "yüksek",
+      "kaynak": "canlı başlık, 2026-11-21"
     }
   ]
 }

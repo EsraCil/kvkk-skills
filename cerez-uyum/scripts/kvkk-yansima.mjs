@@ -3,11 +3,14 @@
 // Girdi: cerez-tespit.mjs --cikti sonuc.json. İsteğe bağlı:
 //   --kok <site kaynak kökü>  tespitte görünmeyenleri kaynaktan bulur: form hizmeti, kendi form işlevi, e‑posta
 //                             gönderim servisi, font/CDN bağlantıları, barındırma yapılandırması (vercel.json, netlify.toml)
-//   --barindirma <ad>         sunucu başlıklarından tanınan barındırma sağlayıcısı (curl -sI <adres>: server, x-vercel-id…)
+//   --barindirma <ad>         sunucu başlıklarından tanınan barındırma sağlayıcısı (barindirma-tespit.mjs <adres> → "Önerilen")
+//   --onunde <ad>             sitenin önündeki edge/CDN sağlayıcısı (barindirma-tespit.mjs → "Önünde", "Önerilen");
+//                             tekrarlanabilir. Yurt dışı listesine ve teknik cümleye "sitenin güvenli ve hızlı sunulması"
+//                             amacıyla girer (Cloudflare'ın ölçüm dışı kullanımıyla aynı); çerezden tanınan Cloudflare ile birleşir
 //   --eposta <ad>             yurt dışındaki kurumsal e‑posta sağlayıcısı (site sahibi beyanı ya da alan adının MX kaydı);
 //                             yalnız sağlayıcı yurt dışındaysa verilir
 //
-// Kullanım: node kvkk-yansima.mjs sonuc.json [--kok <dizin>] [--barindirma <ad>] [--eposta <ad>]
+// Kullanım: node kvkk-yansima.mjs sonuc.json [--kok <dizin>] [--barindirma <ad>] [--onunde <ad>]… [--eposta <ad>]
 //
 // Çıktı Markdown'dır. Başta "Sizden beklenenler": site sahibine sorulacak olgular; her birinde "bilmiyorum" geçerli
 // cevaptır ve metnin o durumda nasıl yazılacağı verilir (SKILL.md → "Bilmiyorum" cevabı). Sonra
@@ -32,10 +35,11 @@ import { join, extname, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const args = process.argv.slice(2);
-const DEGERLI = ['--kok', '--barindirma', '--eposta'];
+const DEGERLI = ['--kok', '--barindirma', '--onunde', '--eposta'];
 const file = args.find((a, i) => !a.startsWith('--') && !DEGERLI.includes(args[i - 1]));
-if (!file) { console.error('Kullanım: kvkk-yansima.mjs sonuc.json [--kok <site kaynak kökü>] [--barindirma <ad>] [--eposta <ad>]'); process.exit(2); }
+if (!file) { console.error('Kullanım: kvkk-yansima.mjs sonuc.json [--kok <site kaynak kökü>] [--barindirma <ad>] [--onunde <ad>]… [--eposta <ad>]'); process.exit(2); }
 const deger = (bayrak) => { const i = args.indexOf(bayrak); return i >= 0 ? args[i + 1] : null; };
+const degerler = (bayrak) => args.flatMap((a, i) => (a === bayrak && i + 1 < args.length ? [args[i + 1]] : []));
 const kok = deger('--kok'); const barindirmaArg = deger('--barindirma'); const epostaArg = deger('--eposta');
 const res = JSON.parse(readFileSync(file, 'utf8'));
 const S = res.senaryolar;
@@ -60,9 +64,13 @@ const ad = (s) => { if (!s) return s; for (const [re, yeni] of AYNI_AD) if (re.t
 const FORM_HIZMETI = [[/formspree/i, 'Formspree'], [/getform/i, 'Getform'], [/usebasin/i, 'Basin'], [/formsubmit/i, 'FormSubmit'], [/web3forms/i, 'Web3Forms'], [/formcarry/i, 'Formcarry'], [/data-netlify/i, 'Netlify Forms'], [/hsforms/i, 'HubSpot Forms'], [/forms\.gle|docs\.google\.com\/forms/i, 'Google Forms']];
 const formAd = (s) => { for (const [re, a] of FORM_HIZMETI) if (re.test(s)) return a; return s; };
 const hostAd = (h) => (h.sinif === 'form işleme' ? formAd(h.host) : ad(h.saglayici) || h.host);
-// Ülke: sağlayıcının merkezi (tedarikçi beyanı). Listede olmayan sağlayıcıda [DOĞRULA: ülke].
+// Ülke: sağlayıcının merkezi (tedarikçi beyanı). Listede olmayan sağlayıcıda tedarikciler.json → barindirma'daki konum
+// ("yurt dışı"; --barindirma ve --onunde adları), orada da yoksa [DOĞRULA: ülke].
 const ULKE = [[/^(Google|YouTube)/, 'ABD'], [/^Meta\b/, 'ABD'], [/^Vercel/, 'ABD'], [/^Netlify/, 'ABD'], [/^Cloudflare/, 'ABD (küresel ağ)'], [/^Microsoft/, 'ABD'], [/^(Formspree|HubSpot|LinkedIn|Vimeo)/, 'ABD'], [/^(Resend|SendGrid|Postmark|Mailgun)/, 'ABD'], [/^Amazon SES/, 'seçilen AWS bölgesi'], [/^(Brevo|Mailjet)/, 'Fransa'], [/^Hotjar/, 'Malta']];
-const ulke = (a) => { for (const [re, u] of ULKE) if (re.test(a)) return u; return '[DOĞRULA: ülke]'; };
+// Barındırma ve edge adı tablodaki yazıma çekilir (büyük/küçük harf), böylece ULKE ve tablo aynı adı görür.
+const barindirmaKaydi = (a) => (db.barindirma || []).find((k) => k.saglayici.toLowerCase() === String(a).toLowerCase()) || null;
+const kanonik = (a) => barindirmaKaydi(a)?.saglayici || a;
+const ulke = (a) => { for (const [re, u] of ULKE) if (re.test(a)) return u; return barindirmaKaydi(a)?.konum === 'yurt dışı' ? 'yurt dışı' : '[DOĞRULA: ülke]'; };
 
 // ---- bulguları topla (tüm senaryolar) ------------------------------------------
 const hosts = new Map(); const cookies = new Map(); const storage = new Map(); const fpMeasure = new Map(); const forms = [];
@@ -184,10 +192,11 @@ const formDesc = [forms.length ? `tespitte ${forms.length} form: ${uniq(forms.ma
 
 // ---- barındırma ve yurt dışı (K-Yurt dışı) ------------------------------------------
 // Barındırma sağlayıcısı ölçümden (/_vercel/ yolu, Vercel çerezi), kaynak kökünden (vercel.json, netlify.toml,
-// data-netlify, .netlify/functions) ya da --barindirma ile (sunucu başlıkları) tanınır.
+// data-netlify, .netlify/functions) ya da --barindirma ile (sunucu başlıkları) tanınır. Önündeki edge/CDN --onunde ile girer.
 const barindirma = new Map();
 const bEkle = (a, nereden) => { if (a && ![...barindirma.keys()].some((k) => k.toLowerCase() === a.toLowerCase())) barindirma.set(a, nereden); };
-if (barindirmaArg) bEkle(barindirmaArg, 'sunucu başlıkları (--barindirma)');
+if (barindirmaArg) bEkle(kanonik(barindirmaArg), 'sunucu başlıkları (--barindirma)');
+const onunde = uniq(degerler('--onunde').map(kanonik));
 const vercelYolu = fpTum.find((k) => k.startsWith('/_vercel/'));
 if (vercelYolu) bEkle('Vercel', `${vercelYolu} yolu`);
 if (C.some((c) => /^_vercel_/.test(c.name)) || H.some((h) => h.host === 'vercel.live')) bEkle('Vercel', 'Vercel çerezi ya da araç çubuğu');
@@ -204,6 +213,8 @@ const ydEkle = (a, sinif, riza, not) => {
   yd.set(a, e);
 };
 for (const [b, n] of barindirma) ydEkle(b, 'barındırma', false, `tanındığı yer: ${n}`);
+// Edge/CDN: Cloudflare'ın ölçüm dışı kullanımıyla aynı sınıf ve amaç; çerezden tanınan "Cloudflare" aynı kayda düşer.
+for (const o of onunde) ydEkle(o, 'cdn ve güvenlik', false, 'tanındığı yer: sunucu başlıkları (--onunde)');
 for (const h of H) if (h.yurtdisi === true || h.yurtdisi === 'tedarikçiye göre') ydEkle(hostAd(h), h.sinif, h.riza, h.yurtdisi === 'tedarikçiye göre' ? 'veri konumu sağlayıcının bölge seçeneğine göre' : null);
 for (const x of [...C, ...D]) {
   const a = ad(x.saglayici);
@@ -250,7 +261,7 @@ const fpVercelTaninmayan = fpYollar.find((k) => k.startsWith('/_vercel/'));
 const rizasizOlcumYD = ydRizasizOlcum.length > 0 || fpOlcumYD.length > 0 || Boolean(fpVercelTaninmayan) || fpTum.some((k) => k.startsWith('/cdn-cgi/rum'));
 // Teknik cümlenin amacı yurt dışında görülen hizmetlerden kurulur; sağlayıcı adı geçmez, cümle yapısı aynı kalır.
 // "sitenin barındırılması" yalnız barındırma yurt dışındaysa yazılır. Kurumsal e‑posta sağlayıcısı --eposta ile girer.
-// Onaylı amaç ifadeleri: barındırma, Cloudflare (ölçüm dışı: vekil sunucu, CDN, güvenlik duvarı), form iletimi,
+// Onaylı amaç ifadeleri: barındırma, Cloudflare ve --onunde edge/CDN (ölçüm dışı: vekil sunucu, CDN, güvenlik duvarı), form iletimi,
 // reCAPTCHA ve Cloudflare Turnstile (form koruması), yazı tipleri, açık CDN, kurumsal e‑posta, canlı destek aracı, rıza
 // yönetim platformu, rızasız ölçüm. Onaylı ifadesi olmayan hizmet (ör. etiket yöneticisi) cümlede [DOĞRULA: amaç] olarak
 // kalır; cümle bu hâliyle siteye yazılmaz.
@@ -317,7 +328,7 @@ const out = []; const L = (s = '') => out.push(s);
 const K = (id, title, lines) => { L(`### ${id} — ${title}`); for (const l of lines) L(`- ${l}`); L(''); };
 L('# KVKK aydınlatma metnine yansıma — öneri, onaya sunulur');
 L('');
-L(`Kaynak: ${res.url} (${res.zaman.slice(0, 16).replace('T', ' ')}), senaryolar: ${scen.join(', ')}${kok ? `, kaynak kodu: ${kok}` : ', kaynak kodu taranmadı (--kok ile form hizmeti, e‑posta servisi ve barındırma yapılandırması da bulunur)'}${barindirmaArg ? `, barındırma: ${barindirmaArg} (--barindirma)` : ''}${epostaArg ? `, kurumsal e‑posta: ${epostaArg} (--eposta)` : ''}.`);
+L(`Kaynak: ${res.url} (${res.zaman.slice(0, 16).replace('T', ' ')}), senaryolar: ${scen.join(', ')}${kok ? `, kaynak kodu: ${kok}` : ', kaynak kodu taranmadı (--kok ile form hizmeti, e‑posta servisi ve barındırma yapılandırması da bulunur)'}${barindirmaArg ? `, barındırma: ${kanonik(barindirmaArg)} (--barindirma)` : ''}${onunde.length ? `, önünde: ${list(onunde)} (--onunde)` : ''}${epostaArg ? `, kurumsal e‑posta: ${epostaArg} (--eposta)` : ''}.`);
 if (src.atlanan.length) L(`Kaynak taramasında okunamayan ${src.atlanan.length} yol atlandı (kırık bağlantı ya da izin): ${src.atlanan.slice(0, 5).join(', ')}${src.atlanan.length > 5 ? ' …' : ''}. Bu dosyalardaki bulgular çıktıda yok.`);
 L('Bölüm numaraları kvkk-site-uyum şablonuna göredir (sayfadaki §, KVKK maddesi değil); BÜYÜK HARFLİ adlar şablonun yer tutucularıdır. Her madde bir öneridir; metne işlemeden önce site sahibine tam hâliyle göster.');
 L('Köşeli etiketler ([Kanun], [Tebliğ], [Rehber: gerekli], [skill yorumu]…) dayanağın türünü gösterir; site metnine girmez. [DOĞRULA] olan cümle doğrulanmadan siteye yazılmaz.');
@@ -349,7 +360,7 @@ sor(`Hangi sağlayıcı grupları verileri yalnız sizin adınıza ve talimatın
 sor('Kişisel verileri korumak için hangi güvenlik önlemlerini alıyorsunuz (ör. iki adımlı doğrulama, yetkili kişiyle sınırlı erişim)?', 'GUVENLIK_CUMLESI, §10; tür 2', 'kendi hesap ve erişim ayarlarınız (e‑posta, form hizmeti, barındırma paneli)', 'cümle yazılmaz; HTTPS de ölçülmediyse §10 başlığı silinir ve sonraki başlık numaraları bir azalır', 'bildirdiğiniz önlemler §10\'da genel bir cümleyle yazılır [site sahibi beyanı]');
 if (!epostaArg) sor('Kurumsal e‑posta hesabınız hangi sağlayıcıda?', '§6, YURT_DISI, K-Yurt dışı; tür 2', 'e‑posta hizmetinizin faturası ya da alan adının MX kaydı', 'yurt dışı listesine eklenmez; teknik cümlede e‑posta amacı yazılmaz', 'sağlayıcı yurt dışındaysa betik --eposta <ad> ile yeniden çalıştırılır: sağlayıcı yurt dışı listesine ve K-Yurt dışı kararına girer, teknik cümlenin amacına "e‑posta yazışmalarının yürütülmesi" eklenir; metin genel cümleyle kalır');
 if (measure.length) sor('Ölçüm aracı nerede çalışıyor; sağlayıcı veriyi yalnız sizin adınıza mı işliyor?', 'K-Ölçüm; tür 3', 'aracın kurulumu ve sağlayıcının koşulları', 'rıza paneli (K-Ölçüm, Seçenek C)', 'şartlar tutarsa rızasız ölçüm (K-Ölçüm, Seçenek B)');
-if (!barindirma.size) sor('Site hangi barındırma sağlayıcısında; sağlayıcı yurt dışında mı?', 'YURT_DISI, K-Yurt dışı; önce ölçülür, ölçülemezse sorulur', 'curl -sI <adres> (server: Vercel, x-vercel-id, server: Netlify, x-nf-request-id …); ölçülemezse barındırma faturası ya da paneli', teknikVar ? `barındırma yurt dışı listesine girmez; teknik cümlede "sitenin barındırılması" yazılmaz, cümle yalnız görülen hizmetlerin amacıyla kurulur (${list([...ydTeknik.map((e) => e.ad), ...(rizasizOlcumYD ? ['rızasız ölçüm'] : [])])})` : 'barındırma yurt dışı listesine girmez; görülen teknik sağlayıcı olmadığından teknik cümle yazılmaz, raporda [DOĞRULA: barındırma] kalır', `yurt dışındaysa betik --barindirma <ad> ile yeniden çalıştırılır; sağlayıcı yurt dışı listesine ve K-Yurt dışı kararına girer, ${teknikVar ? 'teknik cümlenin amacına "sitenin barındırılması" eklenir' : 'teknik cümle "sitenin barındırılması" amacıyla eklenir'}`);
+if (!barindirma.size) sor('Site hangi barındırma sağlayıcısında; sağlayıcı yurt dışında mı?', 'YURT_DISI, K-Yurt dışı; önce ölçülür, ölçülemezse sorulur', 'scripts/barindirma-tespit.mjs <adres> (yanıt başlıkları; "Önerilen" satırındaki bayraklar: --barindirma, --onunde); tanınmazsa barındırma faturası ya da paneli', teknikVar ? `barındırma yurt dışı listesine girmez; teknik cümlede "sitenin barındırılması" yazılmaz, cümle yalnız görülen hizmetlerin amacıyla kurulur (${list([...ydTeknik.map((e) => e.ad), ...(rizasizOlcumYD ? ['rızasız ölçüm'] : [])])})` : 'barındırma yurt dışı listesine girmez; görülen teknik sağlayıcı olmadığından teknik cümle yazılmaz, raporda [DOĞRULA: barındırma] kalır', `yurt dışındaysa betik --barindirma <ad> ile yeniden çalıştırılır; sağlayıcı yurt dışı listesine ve K-Yurt dışı kararına girer, ${teknikVar ? 'teknik cümlenin amacına "sitenin barındırılması" eklenir' : 'teknik cümle "sitenin barındırılması" amacıyla eklenir'}`);
 if (YD.length) sor("Yurt dışındaki her sağlayıcıyla standart sözleşme imzalandı mı, imzadan sonra 5 iş günü içinde Kurum'a bildirildi mi?", 'K-Yurt dışı; tür 1', "sağlayıcının sözleşme belgeleri ve Kurum'a yaptığınız bildirim", `metin genel cümleyle, "${DAYANAK_TEYITSIZ} aktarılabilir" biçimiyle yazılır; raporda "aktarımın dayanağı belirlenmedi" uyum engeli kalır`, `cümlenin kapsadığı her sağlayıcı için yol teyit edilince teknik cümlede "${DAYANAK_TEYITLI} aktarılabilir" yazılır ve uyum engeli kalkar`);
 if (fontVar || cdnlar.length) sor(`${fontVar ? 'Yazı tiplerini' : 'Sayfa dosyalarını'}${fontVar && cdnlar.length ? ' ve CDN dosyalarını' : ''} kendi sunucunuzdan sunacak mısınız?`, 'FONT_CUMLESI, FONT_SEBEP, K-Yurt dışı; tür 3', 'sitenin kodu: dosyalar indirilip sitenin kendi sunucusundan sunulur (geliştirici işi)', `metin bugünkü durumu yazar: FONT_CUMLESI ve FONT_SEBEP eklenir, ${list([...(fontVar ? ['Google Fonts'] : []), ...cdnlar])} yurt dışı listesinde kalır; öneri raporda durur`, 'kendi sunucunuza alınırsa FONT_CUMLESI ve FONT_SEBEP silinir, sağlayıcı yurt dışı listesinden düşer');
 if (hasForm) sor('Form ne için ve kimin adına gönderiliyor?', 'K-Form; seçim', 'formu siz tasarladınız; gelen taleplere bakın', 'varsayılan öneri: md. 5/2-f (FORM_SEBEP_F), §3 FORM_AMACI "Talebinizin değerlendirilmesi ve cevaplandırılması"; form ağırlıklı teklif ya da sipariş içinse 5/2-c daha güçlü dayanaktır', 'FORM_SEBEP_C, FORM_SEBEP_F ya da FORM_SEBEP_F_SIRKET satırı seçilir');
@@ -518,7 +529,7 @@ if (YD.length) {
 } else {
   L('- **Yurt dışı:** tespitte yurt dışına giden sağlayıcı görülmedi. Barındırma ya da e‑posta sağlayıcısı yurt dışındaysa yine gerekir (Sizden beklenenler); hiçbiri yoksa YURT_DISI SİL.');
 }
-if (!barindirma.size) L('  - Barındırma sağlayıcısı tespitte tanınmadı: sunucu başlıklarına bakın (`curl -sI <adres>`: `server: Vercel`, `x-vercel-id`, `server: Netlify`, `x-nf-request-id`) ya da site sahibine sorun; yurt dışındaysa betiği `--barindirma <ad>` ile yeniden çalıştırın.');
+if (!barindirma.size) L('  - Barındırma sağlayıcısı tespitte tanınmadı: sunucu başlıklarına `node scripts/barindirma-tespit.mjs <adres>` ile bakın, tanınmazsa site sahibine sorun; yurt dışındaysa bu betiği `Önerilen` satırındaki bayraklarla (`--barindirma <ad>`, önünde edge/CDN varsa `--onunde <ad>`) yeniden çalıştırın.');
 if (YD.length) {
   L('- **YURT_DISI** — metin varsayılan olarak genel cümledir; sağlayıcı adlı liste metne yalnız site sahibi isterse girer [skill yorumu]. Cümleler birebir:');
   // Barındırma tanınmadıysa teknik cümlenin dayanağı yalnız görülen teknik sağlayıcılardır (ör. yalnız form hizmeti);
@@ -527,7 +538,7 @@ if (YD.length) {
   const olcumsuzRiza = rizaCumlesi({ ...rizaParcalari, olcum: true }, ydTeknik.length > 0);
   const olcumsuzAmaclar = teknikAmaclar(false);
   if (TEKNIK_CUMLE) L(`  - Teknik sağlayıcılar${rizasizOlcumYD ? ' ve rızasız ölçüm' : ''} (${list([...ydTeknik.map((e) => e.ad), ...olcumYurtdisi])}): EKLE "${TEKNIK_CUMLE}"${teknikDayanak}${rizasizOlcumYD ? ` — "ziyaretlerin ölçülmesi" kısmı yalnız K-Ölçüm'de rızasız ölçüm seçilirse kalır; rıza paneli seçilirse ${olcumsuzAmaclar.length ? `teknik cümle "${teknikCumle(olcumsuzAmaclar)}" olur` : 'teknik cümle yazılmaz'} ve ölçüm ikinci cümleye geçer: "${olcumsuzRiza}"` : ''}`);
-  if (TEKNIK_CUMLE) L(`  - Amaç yalnız yurt dışında görülen hizmetlerden kurulur, sağlayıcı adı geçmez: "sitenin barındırılması" yalnız barındırma yurt dışındaysa, "sitenin güvenli ve hızlı sunulması" (Cloudflare: vekil sunucu, CDN, güvenlik duvarı), "form gönderimlerinin iletilmesi" (form hizmeti ya da form işlevinin e‑posta gönderim servisi; iletişim ve bülten formları), "formun kötüye kullanıma karşı korunması" (reCAPTCHA, Cloudflare Turnstile), "yazı tiplerinin sunulması", "site bileşenlerinin sunulması" (açık CDN), "e‑posta yazışmalarının yürütülmesi", "canlı destek hizmetinin sunulması", "çerez tercihlerinizin yönetilmesi" (rıza yönetim platformu), "ziyaretlerin ölçülmesi" [skill yorumu].${TEKNIK_CUMLE.includes('[DOĞRULA') ? ' Onaylı amaç ifadesi olmayan hizmetin (ör. etiket yöneticisi) amacı site sahibiyle belirlenir; [DOĞRULA] kalkmadan cümle siteye yazılmaz.' : ''}${epostaArg ? '' : ' Kurumsal e‑posta sağlayıcısı yurt dışındaysa (Sizden beklenenler) betik --eposta <ad> ile yeniden çalıştırılır ve amaca "e‑posta yazışmalarının yürütülmesi" eklenir.'}`);
+  if (TEKNIK_CUMLE) L(`  - Amaç yalnız yurt dışında görülen hizmetlerden kurulur, sağlayıcı adı geçmez: "sitenin barındırılması" yalnız barındırma yurt dışındaysa, "sitenin güvenli ve hızlı sunulması" (Cloudflare ya da --onunde ile verilen edge/CDN: vekil sunucu, CDN, güvenlik duvarı), "form gönderimlerinin iletilmesi" (form hizmeti ya da form işlevinin e‑posta gönderim servisi; iletişim ve bülten formları), "formun kötüye kullanıma karşı korunması" (reCAPTCHA, Cloudflare Turnstile), "yazı tiplerinin sunulması", "site bileşenlerinin sunulması" (açık CDN), "e‑posta yazışmalarının yürütülmesi", "canlı destek hizmetinin sunulması", "çerez tercihlerinizin yönetilmesi" (rıza yönetim platformu), "ziyaretlerin ölçülmesi" [skill yorumu].${TEKNIK_CUMLE.includes('[DOĞRULA') ? ' Onaylı amaç ifadesi olmayan hizmetin (ör. etiket yöneticisi) amacı site sahibiyle belirlenir; [DOĞRULA] kalkmadan cümle siteye yazılmaz.' : ''}${epostaArg ? '' : ' Kurumsal e‑posta sağlayıcısı yurt dışındaysa (Sizden beklenenler) betik --eposta <ad> ile yeniden çalıştırılır ve amaca "e‑posta yazışmalarının yürütülmesi" eklenir.'}`);
   if (TEKNIK_CUMLE) L(`  - KVKK md. 9 ifadesi: aktarım yolu site sahibince teyit edilmediyse "${DAYANAK_TEYITSIZ} aktarılabilir" (yukarıdaki biçim); cümlenin kapsadığı her sağlayıcı için yol teyit edildiyse (K-Yurt dışı, Seçenek B: imzalı ve Kurum'a bildirilmiş standart sözleşme) "${DAYANAK_TEYITLI} aktarılabilir": "${teknikCumle(teknikAmaclar(rizasizOlcumYD), DAYANAK_TEYITLI)}" [site sahibi beyanı].`);
   if (RIZA_CUMLE) L(`  - Rızaya dayanan ortaklar ve gömülü içerik (${list([...ydRizali.map((e) => e.ad), ...YD.filter(gomuluSinif).map((e) => e.ad)].filter((v, i, a) => a.indexOf(v) === i))}): EKLE "${RIZA_CUMLE}"${teknikVar ? '' : ' — teknik cümle olmadığı için "da" eki yok'}${rGomulu ? ` — gömülü içerik kısmı yalnız ölçülen türü anar (${gomuluTur ? gomuluTur.trim() : 'tür ölçülemedi [DOĞRULA: video mu, harita mı]'}); K-Gömülü'de C seçilirse bu kısım ve "ya da içeriği açmanız" çıkar` : ''}`);
   // Koşullu kalem rızaya bağlanırsa: teknik cümleden çıkar, ikinci cümleye girer. Görülen her bileşim için iki cümle birebir.
