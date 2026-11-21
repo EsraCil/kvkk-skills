@@ -36,12 +36,21 @@ Sürümde silinen bir dosya kurulu kopyada kalabilir; temiz bir kurulum için ko
 
 **Gereksinimler**
 
-- Claude Code
+- Claude Code (terminalde ya da Claude masaüstü uygulamasının Code sekmesinde)
 - Node.js 22 veya üstü (yerleşik WebSocket ve fetch kullanılır; npm paketi gerekmez)
 - Chrome ya da Chromium (çerez ölçümü headless tarayıcıyla yapılır; Windows'ta Chrome yoksa Edge kullanılır)
 - bash ve grep (kaynak taraması için; Windows'ta Git Bash)
 
 Chrome standart dışı bir yerdeyse yolu `CHROME=<yol>` ortam değişkeniyle verilebilir.
+
+**claude.ai sohbetinde kullanım**
+
+Skill'ler claude.ai'ye zip olarak yüklenebilir (Customize → Skills), ancak orada denenmedi ve tam çalışması beklenmez:
+
+- Çerez ölçümü bilgisayarınızdaki Chrome'u kullanır. Sohbetin kod ortamında tarayıcı ve sitenize ağ erişimi bulunmayabilir; ölçüm yapılamazsa çerez tablosu ölçüme dayanmaz ve ilgili satırlar raporda soru olarak kalır.
+- `kvkk-site-uyum`, `cerez-uyum`'un betiklerini `~/.claude/skills/` yolundan çağırır; bu yol sohbet ortamında bulunmaz.
+
+Tam kullanım için Claude Code önerilir.
 
 ## Kullanım
 
@@ -89,4 +98,4 @@ Lisans yalnız bu paketin kendi içeriğini kapsar. Çerez Uygulamaları Hakkın
 
 ## English summary
 
-Two Claude Code skills for website compliance with Türkiye's Personal Data Protection Law (KVKK, Law No. 6698). `kvkk-site-uyum` audits and drafts the legal layer of a site (privacy notice, terms of use, form consent boxes with server-side validation, cross-border transfer and commercial e-mail decisions). `cerez-uyum` measures cookies and similar technologies in a real headless browser (before the banner, after Reject, after Accept), classifies them under the KVKK Authority's Cookie Guidelines (July 2025) and drafts the cookie notice, cookie table and banner or consent panel. The skills measure first and write second; every sentence in the drafted texts is tied to a legal source, a scan finding or the site owner's own statement, and legal choices are left to the site owner. Output is in Turkish. This is not legal advice; it is recommended that the site owner reviews every text before publishing. Installation: copy both folders to `~/.claude/skills/` (see above); Node.js 22+ and Chrome or Chromium are required.
+Two Claude Code skills for website compliance with Türkiye's Personal Data Protection Law (KVKK, Law No. 6698). `kvkk-site-uyum` audits and drafts the legal layer of a site (privacy notice, terms of use, form consent boxes with server-side validation, cross-border transfer and commercial e-mail decisions). `cerez-uyum` measures cookies and similar technologies in a real headless browser (before the banner, after Reject, after Accept), classifies them under the KVKK Authority's Cookie Guidelines (July 2025) and drafts the cookie notice, cookie table and banner or consent panel. The skills measure first and write second; every sentence in the drafted texts is tied to a legal source, a scan finding or the site owner's own statement, and legal choices are left to the site owner. Output is in Turkish. This is not legal advice; it is recommended that the site owner reviews every text before publishing. Installation: copy both folders to `~/.claude/skills/` (see above); Node.js 22+ and Chrome or Chromium are required. The skills are written for Claude Code (terminal or the Code tab of the Claude desktop app); they have not been tested on claude.ai, where the cookie measurement is not expected to work.
